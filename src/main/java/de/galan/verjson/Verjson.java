@@ -25,6 +25,9 @@ public abstract class Verjson<T> {
 	/** Builder used only during creation (configuration) */
 	GsonBuilder builder;
 
+	/** Flag to indicate that configuration phase is finished */
+	boolean configured = false;
+
 	/** Thread safe JsonParser */
 	JsonParser parser;
 
@@ -32,6 +35,9 @@ public abstract class Verjson<T> {
 
 	/** Highest version available in added transformers, starting with 1. */
 	long highestTargetVersion = 1L;
+
+	/** Optional namespace to distinguish between different types */
+	String namespace;
 
 
 	public Verjson() {
@@ -41,6 +47,7 @@ public abstract class Verjson<T> {
 		parser = new JsonParser();
 		containers = new TreeMap<>();
 		configure();
+		configured = true;
 		gson = builder.create();
 		builder = null;
 	}
@@ -49,12 +56,27 @@ public abstract class Verjson<T> {
 	protected abstract void configure();
 
 
+	protected abstract Class<T> getValueClass();
+
+
+	protected String getNamespace() {
+		return namespace;
+	}
+
+
+	protected void setNamespace(String namespace) {
+		checkFinished();
+		this.namespace = namespace;
+	}
+
+
 	protected SortedMap<Long, TransformerContainer> getContainers() {
 		return containers;
 	}
 
 
 	protected void appendTransformer(Transformer transformer) {
+		checkFinished();
 		if (transformer != null) {
 			long sourceVersion = transformer.getSourceVersion();
 			long targetVersion = sourceVersion + 1;
@@ -65,10 +87,10 @@ public abstract class Verjson<T> {
 				TransformerContainer suc = null; // container with version lower then the transformer
 				// The following steps will determine the container before and after the current sourceVersion and put the new container in between
 				for (TransformerContainer it: getContainers().values()) {
-					if (it.getSourceVersion() < transformer.getSourceVersion() && (pre == null || it.getSourceVersion() > pre.getSourceVersion())) {
+					if (it.getSourceVersion() < sourceVersion && (pre == null || it.getSourceVersion() > pre.getSourceVersion())) {
 						pre = it;
 					}
-					if (it.getSourceVersion() > transformer.getSourceVersion() && (suc == null || it.getSourceVersion() < suc.getSourceVersion())) {
+					if (it.getSourceVersion() > sourceVersion && (suc == null || it.getSourceVersion() < suc.getSourceVersion())) {
 						suc = it;
 					}
 				}
@@ -87,12 +109,13 @@ public abstract class Verjson<T> {
 
 
 	protected void registerTypeAdapter(Type type, Object typeAdapter) {
+		checkFinished();
 		builder.registerTypeAdapter(type, typeAdapter);
 	}
 
 
 	public String write(T obj) {
-		VersionWrapper wrapper = new VersionWrapper(getCurrentVersion(), obj);
+		MetaWrapper wrapper = new MetaWrapper(getCurrentVersion(), getNamespace(), obj);
 		return gson.toJson(wrapper);
 	}
 
@@ -124,9 +147,6 @@ public abstract class Verjson<T> {
 	}
 
 
-	protected abstract Class<T> getValueClass();
-
-
 	protected long getCurrentVersion() {
 		return getHighestTargetVersion();
 	}
@@ -134,6 +154,13 @@ public abstract class Verjson<T> {
 
 	protected long getHighestTargetVersion() {
 		return highestTargetVersion;
+	}
+
+
+	protected void checkFinished() {
+		if (configured) {
+			throw new VerjsonAlreadyConfiguredException();
+		}
 	}
 
 }
