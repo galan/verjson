@@ -2,7 +2,7 @@ package de.galan.verjson.example;
 
 import com.google.gson.JsonElement;
 
-import de.galan.verjson.AbstractTransformer;
+import de.galan.verjson.transformer.AbstractTransformer;
 
 
 /**

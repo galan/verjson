@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import de.galan.verjson.AbstractTransformer;
+import de.galan.verjson.transformer.AbstractTransformer;
 
 
 /**

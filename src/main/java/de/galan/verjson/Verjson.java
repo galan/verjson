@@ -13,6 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import de.galan.verjson.adapter.GsonDateAdapter;
+import de.galan.verjson.transformer.Transformer;
 
 
 /**

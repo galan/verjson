@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import com.google.gson.JsonElement;
 
 import de.galan.commons.logging.Logr;
+import de.galan.verjson.transformer.Transformer;
 
 
 /**

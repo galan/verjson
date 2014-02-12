@@ -1,4 +1,4 @@
-package de.galan.verjson;
+package de.galan.verjson.transformer;
 
 import com.google.gson.JsonElement;
 
