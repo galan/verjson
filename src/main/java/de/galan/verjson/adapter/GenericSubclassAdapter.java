@@ -1,4 +1,4 @@
-package de.galan.verjson;
+package de.galan.verjson.adapter;
 
 import java.lang.reflect.Type;
 

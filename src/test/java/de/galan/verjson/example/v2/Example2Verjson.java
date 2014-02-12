@@ -1,7 +1,7 @@
 package de.galan.verjson.example.v2;
 
-import de.galan.verjson.GenericSubclassAdapter;
 import de.galan.verjson.Verjson;
+import de.galan.verjson.adapter.GenericSubclassAdapter;
 
 
 /**
@@ -23,6 +23,12 @@ public class Example2Verjson extends Verjson<Example2> {
 	@Override
 	protected Class<Example2> getValueClass() {
 		return Example2.class;
+	}
+
+
+	@Override
+	protected void checkFinished() {
+		// avoid check in test
 	}
 
 }

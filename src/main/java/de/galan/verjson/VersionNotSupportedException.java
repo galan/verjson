@@ -5,7 +5,7 @@ package de.galan.verjson;
  * 
  * @author daniel
  */
-public class VersionNotSupportedException extends Exception {
+public class VersionNotSupportedException extends ReadException {
 
 	private long supported;
 	private long required;

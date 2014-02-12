@@ -5,10 +5,14 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import de.galan.verjson.adapter.GsonDateAdapter;
 
 
 /**
@@ -120,13 +124,19 @@ public abstract class Verjson<T> {
 	}
 
 
-	public T read(String json) throws VersionNotSupportedException {
+	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
 		JsonElement element = parser.parse(json);
 		transform(element);
 
 		long version = element.getAsJsonObject().get("version").getAsLong();
 		if (version != getHighestTargetVersion()) {
 			throw new VersionNotSupportedException(getHighestTargetVersion(), version);
+		}
+
+		JsonElement elementNs = element.getAsJsonObject().get("ns");
+		String ns = (elementNs == null) ? null : elementNs.getAsString();
+		if (!StringUtils.equals(ns, getNamespace())) {
+			throw new NamespaceMismatchException(getNamespace(), ns);
 		}
 
 		JsonElement data = element.getAsJsonObject().get("data");
