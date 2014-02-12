@@ -1,4 +1,4 @@
-package de.galan.verjson;
+package de.galan.verjson.core;
 
 /**
  * Exception is thrown when the configuration for an instance of verjson is modified outside of the configure() method.

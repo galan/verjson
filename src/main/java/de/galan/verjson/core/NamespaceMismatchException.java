@@ -1,4 +1,4 @@
-package de.galan.verjson;
+package de.galan.verjson.core;
 
 /**
  * The namespace of the element to process is not equal to the namespace defined for this verjson instance.

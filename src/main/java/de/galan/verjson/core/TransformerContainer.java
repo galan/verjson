@@ -1,4 +1,4 @@
-package de.galan.verjson;
+package de.galan.verjson.core;
 
 import java.util.ArrayList;
 import java.util.List;

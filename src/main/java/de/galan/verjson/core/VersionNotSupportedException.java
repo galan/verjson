@@ -1,4 +1,4 @@
-package de.galan.verjson;
+package de.galan.verjson.core;
 
 /**
  * Version is newer then registered Transformers are able to process.

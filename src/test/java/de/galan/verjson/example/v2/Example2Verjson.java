@@ -1,7 +1,7 @@
 package de.galan.verjson.example.v2;
 
-import de.galan.verjson.Verjson;
 import de.galan.verjson.adapter.GenericSubclassAdapter;
+import de.galan.verjson.core.Verjson;
 
 
 /**
