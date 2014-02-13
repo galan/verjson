@@ -127,19 +127,20 @@ public abstract class Verjson<T> {
 
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
 		JsonElement element = parser.parse(json);
-		transform(element);
-
-		long version = element.getAsJsonObject().get("version").getAsLong();
-		if (version != getHighestTargetVersion()) {
-			throw new VersionNotSupportedException(getHighestTargetVersion(), version);
-		}
-
+		// verify namespace
 		JsonElement elementNs = element.getAsJsonObject().get("ns");
 		String ns = (elementNs == null) ? null : elementNs.getAsString();
 		if (!StringUtils.equals(ns, getNamespace())) {
 			throw new NamespaceMismatchException(getNamespace(), ns);
 		}
-
+		// transform object
+		transform(element);
+		// verify version
+		long version = element.getAsJsonObject().get("version").getAsLong();
+		if (version != getHighestTargetVersion()) {
+			throw new VersionNotSupportedException(getHighestTargetVersion(), version);
+		}
+		// deserialize
 		JsonElement data = element.getAsJsonObject().get("data");
 		return gson.fromJson(data, getValueClass());
 	}
