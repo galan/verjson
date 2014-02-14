@@ -15,4 +15,6 @@ public interface Transformer {
 
 	public long getSourceVersion();
 
+	// String getSchema();
+
 }
