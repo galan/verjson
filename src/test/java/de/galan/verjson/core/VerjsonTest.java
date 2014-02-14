@@ -11,8 +11,6 @@ import com.google.common.collect.Lists;
 
 import de.galan.commons.logging.Logr;
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.core.Verjson;
-import de.galan.verjson.core.VersionNotSupportedException;
 import de.galan.verjson.example.MockTransformer;
 import de.galan.verjson.example.v1.Example1;
 import de.galan.verjson.example.v1.Example1Element;

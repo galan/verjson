@@ -17,6 +17,7 @@ public class Example2Verjson extends Verjson<Example2> {
 		subClassAdapter.registerType("suba", Example2SubA.class);
 		subClassAdapter.registerType("subb", Example2SubB.class);
 		registerTypeAdapter(Example2Sub.class, subClassAdapter);
+		appendTransformer(new Example2Transformer());
 	}
 
 
