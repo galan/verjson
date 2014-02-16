@@ -2,6 +2,8 @@ package de.galan.verjson.v2;
 
 import static org.apache.commons.lang3.StringUtils.*;
 
+import com.google.gson.annotations.SerializedName;
+
 
 /**
  * Nests the object to be serialized, adding meta information such as the current version number and namespace.
@@ -11,10 +13,13 @@ import static org.apache.commons.lang3.StringUtils.*;
 public class MetaWrapper {
 
 	/** Incremental version */
+	@SerializedName("$v")
 	private long version;
 	/** Namespace for the data object */
-	private String ns;
+	@SerializedName("$ns")
+	private String namespace;
 	/** Actual payload */
+	@SerializedName("$d")
 	private Object data;
 
 
@@ -25,7 +30,7 @@ public class MetaWrapper {
 
 	public MetaWrapper(long version, String namespace, Object data) {
 		this.version = version;
-		ns = namespace;
+		this.namespace = namespace;
 		this.data = data;
 	}
 
@@ -35,13 +40,13 @@ public class MetaWrapper {
 	}
 
 
-	public String getNs() {
-		return ns;
+	public String getNamespace() {
+		return namespace;
 	}
 
 
 	public boolean hasNs() {
-		return isNotBlank(getNs());
+		return isNotBlank(getNamespace());
 	}
 
 

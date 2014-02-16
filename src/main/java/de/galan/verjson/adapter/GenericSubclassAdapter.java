@@ -35,7 +35,7 @@ import com.google.gson.JsonSerializer;
  */
 public class GenericSubclassAdapter<T> implements JsonSerializer<T>, JsonDeserializer<T> {
 
-	private String id = "type";
+	private String id = "$type";
 
 	BiMap<String, Class<?>> map = HashBiMap.create();
 
