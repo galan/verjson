@@ -12,14 +12,18 @@ import com.google.gson.annotations.SerializedName;
  */
 public class MetaWrapper {
 
+	public static final String ID_VERSION = "$v";
+	public static final String ID_NAMESPACE = "$ns";
+	public static final String ID_DATA = "$d";
+
 	/** Incremental version */
-	@SerializedName("$v")
+	@SerializedName(ID_VERSION)
 	private long version;
 	/** Namespace for the data object */
-	@SerializedName("$ns")
+	@SerializedName(ID_NAMESPACE)
 	private String namespace;
 	/** Actual payload */
-	@SerializedName("$d")
+	@SerializedName(ID_DATA)
 	private Object data;
 
 

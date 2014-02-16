@@ -154,7 +154,7 @@ public class Verjson<T> {
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
 		JsonElement element = parser.parse(json);
 		// verify namespace
-		JsonElement elementNs = element.getAsJsonObject().get("ns");
+		JsonElement elementNs = element.getAsJsonObject().get(MetaWrapper.ID_NAMESPACE);
 		String ns = (elementNs == null) ? null : elementNs.getAsString();
 		if (!StringUtils.equals(ns, getNamespace())) {
 			throw new NamespaceMismatchException(getNamespace(), ns);
@@ -162,12 +162,12 @@ public class Verjson<T> {
 		// transform object
 		transform(element);
 		// verify version
-		long version = element.getAsJsonObject().get("version").getAsLong();
+		long version = element.getAsJsonObject().get(MetaWrapper.ID_VERSION).getAsLong();
 		if (version != getHighestTargetVersion()) {
 			throw new VersionNotSupportedException(getHighestTargetVersion(), version);
 		}
 		// deserialize
-		JsonElement data = element.getAsJsonObject().get("data");
+		JsonElement data = element.getAsJsonObject().get(MetaWrapper.ID_DATA);
 		return gson.fromJson(data, getValueClass());
 	}
 
@@ -175,7 +175,7 @@ public class Verjson<T> {
 	protected void transform(JsonElement element) {
 		if (element != null) {
 			// get current version
-			long version = element.getAsJsonObject().get("version").getAsLong();
+			long version = element.getAsJsonObject().get(MetaWrapper.ID_VERSION).getAsLong();
 			VersionContainer container = getContainers().get(version);
 			// TODO ignore version 1, log if container == null 
 			if (container != null) {
