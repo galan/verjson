@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import com.google.gson.JsonElement;
 
 import de.galan.commons.logging.Logr;
+import de.galan.verjson.v2.MetaUtil;
 
 
 /**
@@ -66,17 +67,13 @@ public class VersionContainer {
 	public void transform(JsonElement element) {
 		//TODO add version validation by schema
 		LOG.info("Transforming {} from {} to {}", valueClassName, getSourceVersion(), getTargetVersion());
-		//for (int i = 0; i < getTransformers().size(); i++) {
-		//getTransformers().get(i).transform(element.getAsJsonObject().get("data"));
-		//}
-		getVersion().transform(element.getAsJsonObject().get("data"));
+		getVersion().transform(MetaUtil.getData(element));
 
 		// update version with target version
-		element.getAsJsonObject().addProperty("version", getTargetVersion());
+		MetaUtil.setVersion(element, getTargetVersion());
 
 		if (getSuccessor() != null) {
 			getSuccessor().transform(element);
 		}
 	}
-
 }

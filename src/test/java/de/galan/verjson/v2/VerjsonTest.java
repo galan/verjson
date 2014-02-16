@@ -13,8 +13,8 @@ import de.galan.commons.test.AbstractTestParent;
 public class VerjsonTest extends AbstractTestParent {
 
 	@Test
-	public void testName() throws Exception {
-		//
+	public void noVersions() {
+		Verjson<TestBean> v = Verjson.create(TestBean.class, null);
 	}
 
 }

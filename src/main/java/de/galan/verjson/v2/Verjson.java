@@ -7,6 +7,7 @@ import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,6 +45,7 @@ public class Verjson<T> {
 	/** Optional namespace to distinguish between different types */
 	String namespace;
 
+	/** Type of the serialized objects */
 	private Class<T> valueClass;
 
 
@@ -53,9 +55,10 @@ public class Verjson<T> {
 
 
 	public Verjson(Class<T> valueClass, Versions versions) {
-		this.valueClass = valueClass;
-		this.namespace = versions.getNamespace();
-		configure(versions);
+		this.valueClass = Preconditions.checkNotNull(valueClass, "valueClass can not be null");
+		Versions vs = (versions != null) ? versions : new Versions();
+		this.namespace = vs.getNamespace();
+		configure(vs);
 	}
 
 
@@ -154,28 +157,26 @@ public class Verjson<T> {
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
 		JsonElement element = parser.parse(json);
 		// verify namespace
-		JsonElement elementNs = element.getAsJsonObject().get(MetaWrapper.ID_NAMESPACE);
-		String ns = (elementNs == null) ? null : elementNs.getAsString();
+		String ns = MetaUtil.getNamespace(element);
 		if (!StringUtils.equals(ns, getNamespace())) {
 			throw new NamespaceMismatchException(getNamespace(), ns);
 		}
 		// transform object
 		transform(element);
 		// verify version
-		long version = element.getAsJsonObject().get(MetaWrapper.ID_VERSION).getAsLong();
+		long version = MetaUtil.getVersion(element);
 		if (version != getHighestTargetVersion()) {
 			throw new VersionNotSupportedException(getHighestTargetVersion(), version);
 		}
 		// deserialize
-		JsonElement data = element.getAsJsonObject().get(MetaWrapper.ID_DATA);
-		return gson.fromJson(data, getValueClass());
+		return gson.fromJson(MetaUtil.getData(element), getValueClass());
 	}
 
 
 	protected void transform(JsonElement element) {
 		if (element != null) {
 			// get current version
-			long version = element.getAsJsonObject().get(MetaWrapper.ID_VERSION).getAsLong();
+			long version = MetaUtil.getVersion(element);
 			VersionContainer container = getContainers().get(version);
 			// TODO ignore version 1, log if container == null 
 			if (container != null) {
