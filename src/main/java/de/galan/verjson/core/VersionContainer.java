@@ -1,11 +1,11 @@
-package de.galan.verjson.transformation;
+package de.galan.verjson.core;
 
 import org.slf4j.Logger;
 
 import com.google.gson.JsonElement;
 
 import de.galan.commons.logging.Logr;
-import de.galan.verjson.v2.MetaUtil;
+import de.galan.verjson.transformation.Version;
 
 
 /**

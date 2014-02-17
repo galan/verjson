@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.v2.Verjson;
+import de.galan.verjson.core.Verjson;
 
 
 /**

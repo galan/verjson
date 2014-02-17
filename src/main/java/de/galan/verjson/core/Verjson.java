@@ -1,4 +1,4 @@
-package de.galan.verjson.v2;
+package de.galan.verjson.core;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -17,7 +17,6 @@ import com.google.gson.JsonParser;
 import de.galan.verjson.adapter.GsonDateAdapter;
 import de.galan.verjson.transformation.EmptyVersion;
 import de.galan.verjson.transformation.Version;
-import de.galan.verjson.transformation.VersionContainer;
 import de.galan.verjson.transformation.Versions;
 
 

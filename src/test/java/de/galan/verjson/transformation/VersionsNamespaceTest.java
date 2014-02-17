@@ -5,9 +5,9 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.v2.NamespaceMismatchException;
-import de.galan.verjson.v2.TestBean;
-import de.galan.verjson.v2.Verjson;
+import de.galan.verjson.core.NamespaceMismatchException;
+import de.galan.verjson.core.TestBean;
+import de.galan.verjson.core.Verjson;
 
 
 /**

@@ -15,8 +15,8 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.v2.TestBean;
-import de.galan.verjson.v2.Verjson;
+import de.galan.verjson.core.TestBean;
+import de.galan.verjson.core.Verjson;
 
 
 /**

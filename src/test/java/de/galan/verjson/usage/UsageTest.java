@@ -5,10 +5,10 @@ import org.junit.Test;
 import com.google.gson.JsonElement;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.verjson.core.Verjson;
 import de.galan.verjson.example.v2.Example2;
 import de.galan.verjson.transformation.AbstractVersion;
 import de.galan.verjson.transformation.Versions;
-import de.galan.verjson.v2.Verjson;
 
 
 /**
