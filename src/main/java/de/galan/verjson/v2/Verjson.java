@@ -15,8 +15,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import de.galan.verjson.adapter.GsonDateAdapter;
-import de.galan.verjson.core.NamespaceMismatchException;
-import de.galan.verjson.core.VersionNotSupportedException;
 import de.galan.verjson.transformation.EmptyVersion;
 import de.galan.verjson.transformation.Version;
 import de.galan.verjson.transformation.VersionContainer;
@@ -63,6 +61,7 @@ public class Verjson<T> {
 
 
 	protected void configure(Versions versions) {
+		versions.configure();
 		GsonBuilder builder = new GsonBuilder();
 		builder.disableHtmlEscaping();
 		builder.registerTypeAdapter(Date.class, new GsonDateAdapter());

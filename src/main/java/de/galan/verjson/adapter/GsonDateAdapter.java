@@ -23,13 +23,13 @@ public class GsonDateAdapter implements JsonSerializer<Date>, JsonDeserializer<D
 
 	@Override
 	public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-		return src == null ? null : new JsonPrimitive(from(src).toIso8601Utc());
+		return new JsonPrimitive(from(src).toIso8601Utc());
 	}
 
 
 	@Override
 	public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-		return json == null ? null : from(dateIso(json.getAsString())).toDate();
+		return from(dateIso(json.getAsString())).toDate();
 	}
 
 }

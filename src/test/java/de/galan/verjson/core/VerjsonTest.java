@@ -4,6 +4,7 @@ import static de.galan.commons.test.Tests.*;
 import static de.galan.commons.time.DateDsl.*;
 import static org.junit.Assert.*;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 
@@ -28,6 +29,7 @@ import de.galan.verjson.example.v2.Example2Verjson;
  * 
  * @author daniel
  */
+@Ignore
 public class VerjsonTest extends AbstractTestParent {
 
 	private static final Logger LOG = Logr.get();

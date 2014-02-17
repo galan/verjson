@@ -10,7 +10,7 @@ import de.galan.verjson.transformation.Transformation;
 
 
 /**
- * daniel should have written a comment here.
+ * Encapsulates multiple Transformation steps into one version.
  * 
  * @author daniel
  */

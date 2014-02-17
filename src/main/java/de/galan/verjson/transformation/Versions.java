@@ -1,7 +1,5 @@
 package de.galan.verjson.transformation;
 
-import static org.apache.commons.lang3.StringUtils.*;
-
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -41,11 +39,6 @@ public class Versions {
 
 	public String getNamespace() {
 		return namespace;
-	}
-
-
-	public boolean hasNamespace() {
-		return isNotBlank(getNamespace());
 	}
 
 
