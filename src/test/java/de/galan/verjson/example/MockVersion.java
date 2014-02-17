@@ -2,22 +2,22 @@ package de.galan.verjson.example;
 
 import com.google.gson.JsonElement;
 
-import de.galan.verjson.transformer.AbstractTransformer;
+import de.galan.verjson.transformation.AbstractVersion;
 
 
 /**
- * Mocking transformer
+ * Mocked Noop Version
  * 
  * @author daniel
  */
-public class MockTransformer extends AbstractTransformer {
+public class MockVersion extends AbstractVersion {
 
-	private long sourceVersion;
+	private long targetVersion;
 	private long count = 0L;
 
 
-	public MockTransformer(long sourceVersion) {
-		this.sourceVersion = sourceVersion;
+	public MockVersion(long targetVersion) {
+		this.targetVersion = targetVersion;
 	}
 
 
@@ -38,8 +38,8 @@ public class MockTransformer extends AbstractTransformer {
 
 
 	@Override
-	public long getSourceVersion() {
-		return sourceVersion;
+	public long getTargetVersion() {
+		return targetVersion;
 	}
 
 }

@@ -4,7 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import de.galan.verjson.transformer.AbstractTransformer;
+import de.galan.verjson.transformation.AbstractVersion;
 
 
 /**
@@ -12,7 +12,7 @@ import de.galan.verjson.transformer.AbstractTransformer;
  * 
  * @author daniel
  */
-public class Example2Transformer extends AbstractTransformer {
+public class Example2Version extends AbstractVersion {
 
 	@Override
 	public void transform(JsonElement element) {
@@ -38,8 +38,8 @@ public class Example2Transformer extends AbstractTransformer {
 
 
 	@Override
-	public long getSourceVersion() {
-		return 1L;
+	public long getTargetVersion() {
+		return 2L;
 	}
 
 }

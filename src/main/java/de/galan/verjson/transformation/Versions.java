@@ -9,7 +9,8 @@ import com.google.common.collect.Maps;
 
 
 /**
- * daniel should have written a comment here.
+ * Acts as a container for all Version implementations, does define the optional namespace. Additional type adapters can
+ * be registered here.
  * 
  * @author daniel
  */

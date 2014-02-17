@@ -29,6 +29,8 @@ import de.galan.verjson.transformation.Versions;
  */
 public class Verjson<T> {
 
+	private static final Object DATE_ADAPTER = new GsonDateAdapter();
+
 	/** Configured gson */
 	Gson gson;
 
@@ -64,7 +66,7 @@ public class Verjson<T> {
 		versions.configure();
 		GsonBuilder builder = new GsonBuilder();
 		builder.disableHtmlEscaping();
-		builder.registerTypeAdapter(Date.class, new GsonDateAdapter());
+		builder.registerTypeAdapter(Date.class, DATE_ADAPTER);
 		parser = new JsonParser();
 		containers = Maps.newTreeMap();
 
@@ -148,7 +150,7 @@ public class Verjson<T> {
 
 
 	public String write(T obj) {
-		MetaWrapper wrapper = new MetaWrapper(getCurrentVersion(), getNamespace(), obj);
+		MetaWrapper wrapper = new MetaWrapper(getHighestTargetVersion(), getNamespace(), obj);
 		return gson.toJson(wrapper);
 	}
 
@@ -183,11 +185,6 @@ public class Verjson<T> {
 				container.transform(element);
 			}
 		}
-	}
-
-
-	protected long getCurrentVersion() {
-		return getHighestTargetVersion();
 	}
 
 

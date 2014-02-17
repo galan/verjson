@@ -1,7 +1,7 @@
 package de.galan.verjson.example.v1;
 
 import de.galan.verjson.adapter.GenericSubclassAdapter;
-import de.galan.verjson.core.Verjson;
+import de.galan.verjson.transformation.Versions;
 
 
 /**
@@ -9,20 +9,14 @@ import de.galan.verjson.core.Verjson;
  * 
  * @author daniel
  */
-public class Example1Verjson extends Verjson<Example1> {
+public class Example1Versions extends Versions {
 
 	@Override
-	protected void configure() {
+	public void configure() {
 		GenericSubclassAdapter<Example1Sub> subClassAdapter = new GenericSubclassAdapter<>();
 		subClassAdapter.registerType("suba", Example1SubA.class);
 		subClassAdapter.registerType("subb", Example1SubB.class);
 		registerTypeAdapter(Example1Sub.class, subClassAdapter);
-	}
-
-
-	@Override
-	protected Class<Example1> getValueClass() {
-		return Example1.class;
 	}
 
 }
