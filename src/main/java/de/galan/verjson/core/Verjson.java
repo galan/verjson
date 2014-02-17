@@ -63,8 +63,7 @@ public class Verjson<T> {
 
 	protected void configure(Versions versions) {
 		versions.configure();
-		GsonBuilder builder = new GsonBuilder();
-		builder.disableHtmlEscaping();
+		GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
 		builder.registerTypeAdapter(Date.class, DATE_ADAPTER);
 		parser = new JsonParser();
 		containers = Maps.newTreeMap();
@@ -77,7 +76,6 @@ public class Verjson<T> {
 		}
 
 		gson = builder.create();
-		builder = null;
 		fillVersionGaps();
 	}
 
@@ -135,11 +133,12 @@ public class Verjson<T> {
 
 	protected void fillVersionGaps() {
 		VersionContainer successor = null;
-		for (long i = getHighestTargetVersion(); i > 1; i--) {
-			VersionContainer found = getContainers().get(i);
+		for (long sourceVersion = getHighestTargetVersion() - 1L; sourceVersion > 0L; sourceVersion--) {
+			VersionContainer found = getContainers().get(sourceVersion);
 			if (found == null) {
-				VersionContainer container = new VersionContainer(new EmptyVersion(i), getValueClass().getSimpleName());
+				VersionContainer container = new VersionContainer(new EmptyVersion(sourceVersion + 1L), getValueClass().getSimpleName());
 				container.setSuccessor(successor);
+				getContainers().put(sourceVersion, container);
 			}
 			else {
 				successor = found;

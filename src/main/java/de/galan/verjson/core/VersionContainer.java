@@ -2,6 +2,7 @@ package de.galan.verjson.core;
 
 import org.slf4j.Logger;
 
+import com.google.common.base.Objects;
 import com.google.gson.JsonElement;
 
 import de.galan.commons.logging.Logr;
@@ -31,6 +32,7 @@ public class VersionContainer {
 		targetVersion = version.getTargetVersion();
 		sourceVersion = targetVersion - 1L;
 		this.valueClassName = valueClassName;
+		this.version = version;
 	}
 
 
@@ -76,4 +78,11 @@ public class VersionContainer {
 			getSuccessor().transform(element);
 		}
 	}
+
+
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this).add("targetVersion", getTargetVersion()).toString();
+	}
+
 }

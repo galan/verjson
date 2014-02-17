@@ -48,13 +48,15 @@ public class Versions {
 	}
 
 
-	public void add(Version version) {
+	public Versions add(Version version) {
 		getVersions().add(version);
+		return this;
 	}
 
 
-	public void registerTypeAdapter(Type type, Object typeAdapter) {
+	public Versions registerTypeAdapter(Type type, Object typeAdapter) {
 		getTypeAdapter().put(type, typeAdapter);
+		return this;
 	}
 
 
