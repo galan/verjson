@@ -1,6 +1,7 @@
 package de.galan.verjson.example.v3;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import de.galan.verjson.transformation.AbstractVersion;
 
@@ -14,7 +15,8 @@ public class Example3Version extends AbstractVersion {
 
 	@Override
 	public void transform(JsonElement element) {
-		// no changes
+		JsonObject jo = obj(element);
+		rename(jo, "empty", "filled");
 	}
 
 

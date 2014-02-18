@@ -32,7 +32,7 @@ public class VersionContainer {
 		targetVersion = version.getTargetVersion();
 		sourceVersion = targetVersion - 1L;
 		this.valueClassName = valueClassName;
-		this.version = version;
+		setVersion(version);
 	}
 
 

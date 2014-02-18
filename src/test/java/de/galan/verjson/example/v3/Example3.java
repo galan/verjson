@@ -18,6 +18,6 @@ public class Example3 {
 	public List<Example3Element> sixth;
 	public Example3Sub subA;
 	public Example3Sub subB;
-	public String empty;
+	public String filled; // renamed "empty"
 
 }
