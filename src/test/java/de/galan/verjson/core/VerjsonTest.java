@@ -5,9 +5,6 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.core.NamespaceMismatchException;
-import de.galan.verjson.core.Verjson;
-import de.galan.verjson.core.VersionNotSupportedException;
 import de.galan.verjson.transformation.Versions;
 
 
@@ -53,9 +50,51 @@ public class VerjsonTest extends AbstractTestParent {
 
 
 	@Test
-	public void testName() throws Exception {
+	public void nullVersion() throws Exception {
+		Versions versions = new Versions().add(null);
+		Verjson<TestBean> verjson = Verjson.create(TestBean.class, versions);
+		assertThat(verjson.getHighestTargetVersion()).isEqualTo(1L);
+	}
+
+
+	@Test
+	public void versionNotSupportedException2() throws NamespaceMismatchException {
 		Verjson<TestBean> v = Verjson.create(TestBean.class, null);
-		// ...
+		try {
+			v.read("{\"$v\":2,\"$d\":{\"content\":\"hello\",\"number\":42}}");
+			fail("Version should not be supported");
+		}
+		catch (VersionNotSupportedException ex) {
+			assertThat(ex.getMessage()).isEqualTo("Verjson<TestBean> only supports version '1', required version is '2'");
+			assertThat(ex.getVersionSupported()).isEqualTo(1L);
+			assertThat(ex.getVersionRequired()).isEqualTo(2L);
+		}
+	}
+
+
+	@Test
+	public void versionNotSupportedException3() throws NamespaceMismatchException {
+		Versions versions = new Versions().add(new StubVersion(2L));
+		Verjson<TestBean> v = Verjson.create(TestBean.class, versions);
+		try {
+			v.read("{\"$v\":3,\"$d\":{\"content\":\"hello\",\"number\":42}}");
+			fail("Version should not be supported");
+		}
+		catch (VersionNotSupportedException ex) {
+			assertThat(ex.getMessage()).isEqualTo("Verjson<TestBean> only supports version '2', required version is '3'");
+			assertThat(ex.getVersionSupported()).isEqualTo(2L);
+			assertThat(ex.getVersionRequired()).isEqualTo(3L);
+		}
+	}
+
+
+	@Test
+	public void serializeNullObject() throws Exception {
+		Verjson<TestBean> v = Verjson.create(TestBean.class, null);
+		String output = v.write(null);
+		assertThat(output).isEqualTo("{\"$v\":1}");
+		TestBean deserialized = v.read(output);
+		assertThat(deserialized).isNull();
 	}
 
 }

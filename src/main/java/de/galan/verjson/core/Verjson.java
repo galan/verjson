@@ -165,7 +165,7 @@ public class Verjson<T> {
 		// verify version
 		long version = MetaUtil.getVersion(element);
 		if (version != getHighestTargetVersion()) {
-			throw new VersionNotSupportedException(getHighestTargetVersion(), version);
+			throw new VersionNotSupportedException(getHighestTargetVersion(), version, getValueClass());
 		}
 		// deserialize
 		return gson.fromJson(MetaUtil.getData(element), getValueClass());

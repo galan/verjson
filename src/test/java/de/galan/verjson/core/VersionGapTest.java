@@ -4,10 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 
-import com.google.gson.JsonElement;
-
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.transformation.AbstractVersion;
 import de.galan.verjson.transformation.EmptyVersion;
 import de.galan.verjson.transformation.Version;
 import de.galan.verjson.transformation.Versions;
@@ -82,31 +79,6 @@ public class VersionGapTest extends AbstractTestParent {
 		else {
 			assertThat(verjson.getContainers().get(sourceVersion).getSuccessor()).isNull();
 		}
-	}
-
-}
-
-
-/** Dummy Version */
-class StubVersion extends AbstractVersion {
-
-	long targetversion;
-
-
-	public StubVersion(long targetversion) {
-		this.targetversion = targetversion;
-	}
-
-
-	@Override
-	public long getTargetVersion() {
-		return targetversion;
-	}
-
-
-	@Override
-	public void transform(JsonElement element) {
-		// nada
 	}
 
 }

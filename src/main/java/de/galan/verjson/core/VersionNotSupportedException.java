@@ -11,8 +11,8 @@ public class VersionNotSupportedException extends ReadException {
 	private long required;
 
 
-	public VersionNotSupportedException(long supported, long required) {
-		super("Verjson only supports version '" + supported + "', required version is '" + required + "'.");
+	public VersionNotSupportedException(long supported, long required, Class<?> valueClass) {
+		super("Verjson<" + valueClass.getSimpleName() + "> only supports version '" + supported + "', required version is '" + required + "'");
 		this.supported = supported;
 		this.required = required;
 	}
