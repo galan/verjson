@@ -5,7 +5,7 @@ import de.galan.verjson.transformation.Versions;
 
 
 /**
- * Verjson for first version
+ * Versions for first version
  * 
  * @author daniel
  */
