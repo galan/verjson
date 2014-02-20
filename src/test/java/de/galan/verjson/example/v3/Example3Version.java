@@ -17,6 +17,8 @@ public class Example3Version extends AbstractVersion {
 	public void transform(JsonElement element) {
 		JsonObject jo = obj(element);
 		rename(jo, "empty", "filled");
+		// rename SubB
+		rename(obj(jo.get("subB")), "ccc", "bbb");
 	}
 
 

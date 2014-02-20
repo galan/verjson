@@ -31,7 +31,7 @@ public class Example2 {
 		result.segundo = 44L;
 		result.third = true;
 		result.forth = date("2014-02-20 09:22:53");
-		result.fifth = "d,e,f";
+		result.fifth = "def";
 
 		Example2Element element = new Example2Element();
 		element.uno = 666L;
