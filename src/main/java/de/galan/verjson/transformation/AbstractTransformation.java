@@ -33,9 +33,22 @@ public abstract class AbstractTransformation implements Transformation {
 
 
 	protected JsonArray createArray(JsonElement... elements) {
-		JsonArray array = new JsonArray();
+		return createArray(false, elements);
+	}
+
+
+	protected JsonArray createArray(boolean fallbackToEmptyArray, JsonElement... elements) {
+		JsonArray array = null;
 		for (JsonElement element: elements) {
-			array.add(element);
+			if (element != null) {
+				if (array == null) {
+					array = new JsonArray();
+				}
+				array.add(element);
+			}
+		}
+		if ((array == null) && fallbackToEmptyArray) {
+			array = new JsonArray();
 		}
 		return array;
 	}
@@ -62,14 +75,18 @@ public abstract class AbstractTransformation implements Transformation {
 
 
 	protected void remove(JsonObject obj, String fieldNameToRemove) {
-		obj.remove(fieldNameToRemove);
+		if (obj != null) {
+			obj.remove(fieldNameToRemove);
+		}
 	}
 
 
 	protected void rename(JsonObject obj, String oldFieldName, String newFieldName) {
-		JsonElement elem = obj.get(oldFieldName);
-		obj.remove(oldFieldName);
-		obj.add(newFieldName, elem);
+		if (obj != null) {
+			JsonElement elem = obj.get(oldFieldName);
+			obj.remove(oldFieldName);
+			obj.add(newFieldName, elem);
+		}
 	}
 
 }

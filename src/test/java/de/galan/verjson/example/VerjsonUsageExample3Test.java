@@ -29,9 +29,16 @@ public class VerjsonUsageExample3Test extends AbstractTestParent {
 
 
 	@Test
+	public void writeExample3() throws Exception {
+		String written = v3.write(Example3.createSampleV3());
+		assertThat(written).isEqualTo(readFile(getClass(), "sample-example03-v3.json"));
+	}
+
+
+	@Test
 	public void writeExample2() throws Exception {
 		String written = v3.write(Example3.createSampleV2());
-		assertThat(written).isEqualTo(readFile(getClass(), "sample-example03.json"));
+		assertThat(written).isEqualTo(readFile(getClass(), "sample-example03-v2.json"));
 	}
 
 

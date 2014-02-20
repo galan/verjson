@@ -24,11 +24,13 @@ public class Example2Version extends AbstractVersion {
 		// keep third and fourth
 		// convert fifth
 		JsonArray fifth = getArrayAndRemove(jo, "fifth");
-		StringBuilder builder = new StringBuilder();
-		for (JsonElement elem: fifth) {
-			builder.append(elem.getAsString());
+		if (fifth != null) {
+			StringBuilder builder = new StringBuilder();
+			for (JsonElement elem: fifth) {
+				builder.append(elem.getAsString());
+			}
+			jo.addProperty("fifth", builder.toString());
 		}
-		jo.addProperty("fifth", builder.toString());
 		// convert sixth
 		JsonObject sixth = getObjAndRemove(jo, "sixth");
 		rename(sixth, "one", "uno");

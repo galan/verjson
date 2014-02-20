@@ -25,6 +25,30 @@ public class Example3 {
 	public String filled; // renamed "empty"
 
 
+	public static Example3 createSampleV3() {
+		Example3 result = new Example3();
+		result.segundo = 44L;
+		result.third = true;
+		result.forth = date("2014-02-20 14:34:18");
+		result.fifth = "ghi";
+
+		Example3Element element = new Example3Element();
+		element.uno = 666L;
+		element.three = "Three";
+		result.sixth = Lists.newArrayList(element);
+
+		Example3SubA subA = new Example3SubA();
+		subA.aaa = "AAA3";
+		subA.parent = "Aparent";
+		result.subA = subA;
+		Example3SubB subB = new Example3SubB();
+		subB.bbb = "BBB3";
+		subB.parent = "Bparent";
+		result.subB = subB;
+		return result;
+	}
+
+
 	public static Example3 createSampleV2() {
 		Example3 result = new Example3();
 		result.segundo = 44L;

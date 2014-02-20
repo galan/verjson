@@ -27,7 +27,7 @@ import com.google.gson.JsonSerializer;
  * <br/>
  * Created json will look like the following (List of Animal with Cat and Mouse):<br>
  * <code>
- * [{"type": "cat", "noise": "meow"}, {"type": "mouse", "likes": "cheese"}]
+ * [{"$type": "cat", "noise": "meow"}, {"$type": "mouse", "likes": "cheese"}]
  * </code>
  * 
  * @author daniel
@@ -60,11 +60,11 @@ public class GenericSubclassAdapter<T> implements JsonSerializer<T>, JsonDeseria
 	@Override
 	public JsonElement serialize(T src, Type typeOfSrc, JsonSerializationContext context) {
 		JsonElement elem = context.serialize(src, src.getClass());
-		if (elem.isJsonObject()) {
-			JsonObject jo = (JsonObject)elem;
-			String mappedName = map.inverse().get(src.getClass());
-			jo.addProperty(getIdentifierName(), mappedName);
-		}
+		//if (elem.isJsonObject()) { -> unknown not producible case
+		JsonObject jo = (JsonObject)elem;
+		String mappedName = map.inverse().get(src.getClass());
+		jo.addProperty(getIdentifierName(), mappedName);
+		//}
 		return elem;
 	}
 
