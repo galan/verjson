@@ -33,6 +33,8 @@ public class Example2Version extends AbstractVersion {
 		JsonObject sixth = getObjAndRemove(jo, "sixth");
 		rename(sixth, "one", "uno");
 		remove(sixth, "two");
+		// rename SubB
+		rename(obj(jo.get("subB")), "bbb", "ccc");
 		jo.add("sixth", createArray(sixth));
 	}
 

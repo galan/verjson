@@ -17,7 +17,7 @@ import de.galan.verjson.example.v1.Example1Versions;
  * 
  * @author daniel
  */
-public class VerjsonUsageTest extends AbstractTestParent {
+public class VerjsonUsageExample1Test extends AbstractTestParent {
 
 	private Verjson<Example1> v1;
 
