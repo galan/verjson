@@ -1,5 +1,8 @@
 package de.galan.verjson.core;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
+
 /**
  * The namespace of the element to process is not equal to the namespace defined for this verjson instance.
  * 
@@ -12,9 +15,29 @@ public class NamespaceMismatchException extends ReadException {
 
 
 	public NamespaceMismatchException(String namespaceDefined, String namespaceGiven) {
-		super("Verjson only supports namespace '" + namespaceDefined + "', element has namespace '" + namespaceGiven + "'.");
+		super(generateMessage(namespaceDefined, namespaceGiven));
 		this.namespaceDefined = namespaceDefined;
 		this.namespaceGiven = namespaceGiven;
+	}
+
+
+	protected static String generateMessage(String namespaceDefined, String namespaceGiven) {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append("Verjson only supports ");
+		if (isBlank(namespaceDefined)) {
+			buffer.append("empty namespace");
+		}
+		else {
+			buffer.append("namespace '" + namespaceDefined + "'");
+		}
+		buffer.append(", element has ");
+		if (isBlank(namespaceGiven)) {
+			buffer.append("no namespace");
+		}
+		else {
+			buffer.append("namespace '" + namespaceGiven + "'");
+		}
+		return buffer.toString();
 	}
 
 

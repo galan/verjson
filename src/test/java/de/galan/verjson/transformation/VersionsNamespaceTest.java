@@ -8,6 +8,7 @@ import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.core.NamespaceMismatchException;
 import de.galan.verjson.core.TestBean;
 import de.galan.verjson.core.Verjson;
+import de.galan.verjson.core.VersionNotSupportedException;
 
 
 /**
@@ -52,15 +53,46 @@ public class VersionsNamespaceTest extends AbstractTestParent {
 	}
 
 
-	@Test(expected = NamespaceMismatchException.class)
-	public void readWithButMissing() throws Exception {
-		verjsonWith.read(JSON_WITHOUT_NS);
+	@Test
+	public void readWithButMissing() throws VersionNotSupportedException {
+		try {
+			verjsonWith.read(JSON_WITHOUT_NS);
+			fail("NamespaceMismatchException expected");
+		}
+		catch (NamespaceMismatchException nex) {
+			assertThat(nex.getNamespaceDefined()).isEqualTo("myns");
+			assertThat(nex.getNamespaceGiven()).isNull();
+			assertThat(nex.getMessage()).isEqualTo("Verjson only supports namespace 'myns', element has no namespace");
+		}
 	}
 
 
-	@Test(expected = NamespaceMismatchException.class)
-	public void readWithoutButExists() throws Exception {
-		verjsonWithout.read(JSON_WITH_NS);
+	@Test
+	public void readWithoutButExists() throws VersionNotSupportedException {
+		try {
+			verjsonWithout.read(JSON_WITH_NS);
+			fail("NamespaceMismatchException expected");
+		}
+		catch (NamespaceMismatchException nex) {
+			assertThat(nex.getNamespaceDefined()).isNull();
+			assertThat(nex.getNamespaceGiven()).isEqualTo("myns");
+			assertThat(nex.getMessage()).isEqualTo("Verjson only supports empty namespace, element has namespace 'myns'");
+		}
+	}
+
+
+	@Test
+	public void readWitDifferentNamespace() throws VersionNotSupportedException {
+		Verjson<TestBean> verjsonWithDifferent = new Verjson<>(TestBean.class, new Versions("otherns"));
+		try {
+			verjsonWithDifferent.read(JSON_WITH_NS);
+			fail("NamespaceMismatchException expected");
+		}
+		catch (NamespaceMismatchException nex) {
+			assertThat(nex.getNamespaceDefined()).isEqualTo("otherns");
+			assertThat(nex.getNamespaceGiven()).isEqualTo("myns");
+			assertThat(nex.getMessage()).isEqualTo("Verjson only supports namespace 'otherns', element has namespace 'myns'");
+		}
 	}
 
 }

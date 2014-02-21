@@ -1,7 +1,5 @@
 package de.galan.verjson.core;
 
-import static org.apache.commons.lang3.StringUtils.*;
-
 import com.google.gson.annotations.SerializedName;
 
 
@@ -36,26 +34,6 @@ public class MetaWrapper {
 		this.version = version;
 		this.namespace = namespace;
 		this.data = data;
-	}
-
-
-	public long getVersion() {
-		return version;
-	}
-
-
-	public String getNamespace() {
-		return namespace;
-	}
-
-
-	public boolean hasNs() {
-		return isNotBlank(getNamespace());
-	}
-
-
-	public Object getDate() {
-		return data;
 	}
 
 }
