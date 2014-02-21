@@ -1,4 +1,4 @@
-package de.galan.verjson.example;
+package de.galan.verjson.util;
 
 import com.google.gson.JsonElement;
 

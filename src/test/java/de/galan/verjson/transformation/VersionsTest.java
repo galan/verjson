@@ -17,6 +17,7 @@ import com.google.gson.JsonSerializer;
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.core.TestBean;
 import de.galan.verjson.core.Verjson;
+import de.galan.verjson.util.MockVersions;
 
 
 /**
@@ -30,7 +31,7 @@ public class VersionsTest extends AbstractTestParent {
 	public void configureCalled() throws Exception {
 		MockVersions versions = new MockVersions();
 		new Verjson<>(TestBean.class, versions);
-		assertThat(versions.configured).isTrue();
+		assertThat(versions.isConfigured()).isTrue();
 	}
 
 
@@ -43,20 +44,6 @@ public class VersionsTest extends AbstractTestParent {
 		assertThat(output).isEqualTo("{\"$v\":1,\"$d\":{\"content\":\"11\"}}");
 		TestBean read = verjson.read(output);
 		assertThat(read.content).isEqualTo("2");
-	}
-
-}
-
-
-/** Mock */
-class MockVersions extends Versions {
-
-	boolean configured;
-
-
-	@Override
-	public void configure() {
-		configured = true;
 	}
 
 }
