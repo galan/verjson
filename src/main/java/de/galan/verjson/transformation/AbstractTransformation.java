@@ -1,5 +1,7 @@
 package de.galan.verjson.transformation;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -82,10 +84,12 @@ public abstract class AbstractTransformation implements Transformation {
 
 
 	protected void rename(JsonObject obj, String oldFieldName, String newFieldName) {
-		if (obj != null) {
+		if (obj != null && isNotBlank(oldFieldName) && isNotBlank(newFieldName)) {
 			JsonElement elem = obj.get(oldFieldName);
-			obj.remove(oldFieldName);
-			obj.add(newFieldName, elem);
+			if (elem != null) {
+				obj.remove(oldFieldName);
+				obj.add(newFieldName, elem);
+			}
 		}
 	}
 

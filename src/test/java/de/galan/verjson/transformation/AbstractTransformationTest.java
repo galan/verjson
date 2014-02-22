@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import de.galan.commons.test.AbstractTestParent;
 
@@ -192,7 +193,94 @@ public class AbstractTransformationTest extends AbstractTestParent {
 
 	@Test(expected = IllegalStateException.class)
 	public void getArrayWrongType() throws Exception {
-		assertThat(at.getArray(createObj().get(), "b")).isNull();
+		assertThat(at.getArray(createObj().add("b", "text").get(), "b")).isNull();
+	}
+
+
+	@Test
+	public void getArrayAndRemoveNull() throws Exception {
+		assertThat(at.getArrayAndRemove(null, null)).isNull();
+		assertThat(at.getArrayAndRemove(null, "")).isNull();
+		assertThat(at.getArrayAndRemove(null, "abc")).isNull();
+		assertThat(at.getArrayAndRemove(createObj().get(), null)).isNull();
+		//assertThat(at.getArrayAndRemove(createObj().add("a", "b").get(), "a")).isNull();
+		//assertThat(at.getArrayAndRemove(createObj().get(), null)).isNull();
+	}
+
+
+	@Test(expected = IllegalStateException.class)
+	public void getArrayAndRemoveWrongType() throws Exception {
+		at.getArrayAndRemove(createObj().add("a", "b").get(), "a");
+	}
+
+
+	@Test
+	public void getArrayAndRemove() throws Exception {
+		JsonArray array = new JsonArray();
+		array.add(new JsonPrimitive("a"));
+		JsonObject obj = createObj().add("x", array).get();
+		assertThat(obj.has("x")).isTrue();
+		JsonArray result = at.getArrayAndRemove(obj, "x");
+		assertThat(obj.has("x")).isFalse();
+		assertThat(result).isEqualTo(array);
+	}
+
+
+	@Test
+	public void removeNull() throws Exception {
+		at.remove(null, null);
+		at.remove(null, "");
+		at.remove(null, "a");
+	}
+
+
+	@Test
+	public void remove() throws Exception {
+		JsonObject obj = createObj().add("a", "b").get();
+		at.remove(obj, null);
+		assertThat(obj.get("a")).isNotNull();
+		at.remove(obj, "");
+		assertThat(obj.get("a")).isNotNull();
+		at.remove(obj, "x");
+		assertThat(obj.get("a")).isNotNull();
+		at.remove(obj, "a");
+		assertThat(obj.get("a")).isNull();
+	}
+
+
+	@Test
+	public void renameNull() throws Exception {
+		at.rename(null, null, null);
+		at.rename(null, "", null);
+		at.rename(null, null, "");
+		at.rename(null, "", "");
+		at.rename(null, "x", null);
+		at.rename(null, "", "x");
+		at.rename(null, "x", "x");
+	}
+
+
+	@Test
+	public void renameNothing() throws Exception {
+		JsonObject obj = createObj().add("a", "b").get();
+		at.rename(obj, null, null);
+		at.rename(obj, "", null);
+		at.rename(obj, null, "");
+		at.rename(obj, "", "");
+		at.rename(obj, "x", null);
+		at.rename(obj, "", "a");
+		at.rename(obj, "x", "x");
+		assertThat(obj.get("a").getAsString()).isEqualTo("b");
+		assertThat(obj.entrySet().size()).isEqualTo(1);
+	}
+
+
+	@Test
+	public void rename() throws Exception {
+		JsonObject obj = createObj().add("a", "b").get();
+		at.rename(obj, "a", "y");
+		assertThat(obj.get("y").getAsString()).isEqualTo("b");
+		assertThat(obj.entrySet().size()).isEqualTo(1);
 	}
 
 
