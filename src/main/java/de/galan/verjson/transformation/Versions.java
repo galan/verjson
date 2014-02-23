@@ -49,7 +49,9 @@ public class Versions {
 
 
 	public Versions add(Version version) {
-		getVersions().add(version);
+		if (version != null) {
+			getVersions().add(version);
+		}
 		return this;
 	}
 

@@ -1,12 +1,9 @@
-package de.galan.verjson.core;
+package de.galan.verjson.transformation;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.google.gson.JsonElement;
-
-import de.galan.verjson.transformation.AbstractVersion;
-import de.galan.verjson.transformation.Transformation;
 
 
 /**
@@ -20,7 +17,8 @@ public abstract class VersionTransformationComposition extends AbstractVersion {
 
 
 	public VersionTransformationComposition() {
-		steps = new ArrayList<>();
+		steps = Lists.newArrayList();
+		configure();
 	}
 
 
@@ -37,8 +35,9 @@ public abstract class VersionTransformationComposition extends AbstractVersion {
 	}
 
 
-	public void addTransformationStep(Transformation step) {
+	public VersionTransformationComposition addStep(Transformation step) {
 		steps.add(step);
+		return this;
 	}
 
 }

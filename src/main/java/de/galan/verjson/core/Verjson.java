@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -14,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import de.galan.commons.logging.Logr;
 import de.galan.verjson.adapter.GsonDateAdapter;
 import de.galan.verjson.transformation.EmptyVersion;
 import de.galan.verjson.transformation.Version;
@@ -27,6 +29,8 @@ import de.galan.verjson.transformation.Versions;
  * @param <T> ...
  */
 public class Verjson<T> {
+
+	private static final Logger LOG = Logr.get();
 
 	private static final Object DATE_ADAPTER = new GsonDateAdapter();
 
@@ -97,7 +101,7 @@ public class Verjson<T> {
 
 	protected void appendVersion(Version version) {
 		if (version != null) {
-			// TODO validate targetVersion > 1
+			Preconditions.checkArgument(version.getTargetVersion() > 1, "Targetversion has to be greater then 1");
 			long targetVersion = version.getTargetVersion();
 			long sourceVersion = targetVersion - 1L;
 			VersionContainer container = getContainers().get(sourceVersion);
@@ -127,6 +131,9 @@ public class Verjson<T> {
 			}
 			//container.addTransformer(transformer);
 			highestTargetVersion = Math.max(targetVersion, highestTargetVersion);
+		}
+		else {
+			LOG.warn("Version is null, ignoring");
 		}
 	}
 
@@ -173,15 +180,14 @@ public class Verjson<T> {
 
 
 	protected void transform(JsonElement element) {
-		if (element != null) {
-			// get current version
-			long version = MetaUtil.getVersion(element);
-			VersionContainer container = getContainers().get(version);
-			// TODO ignore version 1, log if container == null 
-			if (container != null) {
-				// apply transformation
-				container.transform(element);
-			}
+		Preconditions.checkNotNull(element, "Root element was null");
+		// get current version
+		long version = MetaUtil.getVersion(element);
+		VersionContainer container = getContainers().get(version);
+		// TODO ignore version 1
+		if (container != null) {
+			// apply transformation
+			container.transform(element);
 		}
 	}
 

@@ -89,12 +89,42 @@ public class VerjsonTest extends AbstractTestParent {
 
 
 	@Test
-	public void serializeNullObject() throws Exception {
+	public void deserializeNullObject() throws Exception {
 		Verjson<TestBean> v = Verjson.create(TestBean.class, null);
 		String output = v.write(null);
 		assertThat(output).isEqualTo("{\"$v\":1}");
 		TestBean deserialized = v.read(output);
 		assertThat(deserialized).isNull();
+	}
+
+
+	@Test
+	public void deserializeNullObjectFallback() throws Exception {
+		Verjson<TestBean> v = Verjson.create(TestBean.class, null);
+		TestBean bean = v.read("{}"); // equals version 1
+		assertThat(bean).isNull();
+	}
+
+
+	@Test(expected = NullPointerException.class)
+	public void deserializeNull() throws Exception {
+		Verjson<TestBean> v = Verjson.create(TestBean.class, null);
+		v.read(null);
+	}
+
+
+	@Test
+	public void versionAddedTwice() throws Exception {
+		Versions versions = new Versions().add(new StubVersion(2L)).add(new StubVersion(2L));
+		Verjson<TestBean> v = Verjson.create(TestBean.class, versions);
+		//TODO?
+	}
+
+
+	@Test
+	public void versionXxx() throws Exception {
+		Versions versions = new Versions().add(new StubVersion(2L)).add(new StubVersion(6L)).add(new StubVersion(4L));
+		Verjson<TestBean> v = Verjson.create(TestBean.class, versions);
 	}
 
 }

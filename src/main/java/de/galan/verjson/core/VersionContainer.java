@@ -3,6 +3,7 @@ package de.galan.verjson.core;
 import org.slf4j.Logger;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 
 import de.galan.commons.logging.Logr;
@@ -29,6 +30,7 @@ public class VersionContainer {
 
 
 	public VersionContainer(Version version, String valueClassName) {
+		Preconditions.checkNotNull(version, "Version could not be null");
 		targetVersion = version.getTargetVersion();
 		sourceVersion = targetVersion - 1L;
 		this.valueClassName = valueClassName;

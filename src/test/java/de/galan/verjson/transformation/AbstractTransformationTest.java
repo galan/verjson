@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.verjson.util.JsonObjBuilder;
 
 
 /**
@@ -286,41 +287,6 @@ public class AbstractTransformationTest extends AbstractTestParent {
 
 	protected JsonObjBuilder createObj() {
 		return JsonObjBuilder.create();
-	}
-
-}
-
-
-/** Helper */
-class JsonObjBuilder {
-
-	public static JsonObjBuilder create() {
-		return new JsonObjBuilder();
-	}
-
-	JsonObject result = new JsonObject();
-
-
-	public JsonObjBuilder add(String key, String value) {
-		result.addProperty(key, value);
-		return this;
-	}
-
-
-	public JsonObjBuilder add(String key, Long value) {
-		result.addProperty(key, value);
-		return this;
-	}
-
-
-	public JsonObjBuilder add(String key, JsonElement value) {
-		result.add(key, value);
-		return this;
-	}
-
-
-	public JsonObject get() {
-		return result;
 	}
 
 }

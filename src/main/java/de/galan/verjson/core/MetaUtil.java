@@ -11,7 +11,8 @@ import com.google.gson.JsonElement;
 public class MetaUtil {
 
 	public static long getVersion(JsonElement element) {
-		return element.getAsJsonObject().get(MetaWrapper.ID_VERSION).getAsLong();
+		JsonElement version = element.getAsJsonObject().get(MetaWrapper.ID_VERSION);
+		return (version == null) ? 1L : version.getAsLong();
 	}
 
 
