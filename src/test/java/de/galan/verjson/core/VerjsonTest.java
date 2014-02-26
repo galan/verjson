@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.transformation.Versions;
+import de.galan.verjson.util.TestBean;
 
 
 /**

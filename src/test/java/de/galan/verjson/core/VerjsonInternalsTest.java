@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.verjson.util.TestBean;
 
 
 /**
@@ -12,7 +13,7 @@ import de.galan.commons.test.AbstractTestParent;
  * 
  * @author daniel
  */
-public class VerjsonInternTest extends AbstractTestParent {
+public class VerjsonInternalsTest extends AbstractTestParent {
 
 	@Test
 	public void nullVersionInContainer() throws Exception {
