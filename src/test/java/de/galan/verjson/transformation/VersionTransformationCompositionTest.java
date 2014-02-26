@@ -30,7 +30,7 @@ public class VersionTransformationCompositionTest extends AbstractTestParent {
 		JsonElement element = JsonObjBuilder.create().add("a", "b").get();
 		DummyTransformation t1 = new DummyTransformation();
 		DummyTransformation t2 = new DummyTransformation();
-		vtc.addStep(t1).addStep(t2);
+		vtc.add(t1).add(t2);
 		vtc.transform(element);
 		assertThat(t1.input).isEqualTo(element);
 		assertThat(t2.input).isEqualTo(element);

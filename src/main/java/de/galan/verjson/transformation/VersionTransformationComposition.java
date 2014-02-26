@@ -7,7 +7,8 @@ import com.google.gson.JsonElement;
 
 
 /**
- * Encapsulates multiple Transformation steps into one version.
+ * Encapsulates multiple Transformation steps into one version. This can be helpful if you want to break your
+ * Transformations steps into multiple classes.
  * 
  * @author daniel
  */
@@ -35,7 +36,8 @@ public abstract class VersionTransformationComposition extends AbstractVersion {
 	}
 
 
-	public VersionTransformationComposition addStep(Transformation step) {
+	/** Adds a Transformation step, can be used fluent. */
+	public VersionTransformationComposition add(Transformation step) {
 		steps.add(step);
 		return this;
 	}

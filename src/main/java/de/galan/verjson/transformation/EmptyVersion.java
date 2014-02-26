@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 
 
 /**
- * daniel should have written a comment here.
+ * Empty version that does no operations in the transformations.
  * 
  * @author daniel
  */

@@ -1,7 +1,7 @@
 package de.galan.verjson.transformation;
 
 /**
- * daniel should have written a comment here.
+ * Good starting point to write own an own Version.
  * 
  * @author daniel
  */
