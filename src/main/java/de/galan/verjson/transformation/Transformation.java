@@ -10,7 +10,10 @@ import com.google.gson.JsonElement;
  */
 public interface Transformation {
 
-	/** Modifies a JsonElement from a previous Version to the next version. */
+	/**
+	 * Modifications that are required to change the JsonElement from a previous (source)version to the current
+	 * (target)version
+	 */
 	public void transform(JsonElement element);
 
 }
