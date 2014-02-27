@@ -1,5 +1,7 @@
 package de.galan.verjson.core;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.Map.Entry;
@@ -20,6 +22,8 @@ import de.galan.verjson.adapter.GsonDateAdapter;
 import de.galan.verjson.transformation.EmptyVersion;
 import de.galan.verjson.transformation.Version;
 import de.galan.verjson.transformation.Versions;
+import de.galan.verjson.validation.Validator;
+import de.galan.verjson.validation.ValidatorFactory;
 
 
 /**
@@ -50,6 +54,8 @@ public class Verjson<T> {
 
 	/** Type of the serialized objects */
 	private Class<T> valueClass;
+
+	private ValidatorFactory validatorFactory;
 
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
@@ -107,6 +113,7 @@ public class Verjson<T> {
 			VersionContainer container = getContainers().get(sourceVersion);
 			if (container == null) {
 				container = new VersionContainer(version, getValueClass().getSimpleName());
+				container.setValidator(constructValidator(version.getSchema()));
 				VersionContainer pre = null; // container with version greater then the sourceVersion
 				VersionContainer suc = null; // container with version lower then the sourceVersion
 				// The following steps will determine the container before and after the current sourceVersion and put the new container in between
@@ -128,6 +135,7 @@ public class Verjson<T> {
 			}
 			else {
 				// TODO version defined multiple times .. ?
+				LOG.warn("Version with target version '" + version.getTargetVersion() + "' is already defined, ignoring");
 			}
 			//container.addTransformer(transformer);
 			highestTargetVersion = Math.max(targetVersion, highestTargetVersion);
@@ -135,6 +143,18 @@ public class Verjson<T> {
 		else {
 			LOG.warn("Version is null, ignoring");
 		}
+	}
+
+
+	private Validator constructValidator(String schema) {
+		Validator result = null;
+		if (isNotBlank(schema)) {
+			if (validatorFactory == null) {
+				validatorFactory = new de.galan.verjson.validation.fge.JsonSchemaValidatorFactory();
+			}
+			result = validatorFactory.create(schema);
+		}
+		return result;
 	}
 
 
@@ -184,7 +204,7 @@ public class Verjson<T> {
 		// get current version
 		long version = MetaUtil.getVersion(element);
 		VersionContainer container = getContainers().get(version);
-		// TODO ignore version 1
+		// TODO ignore version 1? (nope -> json schema for version 1)
 		if (container != null) {
 			// apply transformation
 			container.transform(element);

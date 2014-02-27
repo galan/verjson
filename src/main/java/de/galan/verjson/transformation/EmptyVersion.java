@@ -8,7 +8,7 @@ import com.google.gson.JsonElement;
  * 
  * @author daniel
  */
-public class EmptyVersion implements Version {
+public class EmptyVersion extends AbstractVersion {
 
 	private long targetVersion;
 
@@ -27,12 +27,6 @@ public class EmptyVersion implements Version {
 	@Override
 	public long getTargetVersion() {
 		return targetVersion;
-	}
-
-
-	@Override
-	public String getSchema() {
-		return null;
 	}
 
 }
