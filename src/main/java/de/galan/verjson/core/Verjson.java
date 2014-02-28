@@ -66,13 +66,13 @@ public class Verjson<T> {
 	public Verjson(Class<T> valueClass, Versions versions) {
 		this.valueClass = Preconditions.checkNotNull(valueClass, "valueClass can not be null");
 		Versions vs = (versions != null) ? versions : new Versions();
-		this.namespace = vs.getNamespace();
 		configure(vs);
 	}
 
 
 	protected void configure(Versions versions) {
 		versions.configure();
+		this.namespace = versions.getNamespace();
 		GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
 		builder.registerTypeAdapter(Date.class, DATE_ADAPTER);
 		parser = new JsonParser();
@@ -181,7 +181,11 @@ public class Verjson<T> {
 
 
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
-		JsonElement element = parser.parse(json);
+		return read(parse(json));
+	}
+
+
+	public T read(JsonElement element) throws VersionNotSupportedException, NamespaceMismatchException {
 		// verify namespace
 		String ns = MetaUtil.getNamespace(element);
 		if (!StringUtils.equals(ns, getNamespace())) {
@@ -196,6 +200,11 @@ public class Verjson<T> {
 		}
 		// deserialize
 		return gson.fromJson(MetaUtil.getData(element), getValueClass());
+	}
+
+
+	public JsonElement parse(String json) {
+		return parser.parse(json);
 	}
 
 
