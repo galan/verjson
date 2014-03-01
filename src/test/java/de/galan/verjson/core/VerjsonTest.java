@@ -120,11 +120,4 @@ public class VerjsonTest extends AbstractTestParent {
 		//TODO?
 	}
 
-
-	@Test
-	public void versionXxx() throws Exception {
-		Versions versions = new Versions().add(new StubVersion(2L)).add(new StubVersion(6L)).add(new StubVersion(4L));
-		Verjson<TestBean> v = Verjson.create(TestBean.class, versions);
-	}
-
 }

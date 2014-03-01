@@ -111,10 +111,10 @@ public class Verjson<T> {
 				VersionContainer suc = null; // container with version lower then the sourceVersion
 				// The following steps will determine the container before and after the current sourceVersion and put the new container in between
 				for (VersionContainer it: getContainers().values()) {
-					if (it.getSourceVersion() < sourceVersion && (pre == null || it.getSourceVersion() > pre.getSourceVersion())) {
+					if (isContainerPredecessor(it, sourceVersion, pre)) {
 						pre = it;
 					}
-					if (it.getSourceVersion() > sourceVersion && (suc == null || it.getSourceVersion() < suc.getSourceVersion())) {
+					if (isContainerSuccessor(it, sourceVersion, suc)) {
 						suc = it;
 					}
 				}
@@ -127,6 +127,7 @@ public class Verjson<T> {
 				getContainers().put(sourceVersion, container);
 			}
 			else {
+				// throw new com.google.common.
 				// TODO version defined multiple times .. ?
 			}
 			//container.addTransformer(transformer);
@@ -135,6 +136,16 @@ public class Verjson<T> {
 		else {
 			LOG.warn("Version is null, ignoring");
 		}
+	}
+
+
+	boolean isContainerPredecessor(VersionContainer container, long sourceVersion, VersionContainer found) {
+		return container.getSourceVersion() < sourceVersion && (found == null || container.getSourceVersion() > found.getSourceVersion());
+	}
+
+
+	boolean isContainerSuccessor(VersionContainer container, long sourceVersion, VersionContainer found) {
+		return container.getSourceVersion() > sourceVersion && (found == null || container.getSourceVersion() < found.getSourceVersion());
 	}
 
 
