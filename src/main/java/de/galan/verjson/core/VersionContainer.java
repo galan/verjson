@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 
 import de.galan.commons.logging.Logr;
 import de.galan.verjson.transformation.Version;
+import de.galan.verjson.validation.Validator;
 
 
 /**
@@ -27,6 +28,7 @@ public class VersionContainer {
 	private VersionContainer successor;
 	private Version version;
 	private String valueClassName;
+	private Validator validator;
 
 
 	public VersionContainer(Version version, String valueClassName) {
@@ -68,14 +70,29 @@ public class VersionContainer {
 	}
 
 
+	public Validator getValidator() {
+		return validator;
+	}
+
+
+	public void setValidator(Validator validator) {
+		this.validator = validator;
+	}
+
+
 	public void transform(JsonElement element) {
-		//TODO add version validation by schema
 		LOG.info("Transforming {} from {} to {}", valueClassName, getSourceVersion(), getTargetVersion());
 		getVersion().transform(MetaUtil.getData(element));
 
 		// update version with target version
 		MetaUtil.setVersion(element, getTargetVersion());
 
+		//add version validation by schema
+		if (getValidator() != null) {
+			getValidator().validate(MetaUtil.getData(element).toString());
+		}
+
+		// invoke chain of successor transformations
 		if (getSuccessor() != null) {
 			getSuccessor().transform(element);
 		}

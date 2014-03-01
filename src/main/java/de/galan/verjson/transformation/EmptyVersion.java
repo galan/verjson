@@ -4,11 +4,11 @@ import com.google.gson.JsonElement;
 
 
 /**
- * daniel should have written a comment here.
+ * Empty version that does no operations in the transformations.
  * 
  * @author daniel
  */
-public class EmptyVersion implements Version {
+public class EmptyVersion extends AbstractVersion {
 
 	private long targetVersion;
 
@@ -27,12 +27,6 @@ public class EmptyVersion implements Version {
 	@Override
 	public long getTargetVersion() {
 		return targetVersion;
-	}
-
-
-	@Override
-	public String getSchema() {
-		return null;
 	}
 
 }

@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.transformation.Versions;
+import de.galan.verjson.util.TestBean;
 
 
 /**
@@ -109,7 +110,7 @@ public class VerjsonTest extends AbstractTestParent {
 	@Test(expected = NullPointerException.class)
 	public void deserializeNull() throws Exception {
 		Verjson<TestBean> v = Verjson.create(TestBean.class, null);
-		v.read(null);
+		v.read((String)null);
 	}
 
 
@@ -118,6 +119,21 @@ public class VerjsonTest extends AbstractTestParent {
 		Versions versions = new Versions().add(new StubVersion(2L)).add(new StubVersion(2L));
 		Verjson<TestBean> v = Verjson.create(TestBean.class, versions);
 		//TODO?
+	}
+
+
+	@Test
+	public void namespace() throws Exception {
+		Versions versions = new Versions() {
+
+			@Override
+			public void configure() {
+				setNamespace("myname");
+			}
+
+		};
+		Verjson<TestBean> v = Verjson.create(TestBean.class, versions);
+		assertThat(v.getNamespace()).isEqualTo("myname");
 	}
 
 }

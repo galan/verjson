@@ -1,11 +1,15 @@
-package de.galan.verjson.core;
+package de.galan.verjson.util;
 
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 
-/** Sample bean */
+/**
+ * Sample bean
+ * 
+ * @author daniel
+ */
 public class TestBean {
 
 	public String content;

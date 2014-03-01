@@ -19,7 +19,7 @@ import de.galan.verjson.transformation.Versions;
 
 
 /**
- * daniel should have written a comment here.
+ * CUT GenericSubclassAdapter
  * 
  * @author daniel
  */

@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.core.NamespaceMismatchException;
-import de.galan.verjson.core.TestBean;
 import de.galan.verjson.core.Verjson;
 import de.galan.verjson.core.VersionNotSupportedException;
+import de.galan.verjson.util.TestBean;
 
 
 /**

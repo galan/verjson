@@ -8,6 +8,7 @@ import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.transformation.EmptyVersion;
 import de.galan.verjson.transformation.Version;
 import de.galan.verjson.transformation.Versions;
+import de.galan.verjson.util.TestBean;
 
 
 /**
