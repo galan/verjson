@@ -44,6 +44,7 @@ public class Verjson<T> {
 	/** Thread safe JsonParser */
 	JsonParser parser;
 
+	/** TargetVersion > VersionContainer */
 	SortedMap<Long, VersionContainer> containers;
 
 	/** Highest version available in added transformers, starting with 1. */
@@ -107,10 +108,10 @@ public class Verjson<T> {
 
 	protected void appendVersion(Version version) {
 		if (version != null) {
-			Preconditions.checkArgument(version.getTargetVersion() > 1, "Targetversion has to be greater then 1");
+			Preconditions.checkArgument(version.getTargetVersion() > 0L, "Targetversion has to be greater then zero");
 			long targetVersion = version.getTargetVersion();
 			long sourceVersion = targetVersion - 1L;
-			VersionContainer container = getContainers().get(sourceVersion);
+			VersionContainer container = getContainers().get(targetVersion);
 			if (container == null) {
 				container = new VersionContainer(version, getValueClass().getSimpleName());
 				container.setValidator(constructValidator(version.getSchema()));
@@ -131,12 +132,10 @@ public class Verjson<T> {
 				if (suc != null) {
 					container.setSuccessor(suc);
 				}
-				getContainers().put(sourceVersion, container);
+				getContainers().put(targetVersion, container);
 			}
 			else {
-				// throw new com.google.common.
-				// TODO version defined multiple times .. ?
-				LOG.warn("Version with target version '" + version.getTargetVersion() + "' is already defined, ignoring");
+				throw new VersionAlreadyDefinedException(version.getTargetVersion());
 			}
 			//container.addTransformer(transformer);
 			highestTargetVersion = Math.max(targetVersion, highestTargetVersion);
@@ -157,7 +156,7 @@ public class Verjson<T> {
 	}
 
 
-	private Validator constructValidator(String schema) {
+	protected Validator constructValidator(String schema) {
 		Validator result = null;
 		if (isNotBlank(schema)) {
 			if (validatorFactory == null) {
@@ -171,15 +170,17 @@ public class Verjson<T> {
 
 	protected void fillVersionGaps() {
 		VersionContainer successor = null;
-		for (long sourceVersion = getHighestTargetVersion() - 1L; sourceVersion > 0L; sourceVersion--) {
-			VersionContainer found = getContainers().get(sourceVersion);
-			if (found == null) {
-				VersionContainer container = new VersionContainer(new EmptyVersion(sourceVersion + 1L), getValueClass().getSimpleName());
-				container.setSuccessor(successor);
-				getContainers().put(sourceVersion, container);
-			}
-			else {
-				successor = found;
+		if (!getContainers().isEmpty()) {
+			for (long targetVersion = getHighestTargetVersion(); targetVersion > 0L; targetVersion--) {
+				VersionContainer found = getContainers().get(targetVersion);
+				if (found == null) {
+					VersionContainer container = new VersionContainer(new EmptyVersion(targetVersion), getValueClass().getSimpleName());
+					container.setSuccessor(successor);
+					getContainers().put(targetVersion, container);
+				}
+				else {
+					successor = found;
+				}
 			}
 		}
 	}
@@ -221,10 +222,9 @@ public class Verjson<T> {
 
 	protected void transform(JsonElement element) {
 		Preconditions.checkNotNull(element, "Root element was null");
-		// get current version
-		long version = MetaUtil.getVersion(element);
-		VersionContainer container = getContainers().get(version);
-		// TODO ignore version 1? (nope -> json schema for version 1)
+		// get version of serialized element
+		long sourceVersion = MetaUtil.getVersion(element);
+		VersionContainer container = getContainers().get(sourceVersion + 1L); // get container for next version
 		if (container != null) {
 			// apply transformation
 			container.transform(element);

@@ -20,43 +20,46 @@ public class VersionGapTest extends AbstractTestParent {
 
 	@Test
 	public void gaps() throws Exception {
-		// Notation: [sourceversion]->[successor]
-		// Original data only has three Version elements: [1]->[2]->[5]
+		// Notation: [targetversion]->[successor]
+		// Original data only has three Version elements: [2]->[3]->[6]
 		// Empty elements have to be filled up, if input element has missing version (where no transformation takes place).
-		// [1]->[2]->[5]  [3*]->[5]  [4*]->[5]
+		// [2]->[3]->[6] + [1*]->[2] + [4*]->[6] + [5*]->[6]
 		Versions versions = new Versions().add(new StubVersion(2L)).add(new StubVersion(3L)).add(new StubVersion(6L));
 		Verjson<TestBean> verjson = Verjson.create(TestBean.class, versions);
+		assertThat(verjson.getContainers()).containsKeys(1L, 2L, 3L, 4L, 5L, 6L);
+		assertVersion(verjson, 1L, EmptyVersion.class, 2L);
+		assertVersion(verjson, 2L, StubVersion.class, 3L);
+		assertVersion(verjson, 3L, StubVersion.class, 6L);
+		assertVersion(verjson, 4L, EmptyVersion.class, 6L);
+		assertVersion(verjson, 5L, EmptyVersion.class, 6L);
+		assertVersion(verjson, 6L, StubVersion.class, null);
+	}
+
+
+	@Test
+	public void startingWithGap() throws Exception {
+		// [3]->[5]
+		// [1*]->[3] + [2*]->[3] + [3]->[5] [4*]->[5]
+		Versions versions = new Versions().add(new StubVersion(3L)).add(new StubVersion(5L));
+		Verjson<TestBean> verjson = Verjson.create(TestBean.class, versions);
 		assertThat(verjson.getContainers()).containsKeys(1L, 2L, 3L, 4L, 5L);
-		assertVersion(verjson, 1L, StubVersion.class, 2L);
-		assertVersion(verjson, 2L, StubVersion.class, 5L);
-		assertVersion(verjson, 3L, EmptyVersion.class, 5L);
+		assertVersion(verjson, 1L, EmptyVersion.class, 3L);
+		assertVersion(verjson, 2L, EmptyVersion.class, 3L);
+		assertVersion(verjson, 3L, StubVersion.class, 5L);
 		assertVersion(verjson, 4L, EmptyVersion.class, 5L);
 		assertVersion(verjson, 5L, StubVersion.class, null);
 	}
 
 
 	@Test
-	public void startingWithGap() throws Exception {
-		// [2]->[4]
-		// [1*]->[2] [2]->[4] [3*]->[4]
-		Versions versions = new Versions().add(new StubVersion(3L)).add(new StubVersion(5L));
-		Verjson<TestBean> verjson = Verjson.create(TestBean.class, versions);
-		assertThat(verjson.getContainers()).containsKeys(1L, 2L, 3L, 4L);
-		assertVersion(verjson, 1L, EmptyVersion.class, 2L);
-		assertVersion(verjson, 2L, StubVersion.class, 4L);
-		assertVersion(verjson, 3L, EmptyVersion.class, 4L);
-		assertVersion(verjson, 4L, StubVersion.class, null);
-	}
-
-
-	@Test
 	public void noGaps() throws Exception {
-		// [1]->[2]->[3]
+		// [2]->[3]->[4]
 		Versions versions = new Versions().add(new StubVersion(2L)).add(new StubVersion(3L));
 		Verjson<TestBean> verjson = Verjson.create(TestBean.class, versions);
-		assertThat(verjson.getContainers()).containsKeys(1L, 2L);
-		assertVersion(verjson, 1L, StubVersion.class, 2L);
-		assertVersion(verjson, 2L, StubVersion.class, null);
+		assertThat(verjson.getContainers()).containsKeys(1L, 2L, 3L);
+		assertVersion(verjson, 1L, EmptyVersion.class, 2L);
+		assertVersion(verjson, 2L, StubVersion.class, 3L);
+		assertVersion(verjson, 3L, StubVersion.class, null);
 	}
 
 
@@ -69,16 +72,16 @@ public class VersionGapTest extends AbstractTestParent {
 	}
 
 
-	protected void assertVersion(Verjson<TestBean> verjson, long sourceVersion, Class<? extends Version> expectedVersionClass, Long successorSourceVersion) {
-		assertThat(verjson.getContainers().get(sourceVersion).getSourceVersion()).isEqualTo(sourceVersion);
-		assertThat(verjson.getContainers().get(sourceVersion).getTargetVersion()).isEqualTo(sourceVersion + 1L);
-		assertThat(verjson.getContainers().get(sourceVersion).getVersion().getClass()).isEqualTo(expectedVersionClass);
-		if (successorSourceVersion != null) {
-			assertThat(verjson.getContainers().get(sourceVersion).getSuccessor().getSourceVersion()).isEqualTo(successorSourceVersion);
-			assertThat(verjson.getContainers().get(sourceVersion).getSuccessor().getTargetVersion()).isEqualTo(successorSourceVersion + 1L);
+	protected void assertVersion(Verjson<TestBean> verjson, long targetVersion, Class<? extends Version> expectedVersionClass, Long successorTargetVersion) {
+		assertThat(verjson.getContainers().get(targetVersion).getSourceVersion()).isEqualTo(targetVersion - 1L);
+		assertThat(verjson.getContainers().get(targetVersion).getTargetVersion()).isEqualTo(targetVersion);
+		assertThat(verjson.getContainers().get(targetVersion).getVersion().getClass()).isEqualTo(expectedVersionClass);
+		if (successorTargetVersion != null) {
+			assertThat(verjson.getContainers().get(targetVersion).getSuccessor().getSourceVersion()).isEqualTo(successorTargetVersion - 1);
+			assertThat(verjson.getContainers().get(targetVersion).getSuccessor().getTargetVersion()).isEqualTo(successorTargetVersion);
 		}
 		else {
-			assertThat(verjson.getContainers().get(sourceVersion).getSuccessor()).isNull();
+			assertThat(verjson.getContainers().get(targetVersion).getSuccessor()).isNull();
 		}
 	}
 
