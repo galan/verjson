@@ -1,7 +1,7 @@
 package de.galan.verjson.validation;
 
 /**
- * daniel should have written a comment here.
+ * Creates Validators for a given JSON Schema
  * 
  * @author daniel
  */
