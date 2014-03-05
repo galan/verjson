@@ -34,7 +34,6 @@ public class JsonSchemaValidator implements Validator {
 
 	@Override
 	public void validate(String content) {
-		boolean result = true;
 		try {
 			JsonNode jsonToValidate = JsonLoader.fromString(content);
 			ProcessingReport report = getSchema().validate(jsonToValidate);
