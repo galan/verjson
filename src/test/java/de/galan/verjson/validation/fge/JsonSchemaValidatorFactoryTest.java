@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.validation.InvalidSchemaException;
-import de.galan.verjson.validation.fge.JsonSchemaValidatorFactory;
+import de.galan.verjson.validation.Validator;
 
 
 /**
@@ -36,6 +36,25 @@ public class JsonSchemaValidatorFactoryTest extends AbstractTestParent {
 		catch (InvalidSchemaException ex) {
 			assertThat(ex.getMessage()).isEqualTo("JSON Schema could not be loaded (test)");
 		}
+	}
+
+
+	@Test
+	public void invalidSchema() throws Exception {
+		try {
+			factory.create(readFile(getClass(), "TestBean-schema-invalid.txt"), "test");
+			fail("schema should not be loaded");
+		}
+		catch (InvalidSchemaException ex) {
+			assertThat(ex.getMessage()).isEqualTo("JSON Schema is invalid(test)");
+		}
+	}
+
+
+	@Test
+	public void simpleSchema() throws Exception {
+		Validator validator = factory.create(readFile(getClass(), "TestBean-schema-01.txt"), "test");
+		assertThat(validator).isNotNull();
 	}
 
 }

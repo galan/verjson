@@ -43,11 +43,8 @@ public class JsonSchemaValidatorFactory implements ValidatorFactory {
 			}
 			jsonSchema = factory.getJsonSchema(schemaNode);
 		}
-		catch (IOException ex) {
+		catch (IOException | ProcessingException ex) {
 			throw new InvalidSchemaException("JSON Schema could not be loaded (" + description + ")", ex);
-		}
-		catch (ProcessingException ex) {
-			throw new InvalidSchemaException("JSON Schema could not be processed(" + description + ")", ex);
 		}
 		return new JsonSchemaValidator(jsonSchema);
 	}
