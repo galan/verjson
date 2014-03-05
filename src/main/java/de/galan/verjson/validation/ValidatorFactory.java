@@ -7,6 +7,6 @@ package de.galan.verjson.validation;
  */
 public interface ValidatorFactory {
 
-	public Validator create(String schema);
+	public Validator create(String schema, String description);
 
 }

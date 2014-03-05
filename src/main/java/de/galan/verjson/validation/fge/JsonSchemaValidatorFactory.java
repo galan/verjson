@@ -8,12 +8,13 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 
+import de.galan.verjson.validation.InvalidSchemaException;
 import de.galan.verjson.validation.Validator;
 import de.galan.verjson.validation.ValidatorFactory;
 
 
 /**
- * daniel should have written a comment here.
+ * Creates a JSON Schema Validator classes for https://github.com/fge/json-schema-validator
  * 
  * @author daniel
  */
@@ -33,20 +34,20 @@ public class JsonSchemaValidatorFactory implements ValidatorFactory {
 
 
 	@Override
-	public Validator create(String schema) {
+	public Validator create(String schema, String description) {
 		JsonSchema jsonSchema = null;
 		try {
 			JsonNode schemaNode = JsonLoader.fromString(schema);
 			if (!factory.getSyntaxValidator().schemaIsValid(schemaNode)) {
-				// TODO throw
+				throw new InvalidSchemaException("JSON Schema is invalid(" + description + ")");
 			}
 			jsonSchema = factory.getJsonSchema(schemaNode);
 		}
 		catch (IOException ex) {
-			//result.addErrorMessage("Unable to load schema for type '" + type + "' from file '" + schemaFile + "'");
+			throw new InvalidSchemaException("JSON Schema could not be loaded (" + description + ")", ex);
 		}
 		catch (ProcessingException ex) {
-			//result.addErrorMessage("Unable to process schema for type '" + type + "'");
+			throw new InvalidSchemaException("JSON Schema could not be processed(" + description + ")", ex);
 		}
 		return new JsonSchemaValidator(jsonSchema);
 	}

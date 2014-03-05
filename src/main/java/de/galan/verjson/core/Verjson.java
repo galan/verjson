@@ -114,7 +114,7 @@ public class Verjson<T> {
 			VersionContainer container = getContainers().get(targetVersion);
 			if (container == null) {
 				container = new VersionContainer(version, getValueClass().getSimpleName());
-				container.setValidator(constructValidator(version.getSchema()));
+				container.setValidator(constructValidator(version.getSchema(), "targetversion: " + version.getTargetVersion()));
 				VersionContainer pre = null; // container with version greater then the sourceVersion
 				VersionContainer suc = null; // container with version lower then the sourceVersion
 				// The following steps will determine the container before and after the current sourceVersion and put the new container in between
@@ -156,13 +156,13 @@ public class Verjson<T> {
 	}
 
 
-	protected Validator constructValidator(String schema) {
+	protected Validator constructValidator(String schema, String description) {
 		Validator result = null;
 		if (isNotBlank(schema)) {
 			if (validatorFactory == null) {
 				validatorFactory = new de.galan.verjson.validation.fge.JsonSchemaValidatorFactory();
 			}
-			result = validatorFactory.create(schema);
+			result = validatorFactory.create(schema, description);
 		}
 		return result;
 	}
