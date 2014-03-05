@@ -16,9 +16,4 @@ public class InvalidJsonException extends RuntimeException {
 		super(message);
 	}
 
-
-	public InvalidJsonException(Throwable cause) {
-		super(cause);
-	}
-
 }

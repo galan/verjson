@@ -16,9 +16,4 @@ public class InvalidSchemaException extends RuntimeException {
 		super(message);
 	}
 
-
-	public InvalidSchemaException(Throwable cause) {
-		super(cause);
-	}
-
 }

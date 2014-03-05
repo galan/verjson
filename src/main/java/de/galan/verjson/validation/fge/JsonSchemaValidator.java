@@ -39,13 +39,12 @@ public class JsonSchemaValidator implements Validator {
 			ProcessingReport report = getSchema().validate(jsonToValidate);
 			//for (ProcessingMessage message: report) {
 			//}
-			throw new InvalidJsonException(report.toString());
+			if (!report.isSuccess()) {
+				throw new InvalidJsonException(report.toString());
+			}
 		}
-		catch (IOException ex) {
-			throw new InvalidJsonException("Could not load JSON to validate against schema", ex);
-		}
-		catch (ProcessingException ex) {
-			throw new InvalidJsonException("Failed while validating JSON against Schema", ex);
+		catch (IOException | ProcessingException ex) {
+			throw new InvalidJsonException("Could not validate JSON against schema", ex);
 		}
 	}
 
