@@ -19,6 +19,7 @@ public class Versions {
 	private List<Version> versions;
 	private String namespace;
 	private Map<Type, Object> typeAdapters;
+	private String initialSchema;
 
 
 	public Versions() {
@@ -59,6 +60,17 @@ public class Versions {
 	public Versions registerTypeAdapter(Type type, Object typeAdapter) {
 		getTypeAdapter().put(type, typeAdapter);
 		return this;
+	}
+
+
+	public Versions registerInitialSchema(String jsonschema) {
+		initialSchema = jsonschema;
+		return this;
+	}
+
+
+	public String getInitialSchema() {
+		return initialSchema;
 	}
 
 

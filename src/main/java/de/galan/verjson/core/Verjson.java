@@ -44,7 +44,7 @@ public class Verjson<T> {
 	/** Thread safe JsonParser */
 	JsonParser parser;
 
-	/** TargetVersion > VersionContainer */
+	/** SourceVersion > VersionContainer */
 	SortedMap<Long, VersionContainer> containers;
 
 	/** Highest version available in added transformers, starting with 1. */
@@ -57,6 +57,8 @@ public class Verjson<T> {
 	private Class<T> valueClass;
 
 	private ValidatorFactory validatorFactory;
+
+	Validator initialValidator;
 
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
@@ -88,6 +90,19 @@ public class Verjson<T> {
 
 		gson = builder.create();
 		fillVersionGaps();
+		insertInitialSchema(versions.getInitialSchema());
+	}
+
+
+	protected void insertInitialSchema(String initialSchema) {
+		if (isNotBlank(initialSchema)) {
+			initialValidator = constructValidator(initialSchema, "initial schema");
+		}
+	}
+
+
+	protected Validator getInitalValidator() {
+		return initialValidator;
 	}
 
 
@@ -108,10 +123,11 @@ public class Verjson<T> {
 
 	protected void appendVersion(Version version) {
 		if (version != null) {
-			Preconditions.checkArgument(version.getTargetVersion() > 0L, "Targetversion has to be greater then zero");
+			Preconditions.checkArgument(version.getTargetVersion() > 1L, "Targetversion has to be greater then 1");
+			//Preconditions.checkArgument(version.getTargetVersion() > 0L, "Targetversion has to be greater then zero");
 			long targetVersion = version.getTargetVersion();
 			long sourceVersion = targetVersion - 1L;
-			VersionContainer container = getContainers().get(targetVersion);
+			VersionContainer container = getContainers().get(sourceVersion);
 			if (container == null) {
 				container = new VersionContainer(version, getValueClass().getSimpleName());
 				container.setValidator(constructValidator(version.getSchema(), "targetversion: " + version.getTargetVersion()));
@@ -132,7 +148,7 @@ public class Verjson<T> {
 				if (suc != null) {
 					container.setSuccessor(suc);
 				}
-				getContainers().put(targetVersion, container);
+				getContainers().put(sourceVersion, container);
 			}
 			else {
 				throw new VersionAlreadyDefinedException(version.getTargetVersion());
@@ -171,12 +187,12 @@ public class Verjson<T> {
 	protected void fillVersionGaps() {
 		VersionContainer successor = null;
 		if (!getContainers().isEmpty()) {
-			for (long targetVersion = getHighestTargetVersion(); targetVersion > 0L; targetVersion--) {
-				VersionContainer found = getContainers().get(targetVersion);
+			for (long sourceVersion = getHighestTargetVersion() - 1L; sourceVersion > 0L; sourceVersion--) {
+				VersionContainer found = getContainers().get(sourceVersion);
 				if (found == null) {
-					VersionContainer container = new VersionContainer(new EmptyVersion(targetVersion), getValueClass().getSimpleName());
+					VersionContainer container = new VersionContainer(new EmptyVersion(sourceVersion + 1L), getValueClass().getSimpleName());
 					container.setSuccessor(successor);
-					getContainers().put(targetVersion, container);
+					getContainers().put(sourceVersion, container);
 				}
 				else {
 					successor = found;
@@ -203,8 +219,12 @@ public class Verjson<T> {
 		if (!StringUtils.equals(ns, getNamespace())) {
 			throw new NamespaceMismatchException(getNamespace(), ns);
 		}
+		long sourceVersion = MetaUtil.getVersion(element);
+		if (sourceVersion == 1L && getInitalValidator() != null) {
+			getInitalValidator().validate(MetaUtil.getData(element).toString());
+		}
 		// transform object
-		transform(element);
+		transform(element, sourceVersion);
 		// verify version
 		long version = MetaUtil.getVersion(element);
 		if (version != getHighestTargetVersion()) {
@@ -220,11 +240,9 @@ public class Verjson<T> {
 	}
 
 
-	protected void transform(JsonElement element) {
+	protected void transform(JsonElement element, long sourceVersion) {
 		Preconditions.checkNotNull(element, "Root element was null");
-		// get version of serialized element
-		long sourceVersion = MetaUtil.getVersion(element);
-		VersionContainer container = getContainers().get(sourceVersion + 1L); // get container for next version
+		VersionContainer container = getContainers().get(sourceVersion);
 		if (container != null) {
 			// apply transformation
 			container.transform(element);

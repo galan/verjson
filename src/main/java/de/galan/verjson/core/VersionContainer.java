@@ -82,10 +82,9 @@ public class VersionContainer {
 
 	public void transform(JsonElement element) {
 		LOG.info("Transforming {} from {} to {}", valueClassName, getSourceVersion(), getTargetVersion());//TODO fix log for 0>1
-		// TODO test
-		if (getTargetVersion() > 1L) {
-			getVersion().transform(MetaUtil.getData(element));
-		}
+		//if (getTargetVersion() > 1L) {
+		getVersion().transform(MetaUtil.getData(element));
+		//}
 		// update version with target version
 		MetaUtil.setVersion(element, getTargetVersion());
 
