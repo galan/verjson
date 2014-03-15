@@ -23,6 +23,7 @@ public class PolyTest extends AbstractTestParent {
 	@Test
 	public void testName() throws Exception {
 		Example1 e1 = Example1.createSample();
+		e1.first = "aaa\nbbbßäöü";
 		ObjectMapper mapper = new ObjectMapper();
 		String output = mapper.writeValueAsString(e1);
 		LOG.info(output);
