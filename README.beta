@@ -1,3 +1,9 @@
+* Evolvable data structure serializer
+
+* long-term storage
+* messaging
+* processing
+
 * omit versions
 * Gson based
 * Own type adapter
