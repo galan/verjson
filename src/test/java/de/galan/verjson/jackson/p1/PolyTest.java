@@ -1,4 +1,4 @@
-package de.galan.verjson.jackson;
+package de.galan.verjson.jackson.p1;
 
 import static de.galan.commons.time.DateDsl.*;
 
@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
-import com.fasterxml.jackson.databind.jsontype.NamedType;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.BeanSerializerModifier;
 import com.fasterxml.jackson.databind.ser.impl.ObjectIdWriter;
@@ -52,22 +51,24 @@ public class PolyTest extends AbstractTestParent {
 		ObjectMapper mapper = new ObjectMapper();
 
 		SimpleModule module = new SimpleModule("JacksonModule") {
-			/*
+
 			@Override
 			public void setupModule(SetupContext context) {
 				super.setupModule(context);
 				context.addBeanSerializerModifier(new GenericBeanSerializerModifier());
 				context.addBeanDeserializerModifier(new GenericBeanDeserializerModifier());
 			} //, new Version(1, 0, 0, null, null, null));
-			*/
 
 		};
+
 		module.addSerializer(Date.class, new DateSerializer());
 		module.addDeserializer(Date.class, new DateDeserializer());
-		module.registerSubtypes(new NamedType(Example1SubA.class, "aaa"));
-		module.registerSubtypes(new NamedType(Example1SubB.class, "bbb"));
+		//module.registerSubtypes(new NamedType(Example1SubA.class, "aaa"));
+		//module.registerSubtypes(new NamedType(Example1SubB.class, "bbb"));
+
 		//simpleModule.addDeserializer(Example1SubA.class, new GenericDeserializer());
-		//simpleModule.addSerializer(new GenericSubclassSerializer(Example1SubA.class, "suba"));
+		//module.addSerializer(new GenericSubclassSerializer(Example1SubA.class, "suba"));
+		//module.addSerializer(new GenericSubclassSerializer(Example1SubB.class, "subb"));
 		mapper.registerModule(module);
 		//mapper.getSubtypeResolver()
 
