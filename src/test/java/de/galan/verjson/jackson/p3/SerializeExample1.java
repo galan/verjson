@@ -49,7 +49,9 @@ public class SerializeExample1 {
 		zoo.setAnimals(animals);
 
 		ObjectMapper mapper = new ObjectMapper();
-		mapper.addMixInAnnotations(Animal.class, generateMixIn());
+		Class<?> mixin = generateMixIn();
+
+		mapper.addMixInAnnotations(Animal.class, mixin);
 		String zooString = mapper.writeValueAsString(zoo);
 		//mapper.writerWithDefaultPrettyPrinter().writeValue(System/**/./**/out, zoo);// writeValue(new FileWriter(new File(outputFile)), zoo);
 		LOG.info(zooString);
@@ -64,6 +66,7 @@ public class SerializeExample1 {
 		ClassPool pool = ClassPool.getDefault();
 		CtClass cc = pool.makeClass(Animal.class.getPackage().getName() + ".GenAnimalMixIn");
 		ClassFile cf = cc.getClassFile();
+		//cf.setVersionToJava5();
 		ConstPool cp = cf.getConstPool();
 
 		// @JsonTypeInfo
@@ -82,7 +85,6 @@ public class SerializeExample1 {
 		annotationInfo.addMemberValue("property", new StringMemberValue("$_type", cp));
 		AnnotationsAttribute attr = new AnnotationsAttribute(cp, AnnotationsAttribute.visibleTag);
 		attr.addAnnotation(annotationInfo);
-		cf.addAttribute(attr);
 
 		// @JsonSubTypes
 		// >> dynamic
@@ -102,13 +104,14 @@ public class SerializeExample1 {
 		amv.setValue(valueSubs);
 		annotationSub.addMemberValue("value", amv);
 
-		AnnotationsAttribute attrSub = new AnnotationsAttribute(cp, AnnotationsAttribute.visibleTag);
-		attrSub.addAnnotation(annotationInfo);
-		cf.addAttribute(attrSub);
+		attr.addAnnotation(annotationSub);
+		cf.addAttribute(attr);
 
 		try {
 			Class<?> result = cc.toClass();
 			//Class<?> xx = AnimalMixIn.class;
+			LOG.info("Ann: " + result.getAnnotations()[0]);
+			//System.exit(0);
 			return result;
 		}
 		catch (CannotCompileException ex) {
