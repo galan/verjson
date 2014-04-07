@@ -12,6 +12,7 @@ import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.ConstPool;
 import javassist.bytecode.annotation.Annotation;
+import javassist.bytecode.annotation.AnnotationMemberValue;
 import javassist.bytecode.annotation.ArrayMemberValue;
 import javassist.bytecode.annotation.ClassMemberValue;
 import javassist.bytecode.annotation.EnumMemberValue;
@@ -20,7 +21,6 @@ import javassist.bytecode.annotation.StringMemberValue;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.Label;
 //import org.objectweb.asm.attrs.*;
 import org.objectweb.asm.MethodVisitor;
@@ -56,7 +56,8 @@ public class SerializeExample1 {
 		zoo.setAnimals(animals);
 
 		ObjectMapper mapper = new ObjectMapper();
-		Class<?> mixin = generateMixInAsm();
+		//Class<?> mixin = generateMixInAsm();
+		Class<?> mixin = generateMixInJavassist();
 
 		mapper.addMixInAnnotations(Animal.class, mixin);
 		String zooString = mapper.writeValueAsString(zoo);
@@ -71,22 +72,14 @@ public class SerializeExample1 {
 
 	protected static Class<?> generateMixInAsm() {
 		ClassWriter cw = new ClassWriter(0);
-		FieldVisitor fv;
-		MethodVisitor mv;
-		AnnotationVisitor av0;
-		//import org.objectweb.asm.*;
-		//import org.objectweb.asm.attrs.*;
 		cw.visit(Opcodes.V1_7, Opcodes.ACC_SUPER + Opcodes.ACC_ABSTRACT, "de/galan/verjson/jackson/p3/AsmGemMixIn", null, "java/lang/Object", null);
 
-		//cw.visitSource("SerializeExample1.java", null);
+		AnnotationVisitor av0 = cw.visitAnnotation("Lcom/fasterxml/jackson/annotation/JsonTypeInfo;", true);
+		av0.visitEnum("use", "Lcom/fasterxml/jackson/annotation/JsonTypeInfo$Id;", "NAME");
+		av0.visitEnum("include", "Lcom/fasterxml/jackson/annotation/JsonTypeInfo$As;", "PROPERTY");
+		av0.visit("property", "$type");
+		av0.visitEnd();
 
-		{
-			av0 = cw.visitAnnotation("Lcom/fasterxml/jackson/annotation/JsonTypeInfo;", true);
-			av0.visitEnum("use", "Lcom/fasterxml/jackson/annotation/JsonTypeInfo$Id;", "NAME");
-			av0.visitEnum("include", "Lcom/fasterxml/jackson/annotation/JsonTypeInfo$As;", "PROPERTY");
-			av0.visit("property", "$type");
-			av0.visitEnd();
-		}
 		{
 			av0 = cw.visitAnnotation("Lcom/fasterxml/jackson/annotation/JsonSubTypes;", true);
 			{
@@ -107,6 +100,7 @@ public class SerializeExample1 {
 			}
 			av0.visitEnd();
 		}
+
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonSubTypes$Type", "com/fasterxml/jackson/annotation/JsonSubTypes", "Type", Opcodes.ACC_PUBLIC
 				+ Opcodes.ACC_STATIC + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE);
 
@@ -116,25 +110,23 @@ public class SerializeExample1 {
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonTypeInfo$Id", "com/fasterxml/jackson/annotation/JsonTypeInfo", "Id", Opcodes.ACC_PUBLIC
 				+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
 
-		{
-			mv = cw.visitMethod(0, "<init>", "()V", null, null);
-			mv.visitCode();
-			Label l0 = new Label();
-			mv.visitLabel(l0);
-			mv.visitLineNumber(140, l0);
-			mv.visitVarInsn(Opcodes.ALOAD, 0);
-			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
-			mv.visitInsn(Opcodes.RETURN);
-			Label l1 = new Label();
-			mv.visitLabel(l1);
-			mv.visitLocalVariable("this", "Lde/galan/verjson/jackson/p3/AsmGemMixIn;", null, l0, l1, 0);
-			mv.visitMaxs(1, 1);
-			mv.visitEnd();
-		}
+		MethodVisitor mv = cw.visitMethod(0, "<init>", "()V", null, null);
+		mv.visitCode();
+		Label l0 = new Label();
+		mv.visitLabel(l0);
+		mv.visitLineNumber(140, l0);
+		mv.visitVarInsn(Opcodes.ALOAD, 0);
+		mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+		mv.visitInsn(Opcodes.RETURN);
+		Label l1 = new Label();
+		mv.visitLabel(l1);
+		mv.visitLocalVariable("this", "Lde/galan/verjson/jackson/p3/AsmGemMixIn;", null, l0, l1, 0);
+		mv.visitMaxs(1, 1);
+		mv.visitEnd();
+
 		cw.visitEnd();
 
-		byte[] byteArray = cw.toByteArray();
-		return loadClass(byteArray);
+		return loadClass(cw.toByteArray());
 	}
 
 
@@ -175,12 +167,12 @@ public class SerializeExample1 {
 		//annotationInfo.addMemberValue("use", new EnumMemberValue(JsonTypeInfo.Id.NAME.ordinal(), constPool));
 		Annotation annotationInfo = new Annotation(JsonTypeInfo.class.getName(), cp);
 		EnumMemberValue enumId = new EnumMemberValue(cp);
-		enumId.setType(JsonTypeInfo.class.getName());
+		enumId.setType(JsonTypeInfo.Id.class.getName());
 		enumId.setValue(JsonTypeInfo.Id.NAME.toString());
 		annotationInfo.addMemberValue("use", enumId);
 
 		EnumMemberValue enumAs = new EnumMemberValue(cp);
-		enumAs.setType(JsonTypeInfo.class.getName());
+		enumAs.setType(JsonTypeInfo.As.class.getName());
 		enumAs.setValue(As.PROPERTY.toString());
 		annotationInfo.addMemberValue("include", enumAs);
 
@@ -200,21 +192,23 @@ public class SerializeExample1 {
 		annotationTypeB.addMemberValue("value", cmvB);
 		annotationTypeB.addMemberValue("name", new StringMemberValue("elephant", cp));
 		// >>
+
 		Annotation annotationSub = new Annotation(JsonSubTypes.class.getName(), cp);
-		ArrayMemberValue amv = new ArrayMemberValue(cp);
-		MemberValue[] valueSubs = new MemberValue[] {cmvA, cmvB};
-		amv.setValue(valueSubs);
-		annotationSub.addMemberValue("value", amv);
+		//MemberValue[] valueSubs = new MemberValue[] {cmvA, cmvB};
+		AnnotationMemberValue amvA = new AnnotationMemberValue(cp);
+		amvA.setValue(annotationTypeA);
+		AnnotationMemberValue amvB = new AnnotationMemberValue(cp);
+		amvB.setValue(annotationTypeB);
+		ArrayMemberValue arraymv = new ArrayMemberValue(cp);
+		MemberValue[] valueSubs = new MemberValue[] {amvA, amvB};
+		arraymv.setValue(valueSubs);
+		annotationSub.addMemberValue("value", arraymv);
 
 		attr.addAnnotation(annotationSub);
 		cf.addAttribute(attr);
 
 		try {
-			Class<?> result = cc.toClass();
-			//Class<?> xx = AnimalMixIn.class;
-			LOG.info("Ann: " + result.getAnnotations()[0]);
-			//System.exit(0);
-			return result;
+			return cc.toClass();
 		}
 		catch (CannotCompileException ex) {
 			throw new RuntimeException("irks");
@@ -233,6 +227,6 @@ public class SerializeExample1 {
 /** y */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "$type")
 @JsonSubTypes({@Type(value = Lion.class, name = "lion"), @Type(value = Elephant.class, name = "elephant")})
-abstract class AnimalMixIn {
-	// nada
+class AnimalMixIn {
+	// noop
 }
