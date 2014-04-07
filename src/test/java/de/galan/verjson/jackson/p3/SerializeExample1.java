@@ -18,6 +18,13 @@ import javassist.bytecode.annotation.EnumMemberValue;
 import javassist.bytecode.annotation.MemberValue;
 import javassist.bytecode.annotation.StringMemberValue;
 
+import org.objectweb.asm.AnnotationVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.Label;
+//import org.objectweb.asm.attrs.*;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -49,7 +56,7 @@ public class SerializeExample1 {
 		zoo.setAnimals(animals);
 
 		ObjectMapper mapper = new ObjectMapper();
-		Class<?> mixin = generateMixIn();
+		Class<?> mixin = generateMixInAsm();
 
 		mapper.addMixInAnnotations(Animal.class, mixin);
 		String zooString = mapper.writeValueAsString(zoo);
@@ -62,7 +69,102 @@ public class SerializeExample1 {
 	}
 
 
-	protected static Class<?> generateMixIn() {
+	protected static Class<?> generateMixInAsm() {
+		ClassWriter cw = new ClassWriter(0);
+		FieldVisitor fv;
+		MethodVisitor mv;
+		AnnotationVisitor av0;
+		//import org.objectweb.asm.*;
+		//import org.objectweb.asm.attrs.*;
+		cw.visit(Opcodes.V1_7, Opcodes.ACC_SUPER + Opcodes.ACC_ABSTRACT, "de/galan/verjson/jackson/p3/AsmGemMixIn", null, "java/lang/Object", null);
+
+		//cw.visitSource("SerializeExample1.java", null);
+
+		{
+			av0 = cw.visitAnnotation("Lcom/fasterxml/jackson/annotation/JsonTypeInfo;", true);
+			av0.visitEnum("use", "Lcom/fasterxml/jackson/annotation/JsonTypeInfo$Id;", "NAME");
+			av0.visitEnum("include", "Lcom/fasterxml/jackson/annotation/JsonTypeInfo$As;", "PROPERTY");
+			av0.visit("property", "$type");
+			av0.visitEnd();
+		}
+		{
+			av0 = cw.visitAnnotation("Lcom/fasterxml/jackson/annotation/JsonSubTypes;", true);
+			{
+				AnnotationVisitor av1 = av0.visitArray("value");
+				{
+					AnnotationVisitor av2 = av1.visitAnnotation(null, "Lcom/fasterxml/jackson/annotation/JsonSubTypes$Type;");
+					av2.visit("value", org.objectweb.asm.Type.getType("Lde/galan/verjson/jackson/p3/Lion;"));
+					av2.visit("name", "lion");
+					av2.visitEnd();
+				}
+				{
+					AnnotationVisitor av2 = av1.visitAnnotation(null, "Lcom/fasterxml/jackson/annotation/JsonSubTypes$Type;");
+					av2.visit("value", org.objectweb.asm.Type.getType("Lde/galan/verjson/jackson/p3/Elephant;"));
+					av2.visit("name", "elephant");
+					av2.visitEnd();
+				}
+				av1.visitEnd();
+			}
+			av0.visitEnd();
+		}
+		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonSubTypes$Type", "com/fasterxml/jackson/annotation/JsonSubTypes", "Type", Opcodes.ACC_PUBLIC
+				+ Opcodes.ACC_STATIC + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE);
+
+		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonTypeInfo$As", "com/fasterxml/jackson/annotation/JsonTypeInfo", "As", Opcodes.ACC_PUBLIC
+				+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
+
+		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonTypeInfo$Id", "com/fasterxml/jackson/annotation/JsonTypeInfo", "Id", Opcodes.ACC_PUBLIC
+				+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
+
+		{
+			mv = cw.visitMethod(0, "<init>", "()V", null, null);
+			mv.visitCode();
+			Label l0 = new Label();
+			mv.visitLabel(l0);
+			mv.visitLineNumber(140, l0);
+			mv.visitVarInsn(Opcodes.ALOAD, 0);
+			mv.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/lang/Object", "<init>", "()V", false);
+			mv.visitInsn(Opcodes.RETURN);
+			Label l1 = new Label();
+			mv.visitLabel(l1);
+			mv.visitLocalVariable("this", "Lde/galan/verjson/jackson/p3/AsmGemMixIn;", null, l0, l1, 0);
+			mv.visitMaxs(1, 1);
+			mv.visitEnd();
+		}
+		cw.visitEnd();
+
+		byte[] byteArray = cw.toByteArray();
+		return loadClass(byteArray);
+	}
+
+
+	private static Class<?> loadClass(byte[] b) {
+		//override classDefine (as it is protected) and define the class.
+		Class<?> clazz = null;
+		try {
+			ClassLoader loader = ClassLoader.getSystemClassLoader();
+			Class<?> cls = Class.forName("java.lang.ClassLoader");
+			java.lang.reflect.Method method = cls.getDeclaredMethod("defineClass", new Class[] {String.class, byte[].class, int.class, int.class});
+
+			// protected method invocaton
+			method.setAccessible(true);
+			try {
+				Object[] args = new Object[] {"de.galan.verjson.jackson.p3.AsmGemMixIn", b, Integer.valueOf(0), Integer.valueOf(b.length)};
+				clazz = (Class<?>)method.invoke(loader, args);
+			}
+			finally {
+				method.setAccessible(false);
+			}
+		}
+		catch (Exception e) {
+			LOG.error("xxx", e);
+			System.exit(1);
+		}
+		return clazz;
+	}
+
+
+	protected static Class<?> generateMixInJavassist() {
 		ClassPool pool = ClassPool.getDefault();
 		CtClass cc = pool.makeClass(Animal.class.getPackage().getName() + ".GenAnimalMixIn");
 		ClassFile cf = cc.getClassFile();

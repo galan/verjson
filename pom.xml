@@ -57,6 +57,12 @@
 			<version>3.12.1.GA</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>5.0.1</version>
+		</dependency>
+
 	</dependencies>
 
 </project>
