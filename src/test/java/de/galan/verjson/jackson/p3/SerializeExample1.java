@@ -7,7 +7,6 @@ import java.util.List;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
-import javassist.NotFoundException;
 import javassist.bytecode.AnnotationsAttribute;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.ConstPool;
@@ -53,11 +52,15 @@ public class SerializeExample1 {
 		List<Animal> animals = new ArrayList<>();
 		animals.add(lion);
 		animals.add(elephant);
+		animals.add(new Turtle("turtle"));
 		zoo.setAnimals(animals);
 
 		ObjectMapper mapper = new ObjectMapper();
 		//Class<?> mixin = generateMixInAsm();
 		Class<?> mixin = generateMixInJavassist();
+
+		mapper.disableDefaultTyping();
+		//configure(SerializationFeature., state)configure(MapperFeature., state)configure(Feature, state)
 
 		mapper.addMixInAnnotations(Animal.class, mixin);
 		String zooString = mapper.writeValueAsString(zoo);
@@ -177,7 +180,7 @@ public class SerializeExample1 {
 		enumAs.setValue(As.PROPERTY.toString());
 		annotationInfo.addMemberValue("include", enumAs);
 
-		annotationInfo.addMemberValue("property", new StringMemberValue("$_type", cp));
+		annotationInfo.addMemberValue("property", new StringMemberValue("$type", cp));
 		AnnotationsAttribute attr = new AnnotationsAttribute(cp, AnnotationsAttribute.visibleTag);
 		attr.addAnnotation(annotationInfo);
 
@@ -216,11 +219,12 @@ public class SerializeExample1 {
 		}
 	}
 
-
+	/*
 	private static CtClass resolveCtClass(Class clazz) throws NotFoundException {
 		ClassPool pool = ClassPool.getDefault();
 		return pool.get(clazz.getName());
 	}
+	*/
 
 }
 
