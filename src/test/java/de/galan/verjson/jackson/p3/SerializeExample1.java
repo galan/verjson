@@ -1,7 +1,6 @@
 package de.galan.verjson.jackson.p3;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javassist.CannotCompileException;
@@ -34,6 +33,7 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 
 import de.galan.commons.logging.Logr;
 
@@ -49,9 +49,7 @@ public class SerializeExample1 {
 		Zoo zoo = new Zoo("Samba Wild Park", "Paz");
 		Lion lion = new Lion("Simba");
 		Elephant elephant = new Elephant("Manny");
-		List<Animal> animals = new ArrayList<>();
-		animals.add(lion);
-		animals.add(elephant);
+		List<Animal> animals = Lists.newArrayList(lion, elephant);
 		animals.add(new Turtle("turtle"));
 		zoo.setAnimals(animals);
 
@@ -60,6 +58,9 @@ public class SerializeExample1 {
 		Class<?> mixin = generateMixInJavassist();
 
 		mapper.disableDefaultTyping();
+		//mapper.getSerializationConfig().
+		//mapper.getSerializerProvider().
+
 		//configure(SerializationFeature., state)configure(MapperFeature., state)configure(Feature, state)
 
 		mapper.addMixInAnnotations(Animal.class, mixin);
@@ -69,6 +70,7 @@ public class SerializeExample1 {
 
 		JsonNode node = mapper.readTree(zooString);
 		Zoo zoo2 = mapper.treeToValue(node, Zoo.class);
+		mapper.readValue(zooString, Zoo.class);
 		LOG.info("" + zoo2);
 	}
 
