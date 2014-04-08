@@ -35,7 +35,8 @@ public class AnnotationMain {
 		ClassPool pool = ClassPool.getDefault();
 		CtClass cc = pool.makeClass(AnnotationMain.class.getPackage().getName() + ".GenTest");
 		ClassFile cf = cc.getClassFile();
-		//cf.setVersionToJava5();
+		//cf.setMajorVersion(ClassFile.JAVA_7);
+		//cf.setMinorVersion(0);
 		ConstPool cp = cf.getConstPool();
 
 		// @JsonTypeInfo

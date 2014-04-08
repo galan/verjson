@@ -160,7 +160,8 @@ public class SerializeExample1 {
 		ClassPool pool = ClassPool.getDefault();
 		CtClass cc = pool.makeClass(Animal.class.getPackage().getName() + ".GenAnimalMixIn");
 		ClassFile cf = cc.getClassFile();
-		//cf.setVersionToJava5();
+		cf.setMajorVersion(ClassFile.JAVA_7);
+		cf.setMinorVersion(0);
 		ConstPool cp = cf.getConstPool();
 
 		// @JsonTypeInfo
