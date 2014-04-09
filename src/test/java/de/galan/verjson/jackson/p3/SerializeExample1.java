@@ -20,7 +20,6 @@ import javassist.bytecode.annotation.StringMemberValue;
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
-//import org.objectweb.asm.attrs.*;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
@@ -30,13 +29,19 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.google.common.collect.Lists;
 
 import de.galan.commons.logging.Logr;
 
+
+//import org.objectweb.asm.attrs.*;
 
 /** x */
 public class SerializeExample1 {
@@ -55,15 +60,16 @@ public class SerializeExample1 {
 
 		ObjectMapper mapper = new ObjectMapper();
 		//Class<?> mixin = generateMixInAsm();
-		Class<?> mixin = generateMixInJavassist();
+		//Class<?> mixin = generateMixInJavassist();
 
-		mapper.disableDefaultTyping();
+		//mapper.disableDefaultTyping();
 		//mapper.getSerializationConfig().
 		//mapper.getSerializerProvider().
 
 		//configure(SerializationFeature., state)configure(MapperFeature., state)configure(Feature, state)
 
-		mapper.addMixInAnnotations(Animal.class, mixin);
+		//mapper.addMixInAnnotations(Animal.class, mixin);
+		mapper.addMixInAnnotations(Animal.class, AnimalMixIn.class);
 		String zooString = mapper.writeValueAsString(zoo);
 		//mapper.writerWithDefaultPrettyPrinter().writeValue(System/**/./**/out, zoo);// writeValue(new FileWriter(new File(outputFile)), zoo);
 		LOG.info(zooString);
@@ -107,13 +113,13 @@ public class SerializeExample1 {
 		}
 
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonSubTypes$Type", "com/fasterxml/jackson/annotation/JsonSubTypes", "Type", Opcodes.ACC_PUBLIC
-				+ Opcodes.ACC_STATIC + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE);
+			+ Opcodes.ACC_STATIC + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE);
 
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonTypeInfo$As", "com/fasterxml/jackson/annotation/JsonTypeInfo", "As", Opcodes.ACC_PUBLIC
-				+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
+			+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
 
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonTypeInfo$Id", "com/fasterxml/jackson/annotation/JsonTypeInfo", "Id", Opcodes.ACC_PUBLIC
-				+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
+			+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
 
 		MethodVisitor mv = cw.visitMethod(0, "<init>", "()V", null, null);
 		mv.visitCode();
@@ -186,6 +192,9 @@ public class SerializeExample1 {
 		AnnotationsAttribute attr = new AnnotationsAttribute(cp, AnnotationsAttribute.visibleTag);
 		attr.addAnnotation(annotationInfo);
 
+		ClassMemberValue cmvNone = new ClassMemberValue(JsonTypeInfo.None.class.getName(), cp);
+		annotationInfo.addMemberValue("defaultImpl", cmvNone);
+
 		// @JsonSubTypes
 		// >> dynamic
 		Annotation annotationTypeA = new Annotation(Type.class.getName(), cp);
@@ -226,14 +235,44 @@ public class SerializeExample1 {
 		ClassPool pool = ClassPool.getDefault();
 		return pool.get(clazz.getName());
 	}
-	*/
+	 */
 
 }
 
 
 /** y */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "$type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "$type", defaultImpl = JsonTypeInfo.None.class)
 @JsonSubTypes({@Type(value = Lion.class, name = "lion"), @Type(value = Elephant.class, name = "elephant")})
 class AnimalMixIn {
 	// noop
+}
+
+
+/**
+ * x
+ *
+ * @param <T> xx
+ */
+class Xxx<T> extends StdSerializer<T> {
+
+	public Xxx(Class<?> t, boolean dummy) {
+		super(t, dummy);
+	}
+
+
+	public Xxx(Class<T> t) {
+		super(t);
+	}
+
+
+	public Xxx(JavaType type) {
+		super(type);
+	}
+
+
+	@Override
+	public void serialize(T value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException {
+		//
+	}
+
 }
