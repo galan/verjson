@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
@@ -36,6 +37,9 @@ public class Verjson<T> {
 	private Map<Long, Step> steps;
 
 	private ObjectMapper mapper;
+
+	/** Highest version available in added transformers, starting with 1. */
+	long largestTargetVersion = 1L;
 
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
@@ -92,7 +96,32 @@ public class Verjson<T> {
 				LOG.error("Unable to register deserializer for Class<" + returnTypeName + ">." + methodName + "(..)", ex);
 			}
 		}
+		mapper.registerModule(module);
 		return result;
+	}
+
+
+	protected String getNamespace() {
+		return namespace;
+	}
+
+
+	//TODO own exception
+	public String write(T obj) throws JsonProcessingException {
+		MetaWrapper wrapper = new MetaWrapper(getHighestTargetVersion(), getNamespace(), obj);
+		return mapper.writeValueAsString(wrapper);
+	}
+
+
+	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
+		//mapper.readvalue
+		return null;
+		//read(parse(json));
+	}
+
+
+	protected long getHighestTargetVersion() {
+		return largestTargetVersion;
 	}
 
 }
