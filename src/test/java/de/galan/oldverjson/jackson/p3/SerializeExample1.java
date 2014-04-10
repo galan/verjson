@@ -29,13 +29,9 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.google.common.collect.Lists;
 
 import de.galan.commons.logging.Logr;
@@ -113,13 +109,13 @@ public class SerializeExample1 {
 		}
 
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonSubTypes$Type", "com/fasterxml/jackson/annotation/JsonSubTypes", "Type", Opcodes.ACC_PUBLIC
-			+ Opcodes.ACC_STATIC + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE);
+				+ Opcodes.ACC_STATIC + Opcodes.ACC_ANNOTATION + Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE);
 
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonTypeInfo$As", "com/fasterxml/jackson/annotation/JsonTypeInfo", "As", Opcodes.ACC_PUBLIC
-			+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
+				+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
 
 		cw.visitInnerClass("com/fasterxml/jackson/annotation/JsonTypeInfo$Id", "com/fasterxml/jackson/annotation/JsonTypeInfo", "Id", Opcodes.ACC_PUBLIC
-			+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
+				+ Opcodes.ACC_FINAL + Opcodes.ACC_STATIC + Opcodes.ACC_ENUM);
 
 		MethodVisitor mv = cw.visitMethod(0, "<init>", "()V", null, null);
 		mv.visitCode();
@@ -245,34 +241,4 @@ public class SerializeExample1 {
 @JsonSubTypes({@Type(value = Lion.class, name = "lion"), @Type(value = Elephant.class, name = "elephant")})
 class AnimalMixIn {
 	// noop
-}
-
-
-/**
- * x
- *
- * @param <T> xx
- */
-class Xxx<T> extends StdSerializer<T> {
-
-	public Xxx(Class<?> t, boolean dummy) {
-		super(t, dummy);
-	}
-
-
-	public Xxx(Class<T> t) {
-		super(t);
-	}
-
-
-	public Xxx(JavaType type) {
-		super(type);
-	}
-
-
-	@Override
-	public void serialize(T value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonGenerationException {
-		//
-	}
-
 }
