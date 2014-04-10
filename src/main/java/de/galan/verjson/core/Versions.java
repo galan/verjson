@@ -1,6 +1,6 @@
 package de.galan.verjson.core;
 
-import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -22,7 +22,6 @@ public class Versions {
 
 	private ListMultimap<Long, Step> steps;
 	private String namespace;
-	private Map<Type, Object> typeAdapters;
 	private Map<Class<?>, JsonSerializer<?>> serializers;
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
 
@@ -35,7 +34,8 @@ public class Versions {
 	public Versions(String namespace) {
 		setNamespace(namespace);
 		steps = ArrayListMultimap.create();
-		typeAdapters = Maps.newHashMap();
+		serializers = Maps.newHashMap();
+		deserializers = Maps.newHashMap();
 	}
 
 
@@ -83,8 +83,12 @@ public class Versions {
 	}
 
 
-	public Map<Type, Object> getTypeAdapter() {
-		return typeAdapters;
+	public Collection<JsonSerializer<?>> getSerializer() {
+		return serializers.values();
 	}
 
+
+	public Collection<JsonDeserializer<?>> getDeserializer() {
+		return deserializers.values();
+	}
 }
