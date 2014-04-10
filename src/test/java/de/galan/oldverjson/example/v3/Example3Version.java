@@ -1,0 +1,30 @@
+package de.galan.oldverjson.example.v3;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import de.galan.oldverjson.transformation.AbstractVersion;
+
+
+/**
+ * Sample transformer to migrate version 2 to version 3
+ * 
+ * @author daniel
+ */
+public class Example3Version extends AbstractVersion {
+
+	@Override
+	public void transform(JsonElement element) {
+		JsonObject jo = obj(element);
+		rename(jo, "empty", "filled");
+		// rename SubB
+		rename(obj(jo.get("subB")), "ccc", "bbb");
+	}
+
+
+	@Override
+	public long getTargetVersion() {
+		return 3L;
+	}
+
+}
