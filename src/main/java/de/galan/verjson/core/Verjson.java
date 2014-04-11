@@ -10,6 +10,7 @@ import com.google.common.base.Preconditions;
 
 import de.galan.commons.logging.Logr;
 import de.galan.verjson.transformation.Step;
+import de.galan.verjson.util.MetaWrapper;
 
 
 /**
@@ -54,8 +55,7 @@ public class Verjson<T> {
 		mapper = new ObjectMapperFactory().create(versions);
 
 		/*
-		parser = new JsonParser();
-		containers = Maps.newTreeMap();
+		//containers = Maps.newTreeMap();
 
 		for (Version version: versions.getVersions()) {
 			appendVersion(version);

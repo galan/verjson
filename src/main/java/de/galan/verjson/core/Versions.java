@@ -59,8 +59,14 @@ public class Versions {
 	}
 
 
+	public ListMultimap<Long, Step> getSteps() {
+		return steps;
+	}
+
+
 	public Versions add(Long sourceVersion, Step step) {
 		if (step != null) {
+			//TODO check currently only Transformation&Schema are supported (due to sorting)
 			getSteps().put(sourceVersion, step);
 		}
 		return this;
@@ -90,11 +96,6 @@ public class Versions {
 			deserializers.put(deserializer.getClass(), deserializer);
 		}
 		return this;
-	}
-
-
-	public ListMultimap<Long, Step> getSteps() {
-		return steps;
 	}
 
 
