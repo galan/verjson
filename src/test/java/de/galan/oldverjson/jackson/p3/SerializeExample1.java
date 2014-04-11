@@ -17,11 +17,6 @@ import javassist.bytecode.annotation.EnumMemberValue;
 import javassist.bytecode.annotation.MemberValue;
 import javassist.bytecode.annotation.StringMemberValue;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -77,6 +72,7 @@ public class SerializeExample1 {
 	}
 
 
+	/*
 	protected static Class<?> generateMixInAsm() {
 		ClassWriter cw = new ClassWriter(0);
 		cw.visit(Opcodes.V1_7, Opcodes.ACC_SUPER + Opcodes.ACC_ABSTRACT, "de/galan/verjson/jackson/p3/AsmGemMixIn", null, "java/lang/Object", null);
@@ -135,7 +131,7 @@ public class SerializeExample1 {
 
 		return loadClass(cw.toByteArray());
 	}
-
+	 */
 
 	private static Class<?> loadClass(byte[] b) {
 		//override classDefine (as it is protected) and define the class.
