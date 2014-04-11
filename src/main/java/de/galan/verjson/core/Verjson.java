@@ -45,28 +45,15 @@ public class Verjson<T> {
 	public Verjson(Class<T> valueClass, Versions versions) {
 		this.valueClass = Preconditions.checkNotNull(valueClass, "valueClass can not be null");
 		Versions vs = (versions != null) ? versions : new Versions();
+		this.namespace = vs.getNamespace();
 		configure(vs);
 	}
 
 
 	protected void configure(Versions versions) {
 		versions.configure();
-		this.namespace = versions.getNamespace();
 		mapper = new ObjectMapperFactory().create(versions);
-
-		/*
-		//containers = Maps.newTreeMap();
-
-		for (Version version: versions.getVersions()) {
-			appendVersion(version);
-		}
-		for (Entry<Type, Object> entry: versions.getTypeAdapter().entrySet()) {
-			builder.registerTypeAdapter(entry.getKey(), entry.getValue());
-		}
-
-		gson = builder.create();
-		fillVersionGaps();
-		 */
+		steps = new StepSequencer().sequence(versions.getSteps());
 	}
 
 
