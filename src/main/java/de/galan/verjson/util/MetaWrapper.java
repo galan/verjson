@@ -44,4 +44,9 @@ public class MetaWrapper {
 		return getObj(obj(node), MetaWrapper.ID_DATA);
 	}
 
+
+	public static Long getVersion(JsonNode node) {
+		return obj(node).get(ID_VERSION).asLong();
+	}
+
 }

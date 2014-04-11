@@ -1,10 +1,12 @@
 package de.galan.verjson.core;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 
@@ -70,9 +72,18 @@ public class Verjson<T> {
 
 
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
-		//mapper.readvalue
-		return null;
-		//read(parse(json));
+		T result = null;
+		try {
+			JsonNode node = mapper.readTree(json);
+			Long sourceVersion = MetaWrapper.getVersion(node);
+			steps.get(sourceVersion).process(node);
+			result = mapper.treeToValue(node, valueClass);
+		}
+		catch (IOException ex) {
+			LOG.warn("TODO", ex); // TODO
+		}
+
+		return result;
 	}
 
 
