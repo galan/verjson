@@ -1,17 +1,11 @@
 package de.galan.verjson.core;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.slf4j.Logger;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.base.Preconditions;
 
 import de.galan.commons.logging.Logr;
@@ -20,7 +14,7 @@ import de.galan.verjson.transformation.Step;
 
 /**
  * TODO documentation
- * 
+ *
  * @author daniel
  * @param <T> ...
  */
@@ -57,14 +51,14 @@ public class Verjson<T> {
 	protected void configure(Versions versions) {
 		versions.configure();
 		this.namespace = versions.getNamespace();
-		mapper = constructMapper(versions);
+		mapper = new ObjectMapperFactory().create(versions);
 
 		/*
 		GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
 		builder.registerTypeAdapter(Date.class, DATE_ADAPTER);
 		parser = new JsonParser();
 		containers = Maps.newTreeMap();
-		
+
 		for (Version version: versions.getVersions()) {
 			appendVersion(version);
 		}
@@ -74,30 +68,7 @@ public class Verjson<T> {
 
 		gson = builder.create();
 		fillVersionGaps();
-		*/
-	}
-
-
-	protected ObjectMapper constructMapper(Versions versions) {
-		ObjectMapper result = new ObjectMapper();
-		SimpleModule module = new SimpleModule("VerjsonModule");
-		for (JsonSerializer<?> serializer: versions.getSerializer()) {
-			module.addSerializer(serializer);
-		}
-		for (JsonDeserializer deserializer: versions.getDeserializer()) {
-			Method method = null;
-			try {
-				method = deserializer.getClass().getMethod("deserialize", JsonParser.class, DeserializationContext.class);
-				module.addDeserializer(method.getReturnType(), deserializer);
-			}
-			catch (NullPointerException | NoSuchMethodException | SecurityException ex) {
-				String methodName = (method == null) ? "null" : method.getName();
-				String returnTypeName = (method == null || method.getReturnType() == null) ? "null" : method.getReturnType().toString();
-				LOG.error("Unable to register deserializer for Class<" + returnTypeName + ">." + methodName + "(..)", ex);
-			}
-		}
-		mapper.registerModule(module);
-		return result;
+		 */
 	}
 
 

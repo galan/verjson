@@ -6,16 +6,19 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.SetMultimap;
 
+import de.galan.commons.util.Pair;
 import de.galan.verjson.transformation.Step;
 
 
 /**
  * Acts as a container for all Steps (transformations and schema validations), does define the optional namespace.
  * Additional type de/serializers can be registered here.
- * 
+ *
  * @author daniel
  */
 public class Versions {
@@ -24,6 +27,7 @@ public class Versions {
 	private String namespace;
 	private Map<Class<?>, JsonSerializer<?>> serializers;
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
+	private SetMultimap<Class<?>, Pair<Class<?>, String>> polys;
 
 
 	public Versions() {
@@ -36,6 +40,7 @@ public class Versions {
 		steps = ArrayListMultimap.create();
 		serializers = Maps.newHashMap();
 		deserializers = Maps.newHashMap();
+		polys = HashMultimap.create();
 	}
 
 
@@ -59,6 +64,16 @@ public class Versions {
 			getSteps().put(sourceVersion, step);
 		}
 		return this;
+	}
+
+
+	public <T> void registerSubclass(Class<T> parentClass, Class<? extends T> childClass, String typeName) {
+		getRegisteredSubclasses().put(parentClass, new Pair<Class<?>, String>(childClass, typeName));
+	}
+
+
+	public SetMultimap<Class<?>, Pair<Class<?>, String>> getRegisteredSubclasses() {
+		return polys;
 	}
 
 
@@ -91,4 +106,5 @@ public class Versions {
 	public Collection<JsonDeserializer<?>> getDeserializer() {
 		return deserializers.values();
 	}
+
 }

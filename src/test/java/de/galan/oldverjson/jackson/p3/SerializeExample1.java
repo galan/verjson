@@ -131,7 +131,6 @@ public class SerializeExample1 {
 
 		return loadClass(cw.toByteArray());
 	}
-	 */
 
 	private static Class<?> loadClass(byte[] b) {
 		//override classDefine (as it is protected) and define the class.
@@ -157,7 +156,7 @@ public class SerializeExample1 {
 		}
 		return clazz;
 	}
-
+	 */
 
 	protected static Class<?> generateMixInJavassist() {
 		ClassPool pool = ClassPool.getDefault();
