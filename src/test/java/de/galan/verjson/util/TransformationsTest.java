@@ -1,6 +1,6 @@
-package de.galan.verjson.step.transformation;
+package de.galan.verjson.util;
 
-import static de.galan.verjson.step.transformation.Transformations.*;
+import static de.galan.verjson.util.Transformations.*;
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
@@ -11,12 +11,10 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.util.ObjectNodeBuilder;
 
 
 /**
- * CUT AbstractTransformation
- * 
+ *
  * @author daniel
  */
 public class TransformationsTest extends AbstractTestParent {

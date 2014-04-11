@@ -1,6 +1,6 @@
 package de.galan.verjson.util;
 
-import static de.galan.verjson.step.transformation.Transformations.*;
+import static de.galan.verjson.util.Transformations.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
