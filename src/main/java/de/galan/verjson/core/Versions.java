@@ -12,7 +12,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 
 import de.galan.commons.util.Pair;
-import de.galan.verjson.transformation.Step;
+import de.galan.verjson.step.Step;
 
 
 /**

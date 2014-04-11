@@ -1,4 +1,4 @@
-package de.galan.verjson.transformation;
+package de.galan.verjson.step.transformation;
 
 import static org.apache.commons.lang3.StringUtils.*;
 

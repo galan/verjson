@@ -1,6 +1,8 @@
-package de.galan.verjson.transformation;
+package de.galan.verjson.step.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import de.galan.verjson.step.Step;
 
 
 /**

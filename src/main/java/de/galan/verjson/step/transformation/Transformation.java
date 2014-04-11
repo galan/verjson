@@ -1,7 +1,8 @@
-package de.galan.verjson.transformation;
+package de.galan.verjson.step.transformation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import de.galan.verjson.step.Step;
 import de.galan.verjson.util.MetaWrapper;
 
 

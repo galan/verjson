@@ -1,6 +1,6 @@
-package de.galan.verjson.transformation;
+package de.galan.verjson.step.transformation;
 
-import static de.galan.verjson.transformation.Transformations.*;
+import static de.galan.verjson.step.transformation.Transformations.*;
 import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;

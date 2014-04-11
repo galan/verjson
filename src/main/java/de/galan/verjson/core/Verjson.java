@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 
 import de.galan.commons.logging.Logr;
-import de.galan.verjson.transformation.Step;
+import de.galan.verjson.step.Step;
 import de.galan.verjson.util.MetaWrapper;
 
 
