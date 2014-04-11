@@ -12,10 +12,10 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 
 /**
- * 
+ *
  * @author daniel
  */
-class DateDeserializer extends JsonDeserializer<Date> {
+public class DateDeserializer extends JsonDeserializer<Date> {
 
 	@Override
 	public Date deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {

@@ -54,8 +54,6 @@ public class Verjson<T> {
 		mapper = new ObjectMapperFactory().create(versions);
 
 		/*
-		GsonBuilder builder = new GsonBuilder().disableHtmlEscaping();
-		builder.registerTypeAdapter(Date.class, DATE_ADAPTER);
 		parser = new JsonParser();
 		containers = Maps.newTreeMap();
 

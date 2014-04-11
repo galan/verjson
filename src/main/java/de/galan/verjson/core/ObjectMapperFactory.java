@@ -1,6 +1,7 @@
 package de.galan.verjson.core;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -34,6 +35,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import de.galan.commons.logging.Logr;
 import de.galan.commons.util.Pair;
+import de.galan.verjson.adapter.DateDeserializer;
+import de.galan.verjson.adapter.DateSerializer;
 
 
 /**
@@ -49,6 +52,21 @@ public class ObjectMapperFactory {
 	public ObjectMapper create(Versions versions) {
 		ObjectMapper result = new ObjectMapper();
 		SimpleModule module = new SimpleModule("VerjsonModule");
+		registerSerializer(result, module, versions);
+		result.registerModule(module);
+
+		for (Class<?> parentClass: versions.getRegisteredSubclasses().keySet()) {
+			Class<?> mixin = generateMixIn(parentClass, versions.getRegisteredSubclasses().get(parentClass));
+			result.addMixInAnnotations(parentClass, mixin);
+		}
+
+		return result;
+	}
+
+
+	protected void registerSerializer(ObjectMapper result, SimpleModule module, Versions versions) {
+		module.addSerializer(new DateSerializer());
+		module.addDeserializer(Date.class, new DateDeserializer());
 		for (JsonSerializer<?> serializer: versions.getSerializer()) {
 			module.addSerializer(serializer);
 		}
@@ -64,14 +82,6 @@ public class ObjectMapperFactory {
 				LOG.error("Unable to register deserializer for Class<" + returnTypeName + ">." + methodName + "(..)", ex);
 			}
 		}
-		result.registerModule(module);
-
-		for (Class<?> parentClass: versions.getRegisteredSubclasses().keySet()) {
-			Class<?> mixin = generateMixIn(parentClass, versions.getRegisteredSubclasses().get(parentClass));
-			result.addMixInAnnotations(parentClass, mixin);
-		}
-
-		return result;
 	}
 
 
