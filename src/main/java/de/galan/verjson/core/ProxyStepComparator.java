@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.ObjectUtils;
 import org.assertj.core.util.Lists;
 
-import de.galan.oldverjson.transformation.Transformation;
 import de.galan.verjson.step.Step;
+import de.galan.verjson.step.transformation.Transformation;
 import de.galan.verjson.step.validation.Validation;
 
 
@@ -29,22 +29,23 @@ public class ProxyStepComparator implements Comparator<ProxyStep> {
 
 	@Override
 	public int compare(ProxyStep s1, ProxyStep s2) {
-		int result = ObjectUtils.compare(s1.getSourceVersion(), s1.getSourceVersion());
+		int result = ObjectUtils.compare(s1.getSourceVersion(), s2.getSourceVersion());
 		if (result == 0) {
 			Class<? extends Step> c1 = s1.getStep().getClass();
 			Class<? extends Step> c2 = s2.getStep().getClass();
 			if (!c1.equals(c2)) {
-				if (c1.isAssignableFrom(Validation.class)) {
-					result = 1;
-				}
-				else if (c2.isAssignableFrom(Validation.class)) {
+				if (Validation.class.isAssignableFrom(c1)) {
 					result = -1;
 				}
-				else if (c1.isAssignableFrom(Transformation.class)) {
+				else if (Validation.class.isAssignableFrom(c2)) {
 					result = 1;
 				}
-				else if (c1.isAssignableFrom(Transformation.class)) {
+				else if (Transformation.class.isAssignableFrom(c1)) {
 					result = -1;
+				}
+				//else if (Transformation.class.isAssignableFrom(c2)) {
+				else {
+					result = 1;
 				}
 			}
 		}

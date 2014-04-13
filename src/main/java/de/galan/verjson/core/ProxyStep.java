@@ -50,4 +50,10 @@ public class ProxyStep implements Step {
 		return step;
 	}
 
+
+	@Override
+	public String toString() {
+		return "ProxyStep " + getSourceVersion() + "/" + getStep().getClass().getSimpleName();
+	}
+
 }
