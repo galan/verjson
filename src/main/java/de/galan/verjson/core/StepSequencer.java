@@ -21,9 +21,14 @@ public class StepSequencer {
 	public Map<Long, Step> sequence(ListMultimap<Long, Step> steps) {
 		// Create Proxies
 		List<ProxyStep> proxies = createProxies(steps);
+
 		// Sort Proxies
 		Collections.sort(proxies, new ProxyStepComparator());
+
 		// Determine highest SourceVersion
+		//ProxyStep lastProxy = proxies.get(proxies.size() - 1);
+		//Long highestSourceVersion = lastProxy.getSourceVersion();
+
 		// create increments
 		// assign successors
 		// attach Sourceversions to Map

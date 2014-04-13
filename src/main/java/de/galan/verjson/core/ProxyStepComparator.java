@@ -34,7 +34,18 @@ public class ProxyStepComparator implements Comparator<ProxyStep> {
 			Class<? extends Step> c1 = s1.getStep().getClass();
 			Class<? extends Step> c2 = s2.getStep().getClass();
 			if (!c1.equals(c2)) {
-
+				if (c1.isAssignableFrom(Validation.class)) {
+					result = 1;
+				}
+				else if (c2.isAssignableFrom(Validation.class)) {
+					result = -1;
+				}
+				else if (c1.isAssignableFrom(Transformation.class)) {
+					result = 1;
+				}
+				else if (c1.isAssignableFrom(Transformation.class)) {
+					result = -1;
+				}
 			}
 		}
 		return result;

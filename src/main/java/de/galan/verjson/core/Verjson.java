@@ -82,7 +82,6 @@ public class Verjson<T> {
 		catch (IOException ex) {
 			LOG.warn("TODO", ex); // TODO
 		}
-
 		return result;
 	}
 
