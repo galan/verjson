@@ -30,6 +30,8 @@ public class StepSequencer {
 		//Long highestSourceVersion = lastProxy.getSourceVersion();
 
 		// create increments
+		fillIncrements(proxies);
+
 		// assign successors
 		// attach Sourceversions to Map
 		return null;
@@ -44,6 +46,18 @@ public class StepSequencer {
 			}
 		}
 		return list;
+	}
+
+
+	protected void fillIncrements(List<ProxyStep> proxies) {
+		if (!proxies.isEmpty()) {
+			Long lastSourceVersion = 1L;
+			for (ProxyStep proxy: proxies) {
+				proxy.getSourceVersion();
+			}
+			//ProxyStep lastProxy = proxies.get(proxies.size() - 1);
+			//Long highestSourceVersion = lastProxy.getSourceVersion();
+		}
 	}
 
 }
