@@ -17,7 +17,7 @@ import de.galan.verjson.util.MetaWrapper;
 
 /**
  * TODO documentation
- *
+ * 
  * @author daniel
  * @param <T> ...
  */

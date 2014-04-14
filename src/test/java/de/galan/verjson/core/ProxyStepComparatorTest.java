@@ -9,9 +9,9 @@ import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.verjson.DummyTransformation;
+import de.galan.verjson.OtherStep;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.step.transformation.Transformation;
 import de.galan.verjson.step.validation.Validation;
@@ -306,28 +306,6 @@ public class ProxyStepComparatorTest extends AbstractTestParent {
 			assertThat(steps.get(i).getStep().getClass()).isAssignableFrom(expected.get(i).getStep().getClass());
 		}
 
-	}
-
-}
-
-
-/** Dummy */
-class DummyTransformation extends Transformation {
-
-	@Override
-	protected void transform(JsonNode node) {
-		//nada
-	}
-
-}
-
-
-/** Dummy */
-class OtherStep implements Step {
-
-	@Override
-	public void process(JsonNode node) {
-		//nada
 	}
 
 }

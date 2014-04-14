@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Nests the object to be serialized, adding meta information such as the current version number and namespace.
- *
+ * 
  * @author daniel
  */
 public class MetaWrapper {
@@ -47,6 +47,11 @@ public class MetaWrapper {
 
 	public static Long getVersion(JsonNode node) {
 		return obj(node).get(ID_VERSION).asLong();
+	}
+
+
+	public static void setVersion(JsonNode node, Long version) {
+		obj(node).put(ID_VERSION, version);
 	}
 
 }

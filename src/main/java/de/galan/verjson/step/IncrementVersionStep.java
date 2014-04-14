@@ -2,17 +2,20 @@ package de.galan.verjson.step;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import de.galan.verjson.util.MetaWrapper;
+
 
 /**
- * daniel should have written a comment here.
- *
+ * Increments the version field by one.
+ * 
  * @author daniel
  */
 public class IncrementVersionStep implements Step {
 
 	@Override
 	public void process(JsonNode node) {
-		//TODO
+		Long version = MetaWrapper.getVersion(node);
+		MetaWrapper.setVersion(node, version++);
 	}
 
 }

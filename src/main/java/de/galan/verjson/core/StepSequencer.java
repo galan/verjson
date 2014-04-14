@@ -8,12 +8,14 @@ import org.assertj.core.util.Lists;
 
 import com.google.common.collect.ListMultimap;
 
+import de.galan.verjson.step.IncrementVersionStep;
 import de.galan.verjson.step.Step;
+import de.galan.verjson.step.validation.Validation;
 
 
 /**
  * daniel should have written a comment here.
- *
+ * 
  * @author daniel
  */
 public class StepSequencer {
@@ -49,15 +51,28 @@ public class StepSequencer {
 	}
 
 
-	protected void fillIncrements(List<ProxyStep> proxies) {
+	protected List<ProxyStep> fillIncrements(List<ProxyStep> proxies) {
+		List<ProxyStep> result = Lists.newArrayList();
 		if (!proxies.isEmpty()) {
 			Long lastSourceVersion = 1L;
+			boolean increment = false;
 			for (ProxyStep proxy: proxies) {
-				proxy.getSourceVersion();
+				while(lastSourceVersion < proxy.getSourceVersion()) {
+					// add increments
+					ProxyStep incProxy = new ProxyStep(lastSourceVersion, new IncrementVersionStep());
+					result.add(incProxy);
+					lastSourceVersion++;
+				}
+				increment = !Validation.class.isAssignableFrom(proxy.getStep().getClass());
+				result.add(proxy);
 			}
-			//ProxyStep lastProxy = proxies.get(proxies.size() - 1);
-			//Long highestSourceVersion = lastProxy.getSourceVersion();
+			if (increment) {
+				// add increment
+				ProxyStep incProxy = new ProxyStep(lastSourceVersion, new IncrementVersionStep());
+				result.add(incProxy);
+			}
 		}
+		return result;
 	}
 
 }
