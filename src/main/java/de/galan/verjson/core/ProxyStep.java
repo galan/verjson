@@ -11,7 +11,7 @@ import de.galan.verjson.step.Step;
 
 /**
  * daniel should have written a comment here.
- *
+ * 
  * @author daniel
  */
 public class ProxyStep implements Step {
@@ -48,6 +48,11 @@ public class ProxyStep implements Step {
 
 	protected Step getStep() {
 		return step;
+	}
+
+
+	public void setSuccessor(ProxyStep successor) {
+		this.successor = successor;
 	}
 
 

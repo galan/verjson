@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.util.Lists;
-
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import de.galan.verjson.step.IncrementVersionStep;
 import de.galan.verjson.step.Step;
@@ -18,25 +18,48 @@ import de.galan.verjson.step.validation.Validation;
  * 
  * @author daniel
  */
-public class StepSequencer {
+public class DefaultStepSequencer {
 
-	public Map<Long, Step> sequence(ListMultimap<Long, Step> steps) {
+	public Map<Long, ? extends Step> sequence(ListMultimap<Long, Step> steps) {
 		// Create Proxies
 		List<ProxyStep> proxies = createProxies(steps);
 
 		// Sort Proxies
 		Collections.sort(proxies, new ProxyStepComparator());
 
-		// Determine highest SourceVersion
-		//ProxyStep lastProxy = proxies.get(proxies.size() - 1);
-		//Long highestSourceVersion = lastProxy.getSourceVersion();
-
 		// create increments
 		List<ProxyStep> proxiesIncrements = fillIncrements(proxies);
 
 		// assign successors
-		// attach Sourceversions to Map
-		return null;
+		assignSuccessors(proxiesIncrements);
+
+		// attach SourceVersions to Map
+		Map<Long, ProxyStep> proxiesAttached = attachVersions(proxiesIncrements);
+
+		return proxiesAttached;
+	}
+
+
+	protected Map<Long, ProxyStep> attachVersions(List<ProxyStep> proxies) {
+		Map<Long, ProxyStep> result = Maps.newHashMap();
+		Long lastVersion = 0L;
+		for (ProxyStep proxy: proxies) {
+			if (proxy.getSourceVersion() > lastVersion) {
+				result.put(++lastVersion, proxy);
+			}
+		}
+		return result;
+	}
+
+
+	protected void assignSuccessors(List<ProxyStep> proxies) {
+		ProxyStep precessor = null;
+		for (ProxyStep step: Lists.reverse(proxies)) {
+			if (precessor != null) {
+				step.setSuccessor(precessor);
+			}
+			precessor = step;
+		}
 	}
 
 

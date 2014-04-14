@@ -22,9 +22,9 @@ import de.galan.verjson.step.validation.Validation;
  * 
  * @author daniel
  */
-public class StepSequencerTest extends AbstractTestParent {
+public class StepSequencerIncrementTest extends AbstractTestParent {
 
-	StepSequencer ss;
+	DefaultStepSequencer ss;
 	Validation validate;
 	Transformation transform;
 	IncrementVersionStep increment;
@@ -32,10 +32,18 @@ public class StepSequencerTest extends AbstractTestParent {
 
 	@Before
 	public void before() {
-		ss = new StepSequencer();
+		ss = new DefaultStepSequencer();
 		validate = new Validation("");
 		transform = new DummyTransformation();
 		increment = new IncrementVersionStep();
+	}
+
+
+	@Test
+	public void incEmpty() throws Exception {
+		List<ProxyStep> proxies = Lists.newArrayList();
+		List<ProxyStep> results = ss.fillIncrements(proxies);
+		assertIncrements(results);
 	}
 
 

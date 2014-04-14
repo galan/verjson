@@ -31,7 +31,7 @@ public class Verjson<T> {
 	/** Type of the serialized objects */
 	private Class<T> valueClass;
 
-	private Map<Long, Step> steps;
+	private Map<Long, ? extends Step> steps;
 
 	private ObjectMapper mapper;
 
@@ -55,7 +55,7 @@ public class Verjson<T> {
 	protected void configure(Versions versions) {
 		versions.configure();
 		mapper = new ObjectMapperFactory().create(versions);
-		steps = new StepSequencer().sequence(versions.getSteps());
+		steps = new DefaultStepSequencer().sequence(versions.getSteps());
 	}
 
 
