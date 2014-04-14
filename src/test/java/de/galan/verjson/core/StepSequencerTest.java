@@ -88,6 +88,30 @@ public class StepSequencerTest extends AbstractTestParent {
 
 
 	@Test
+	public void incV1T3() throws Exception {
+		List<ProxyStep> proxies = Lists.newArrayList(v(1), t(3));
+		List<ProxyStep> results = ss.fillIncrements(proxies);
+		assertIncrements(results, v(1), i(1), i(2), t(3), i(3));
+	}
+
+
+	@Test
+	public void incT2V5() throws Exception {
+		List<ProxyStep> proxies = Lists.newArrayList(t(2), v(5));
+		List<ProxyStep> results = ss.fillIncrements(proxies);
+		assertIncrements(results, i(1), t(2), i(2), i(3), i(4), v(5));
+	}
+
+
+	@Test
+	public void incT2T5() throws Exception {
+		List<ProxyStep> proxies = Lists.newArrayList(t(2), t(5));
+		List<ProxyStep> results = ss.fillIncrements(proxies);
+		assertIncrements(results, i(1), t(2), i(2), i(3), i(4), t(5), i(5));
+	}
+
+
+	@Test
 	public void incComplex() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(v(1), t(1), v(2), t(2), t(3), v(4), t(6));
 		List<ProxyStep> results = ss.fillIncrements(proxies);
