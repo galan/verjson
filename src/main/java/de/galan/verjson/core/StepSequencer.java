@@ -63,6 +63,7 @@ public class StepSequencer {
 					result.add(incProxy);
 					lastSourceVersion++;
 				}
+				//lastSourceVersion = proxy.getSourceVersion();
 				increment = !Validation.class.isAssignableFrom(proxy.getStep().getClass());
 				result.add(proxy);
 			}
