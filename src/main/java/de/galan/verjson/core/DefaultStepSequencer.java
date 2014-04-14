@@ -18,8 +18,9 @@ import de.galan.verjson.step.validation.Validation;
  * 
  * @author daniel
  */
-public class DefaultStepSequencer {
+public class DefaultStepSequencer implements StepSequencer {
 
+	@Override
 	public Map<Long, ? extends Step> sequence(ListMultimap<Long, Step> steps) {
 		// Create Proxies
 		List<ProxyStep> proxies = createProxies(steps);

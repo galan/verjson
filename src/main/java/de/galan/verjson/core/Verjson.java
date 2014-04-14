@@ -55,7 +55,12 @@ public class Verjson<T> {
 	protected void configure(Versions versions) {
 		versions.configure();
 		mapper = new ObjectMapperFactory().create(versions);
-		steps = new DefaultStepSequencer().sequence(versions.getSteps());
+		steps = createStepSequencer().sequence(versions.getSteps());
+	}
+
+
+	protected StepSequencer createStepSequencer() {
+		return new DefaultStepSequencer();
 	}
 
 
