@@ -32,7 +32,7 @@ public class StepSequencer {
 		//Long highestSourceVersion = lastProxy.getSourceVersion();
 
 		// create increments
-		fillIncrements(proxies);
+		List<ProxyStep> proxiesIncrements = fillIncrements(proxies);
 
 		// assign successors
 		// attach Sourceversions to Map
