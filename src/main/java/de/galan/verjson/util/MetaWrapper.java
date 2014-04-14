@@ -45,6 +45,11 @@ public class MetaWrapper {
 	}
 
 
+	public static String getNamespace(JsonNode node) {
+		return obj(node).get(ID_NAMESPACE).asText();
+	}
+
+
 	public static Long getVersion(JsonNode node) {
 		return obj(node).get(ID_VERSION).asLong();
 	}

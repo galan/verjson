@@ -3,6 +3,7 @@ package de.galan.verjson.core;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -78,16 +79,47 @@ public class Verjson<T> {
 
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
 		T result = null;
+		String jsonNamespace = null;
+		Long jsonVersion = null;
 		try {
 			JsonNode node = mapper.readTree(json);
-			Long sourceVersion = MetaWrapper.getVersion(node);
-			steps.get(sourceVersion).process(node);
+			jsonNamespace = verifyNamespace(node);
+			jsonVersion = verifyVersion(node);
+			steps.get(jsonVersion).process(node);
 			result = mapper.treeToValue(node, valueClass);
 		}
+		catch (VersionNotSupportedException | NamespaceMismatchException ex) {
+			throw ex;
+		}
 		catch (IOException ex) {
-			LOG.warn("TODO", ex); // TODO
+			LOG.error("Processing json failed for {}/{}", jsonNamespace, jsonVersion);
+			LOG.error("Exception", ex);
 		}
 		return result;
+	}
+
+
+	protected Long verifyVersion(JsonNode node) throws VersionNotSupportedException {
+		Long sourceVersion = MetaWrapper.getVersion(node);
+		if (sourceVersion > getHighestTargetVersion()) {
+			throw new VersionNotSupportedException(getHighestTargetVersion(), sourceVersion, getValueClass());
+		}
+		return sourceVersion;
+	}
+
+
+	protected String verifyNamespace(JsonNode node) throws NamespaceMismatchException {
+		// verify namespace
+		String ns = MetaWrapper.getNamespace(node);
+		if (!StringUtils.equals(ns, getNamespace())) {
+			throw new NamespaceMismatchException(getNamespace(), ns);
+		}
+		return ns;
+	}
+
+
+	protected Class<T> getValueClass() {
+		return valueClass;
 	}
 
 
