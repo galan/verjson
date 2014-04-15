@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.DummyTransformation;
+import de.galan.verjson.DummyValidation;
 import de.galan.verjson.OtherStep;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.step.transformation.Transformation;
@@ -19,7 +20,7 @@ import de.galan.verjson.step.validation.Validation;
 
 /**
  * CUT ProxyStepComparator
- *
+ * 
  * @author daniel
  */
 public class ProxyStepComparatorTest extends AbstractTestParent {
@@ -33,7 +34,7 @@ public class ProxyStepComparatorTest extends AbstractTestParent {
 	@Before
 	public void before() {
 		psc = new ProxyStepComparator();
-		validation = new Validation(null);
+		validation = new DummyValidation(null);
 		transformation = new DummyTransformation();
 		other = new OtherStep();
 	}

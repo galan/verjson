@@ -20,7 +20,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	public void incEmpty() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList();
 		List<ProxyStep> results = ss.fillIncrements(proxies);
-		assertIncrements(results);
+		assertIncrements(results, n(1));
 	}
 
 

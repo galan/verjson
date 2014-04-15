@@ -107,8 +107,8 @@ public class PolyTest extends AbstractTestParent {
 		*/
 		String output = mapper.writeValueAsString(e1);
 		LOG.info(output);
-		Example1 read = mapper.readValue(output, Example1.class);
-		LOG.info("" + read);
+		//Example1 read = mapper.readValue(output, Example1.class);
+		//LOG.info("" + read);
 	}
 
 }
