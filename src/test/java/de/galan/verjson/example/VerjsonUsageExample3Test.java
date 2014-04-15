@@ -2,6 +2,7 @@ package de.galan.verjson.example;
 
 import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
+import net.javacrumbs.jsonunit.fluent.JsonFluentAssert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,14 +32,14 @@ public class VerjsonUsageExample3Test extends AbstractTestParent {
 	@Test
 	public void writeExample3() throws Exception {
 		String written = v3.write(Example3.createSampleV3());
-		assertThat(written).isEqualTo(readFile(getClass(), "sample-example03-v3.json"));
+		JsonFluentAssert.assertThatJson(written).isEqualTo(readFile(getClass(), "sample-example03-v3.json"));
 	}
 
 
 	@Test
 	public void writeExample2() throws Exception {
 		String written = v3.write(Example3.createSampleV2());
-		assertThat(written).isEqualTo(readFile(getClass(), "sample-example03-v2.json"));
+		JsonFluentAssert.assertThatJson(written).isEqualTo(readFile(getClass(), "sample-example03-v2.json"));
 	}
 
 
