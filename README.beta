@@ -1,11 +1,15 @@
+What is it
 * Evolvable data structure serializer
 
+Example use-cases
 * long-term storage
 * messaging
 * processing
 
+Features
 * omit versions
-* Gson based
-* Own type adapter
+* -Gson- Jackson based
+* Own type Serializer/Deserializer
+* Support for polymorph types
 
 * Fully tested

@@ -38,7 +38,7 @@ public class Verjson<T> {
 	ObjectMapper mapper;
 
 	/** Highest version available in added transformers, starting with 1. */
-	long largestTargetVersion;
+	long highestSourceVersion;
 
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
@@ -58,11 +58,11 @@ public class Verjson<T> {
 		versions.configure();
 		mapper = new ObjectMapperFactory().create(versions);
 		steps = createStepSequencer().sequence(versions.getSteps());
-		largestTargetVersion = determineLargestSourceVersion();
+		highestSourceVersion = determineHighestSourceVersion();
 	}
 
 
-	protected long determineLargestSourceVersion() {
+	protected long determineHighestSourceVersion() {
 		Long result = 1L;
 		if (steps != null && !steps.isEmpty()) {
 			result = Collections.max(steps.keySet());
@@ -83,7 +83,7 @@ public class Verjson<T> {
 
 	//TODO own exception
 	public String write(T obj) throws JsonProcessingException {
-		MetaWrapper wrapper = new MetaWrapper(getHighestTargetVersion(), getNamespace(), obj);
+		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj);
 		return mapper.writeValueAsString(wrapper);
 	}
 
@@ -113,8 +113,8 @@ public class Verjson<T> {
 
 	protected Long verifyVersion(JsonNode node) throws VersionNotSupportedException {
 		Long sourceVersion = MetaWrapper.getVersion(node);
-		if (sourceVersion > getHighestTargetVersion()) {
-			throw new VersionNotSupportedException(getHighestTargetVersion(), sourceVersion, getValueClass());
+		if (sourceVersion > getHighestSourceVersion()) {
+			throw new VersionNotSupportedException(getHighestSourceVersion(), sourceVersion, getValueClass());
 		}
 		return sourceVersion;
 	}
@@ -135,8 +135,8 @@ public class Verjson<T> {
 	}
 
 
-	protected long getHighestTargetVersion() {
-		return largestTargetVersion;
+	protected long getHighestSourceVersion() {
+		return highestSourceVersion;
 	}
 
 }
