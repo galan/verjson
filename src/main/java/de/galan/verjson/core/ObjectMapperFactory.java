@@ -66,6 +66,7 @@ public class ObjectMapperFactory {
 	}
 
 
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	protected void registerSerializer(ObjectMapper result, SimpleModule module, Versions versions) {
 		// Default serializer
 		module.addSerializer(new DateSerializer());

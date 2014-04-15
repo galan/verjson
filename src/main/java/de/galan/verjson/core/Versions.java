@@ -18,7 +18,7 @@ import de.galan.verjson.step.Step;
 /**
  * Acts as a container for all Steps (transformations and schema validations), does define the optional namespace.
  * Additional type de/serializers can be registered here.
- *
+ * 
  * @author daniel
  */
 public class Versions {
@@ -66,7 +66,6 @@ public class Versions {
 
 	public Versions add(Long sourceVersion, Step step) {
 		if (step != null) {
-			//TODO check currently only Transformation&Schema are supported (due to sorting)
 			getSteps().put(sourceVersion, step);
 		}
 		return this;
