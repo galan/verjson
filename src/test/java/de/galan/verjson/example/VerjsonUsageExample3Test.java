@@ -7,9 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.oldverjson.core.Verjson;
-import de.galan.oldverjson.example.v3.Example3;
-import de.galan.oldverjson.example.v3.Example3Versions;
+import de.galan.verjson.core.Verjson;
+import de.galan.verjson.example.v3.Example3;
+import de.galan.verjson.example.v3.Example3Versions;
 
 
 /**
