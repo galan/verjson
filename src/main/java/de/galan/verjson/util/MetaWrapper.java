@@ -21,6 +21,7 @@ public class MetaWrapper {
 	@JsonProperty(ID_VERSION)
 	private long version;
 	/** Namespace for the data object */
+	//@JsonInclude(Include.NON_NULL)
 	@JsonProperty(ID_NAMESPACE)
 	private String namespace;
 	/** Actual payload */
@@ -46,7 +47,8 @@ public class MetaWrapper {
 
 
 	public static String getNamespace(JsonNode node) {
-		return obj(node).get(ID_NAMESPACE).asText();
+		JsonNode nodeNs = obj(node).get(ID_NAMESPACE);
+		return nodeNs != null ? nodeNs.asText() : null;
 	}
 
 

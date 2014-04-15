@@ -4,17 +4,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-
-import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.DummyTransformation;
-import de.galan.verjson.step.IncrementVersionStep;
-import de.galan.verjson.step.Step;
-import de.galan.verjson.step.transformation.Transformation;
-import de.galan.verjson.step.validation.Validation;
 
 
 /**
@@ -22,22 +14,7 @@ import de.galan.verjson.step.validation.Validation;
  * 
  * @author daniel
  */
-public class StepSequencerIncrementTest extends AbstractTestParent {
-
-	DefaultStepSequencer ss;
-	Validation validate;
-	Transformation transform;
-	IncrementVersionStep increment;
-
-
-	@Before
-	public void before() {
-		ss = new DefaultStepSequencer();
-		validate = new Validation("");
-		transform = new DummyTransformation();
-		increment = new IncrementVersionStep();
-	}
-
+public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 
 	@Test
 	public void incEmpty() throws Exception {
@@ -135,26 +112,6 @@ public class StepSequencerIncrementTest extends AbstractTestParent {
 			assertThat(e.getStep().getClass()).isAssignableFrom(r.getStep().getClass());
 			assertThat(e.getSourceVersion()).isEqualTo(r.getSourceVersion());
 		}
-	}
-
-
-	protected ProxyStep p(int sourceVersion, Step step) {
-		return new ProxyStep(Integer.valueOf(sourceVersion).longValue(), step);
-	}
-
-
-	protected ProxyStep t(int sourceVersion) {
-		return p(sourceVersion, transform);
-	}
-
-
-	protected ProxyStep v(int sourceVersion) {
-		return p(sourceVersion, validate);
-	}
-
-
-	protected ProxyStep i(int sourceVersion) {
-		return p(sourceVersion, increment);
 	}
 
 }

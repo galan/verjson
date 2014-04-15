@@ -28,7 +28,7 @@ public class DefaultStepSequencer implements StepSequencer {
 		// Sort Proxies
 		Collections.sort(proxies, new ProxyStepComparator());
 
-		// create increments
+		// create & fillup increments
 		List<ProxyStep> proxiesIncrements = fillIncrements(proxies);
 
 		// assign successors

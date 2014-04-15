@@ -30,14 +30,14 @@ public class Verjson<T> {
 	String namespace;
 
 	/** Type of the serialized objects */
-	private Class<T> valueClass;
+	Class<T> valueClass;
 
-	private Map<Long, ? extends Step> steps;
+	Map<Long, ? extends Step> steps;
 
-	private ObjectMapper mapper;
+	ObjectMapper mapper;
 
 	/** Highest version available in added transformers, starting with 1. */
-	long largestTargetVersion = 1L;
+	long largestTargetVersion;
 
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
@@ -57,6 +57,16 @@ public class Verjson<T> {
 		versions.configure();
 		mapper = new ObjectMapperFactory().create(versions);
 		steps = createStepSequencer().sequence(versions.getSteps());
+		largestTargetVersion = determineLargestSourceVersion();
+	}
+
+
+	protected long determineLargestSourceVersion() {
+		Long result = 1L;
+		if (steps != null) {
+			//for (ProxyStep steP:Lists.reverse(resul);
+		}
+		return result;
 	}
 
 
