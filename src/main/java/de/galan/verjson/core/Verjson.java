@@ -1,6 +1,7 @@
 package de.galan.verjson.core;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -63,8 +64,8 @@ public class Verjson<T> {
 
 	protected long determineLargestSourceVersion() {
 		Long result = 1L;
-		if (steps != null) {
-			//for (ProxyStep steP:Lists.reverse(resul);
+		if (steps != null && !steps.isEmpty()) {
+			result = Collections.max(steps.keySet());
 		}
 		return result;
 	}
@@ -96,7 +97,8 @@ public class Verjson<T> {
 			jsonNamespace = verifyNamespace(node);
 			jsonVersion = verifyVersion(node);
 			steps.get(jsonVersion).process(node);
-			result = mapper.treeToValue(node, valueClass);
+			JsonNode data = MetaWrapper.getData(node);
+			result = mapper.treeToValue(data, valueClass);
 		}
 		catch (VersionNotSupportedException | NamespaceMismatchException ex) {
 			throw ex;

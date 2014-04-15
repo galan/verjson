@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import de.galan.verjson.step.IncrementVersionStep;
+import de.galan.verjson.step.NoopStep;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.step.validation.Validation;
 
@@ -21,7 +22,7 @@ import de.galan.verjson.step.validation.Validation;
 public class DefaultStepSequencer implements StepSequencer {
 
 	@Override
-	public Map<Long, ? extends Step> sequence(ListMultimap<Long, Step> steps) {
+	public Map<Long, ProxyStep> sequence(ListMultimap<Long, Step> steps) {
 		// Create Proxies
 		List<ProxyStep> proxies = createProxies(steps);
 
@@ -77,8 +78,8 @@ public class DefaultStepSequencer implements StepSequencer {
 
 	protected List<ProxyStep> fillIncrements(List<ProxyStep> proxies) {
 		List<ProxyStep> result = Lists.newArrayList();
+		Long lastSourceVersion = 1L;
 		if (!proxies.isEmpty()) {
-			Long lastSourceVersion = 1L;
 			boolean increment = false;
 			for (ProxyStep proxy: proxies) {
 				while(lastSourceVersion < proxy.getSourceVersion()) {
@@ -93,9 +94,12 @@ public class DefaultStepSequencer implements StepSequencer {
 			}
 			if (increment) {
 				// add increment
-				ProxyStep incProxy = new ProxyStep(lastSourceVersion, new IncrementVersionStep());
-				result.add(incProxy);
+				result.add(new ProxyStep(lastSourceVersion++, new IncrementVersionStep()));
+				result.add(new ProxyStep(lastSourceVersion, new NoopStep()));
 			}
+		}
+		else {
+			result.add(new ProxyStep(lastSourceVersion, new NoopStep()));
 		}
 		return result;
 	}

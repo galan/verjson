@@ -14,6 +14,6 @@ import de.galan.verjson.step.Step;
  */
 public interface StepSequencer {
 
-	public Map<Long, ? extends Step> sequence(ListMultimap<Long, Step> steps);
+	public Map<Long, ProxyStep> sequence(ListMultimap<Long, Step> steps);
 
 }

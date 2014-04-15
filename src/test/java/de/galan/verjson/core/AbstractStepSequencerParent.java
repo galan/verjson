@@ -6,6 +6,7 @@ import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.DummyTransformation;
 import de.galan.verjson.DummyValidation;
 import de.galan.verjson.step.IncrementVersionStep;
+import de.galan.verjson.step.NoopStep;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.step.transformation.Transformation;
 import de.galan.verjson.step.validation.Validation;
@@ -22,6 +23,7 @@ public class AbstractStepSequencerParent extends AbstractTestParent {
 	Validation validate;
 	Transformation transform;
 	IncrementVersionStep increment;
+	NoopStep noop;
 
 
 	@Before
@@ -30,6 +32,7 @@ public class AbstractStepSequencerParent extends AbstractTestParent {
 		validate = new DummyValidation(null);
 		transform = new DummyTransformation();
 		increment = new IncrementVersionStep();
+		noop = new NoopStep();
 	}
 
 
@@ -50,6 +53,11 @@ public class AbstractStepSequencerParent extends AbstractTestParent {
 
 	protected ProxyStep i(int sourceVersion) {
 		return p(sourceVersion, increment);
+	}
+
+
+	protected ProxyStep n(int sourceVersion) {
+		return p(sourceVersion, noop);
 	}
 
 }
