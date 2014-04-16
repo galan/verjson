@@ -98,7 +98,7 @@ public class Verjson<T> {
 			jsonVersion = verifyVersion(node);
 			steps.get(jsonVersion).process(node);
 			JsonNode data = MetaWrapper.getData(node);
-			result = mapper.treeToValue(data, valueClass);
+			result = mapper.treeToValue(data, getValueClass());
 		}
 		catch (VersionNotSupportedException | NamespaceMismatchException ex) {
 			throw ex;
