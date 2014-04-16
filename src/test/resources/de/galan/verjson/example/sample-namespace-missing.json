@@ -1,0 +1,1 @@
+{"$v":1,"$d":{"first":"First","second":222,"third":true,"forth":"2014-02-19T16:29:12Z","fifth":["a","b","c"],"sixth":{"one":11,"two":"Two"},"subA":{"$type":"suba","parent":"Aparent","aaa":"AAA"},"subB":{"$type":"subb","parent":"Bparent","bbb":"BBB"}}}

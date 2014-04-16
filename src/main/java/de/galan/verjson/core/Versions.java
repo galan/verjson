@@ -44,7 +44,7 @@ public class Versions {
 	}
 
 
-	protected void setNamespace(String namespace) {
+	public void setNamespace(String namespace) {
 		this.namespace = namespace;
 	}
 

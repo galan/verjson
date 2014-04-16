@@ -29,11 +29,6 @@ public class MetaWrapper {
 	private Object data;
 
 
-	public MetaWrapper(long version, Object data) {
-		this(version, null, data);
-	}
-
-
 	public MetaWrapper(long version, String namespace, Object data) {
 		this.version = version;
 		this.namespace = namespace;
@@ -48,7 +43,7 @@ public class MetaWrapper {
 
 	public static String getNamespace(JsonNode node) {
 		JsonNode nodeNs = obj(node).get(ID_NAMESPACE);
-		return nodeNs != null ? nodeNs.asText() : null;
+		return (nodeNs != null) ? nodeNs.asText() : null;
 	}
 
 

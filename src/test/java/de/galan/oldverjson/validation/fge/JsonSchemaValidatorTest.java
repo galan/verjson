@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -12,7 +13,6 @@ import com.google.gson.Gson;
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.oldverjson.validation.InvalidJsonException;
 import de.galan.oldverjson.validation.Validator;
-import de.galan.oldverjson.validation.fge.JsonSchemaValidatorFactory;
 import de.galan.verjson.test.TestBean;
 
 
@@ -51,6 +51,7 @@ public class JsonSchemaValidatorTest extends AbstractTestParent {
 	}
 
 
+	@Ignore
 	@Test
 	public void invalidJson() throws Exception {
 		TestBean bean = new TestBean().number(3L);

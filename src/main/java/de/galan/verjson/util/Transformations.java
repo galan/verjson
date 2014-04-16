@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * 
  * @author daniel
  */
-public class Transformations {
+public final class Transformations {
 
 	/** Returns the given node as ObjectNode (cast). */
 	public static ObjectNode obj(JsonNode node) {

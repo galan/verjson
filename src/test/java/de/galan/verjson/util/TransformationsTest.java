@@ -14,7 +14,7 @@ import de.galan.commons.test.AbstractTestParent;
 
 
 /**
- *
+ * 
  * @author daniel
  */
 public class TransformationsTest extends AbstractTestParent {
@@ -111,7 +111,7 @@ public class TransformationsTest extends AbstractTestParent {
 	@Test
 	public void getObjAndRemoveNonHit() throws Exception {
 		ObjectNode f1 = createObj().put("aaa", "xxx").get();
-		ObjectNode f2 = createObj().put("bbb", "yyy").get();
+		ObjectNode f2 = createObj().put("bbb", 2L).get();
 		ObjectNode obj = createObj().put("f1", f1).put("f2", f2).get();
 		assertThat(getObjAndRemove(obj, "f3")).isNull();
 		assertThat(obj.get("f1")).isEqualTo(f1);
@@ -280,6 +280,12 @@ public class TransformationsTest extends AbstractTestParent {
 		rename(obj, "a", "y");
 		assertThat(obj.get("y").asText()).isEqualTo("b");
 		assertThat(obj.size()).isEqualTo(1);
+	}
+
+
+	@Test
+	public void create() {
+		new Transformations(); // code-coverage
 	}
 
 }
