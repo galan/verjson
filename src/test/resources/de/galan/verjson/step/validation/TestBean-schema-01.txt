@@ -3,6 +3,7 @@
 	"$schema":"http://json-schema.org/draft-03/schema",
 	"id":"http://jsonschema.net",
 	"type":"object",
+	"additionalProperties": false,
 	"properties" : {
 		"content" : {
 			"type" : "string",

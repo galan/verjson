@@ -10,10 +10,10 @@ import org.junit.Test;
 import com.google.gson.Gson;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.oldverjson.util.TestBean;
 import de.galan.oldverjson.validation.InvalidJsonException;
 import de.galan.oldverjson.validation.Validator;
 import de.galan.oldverjson.validation.fge.JsonSchemaValidatorFactory;
+import de.galan.verjson.test.TestBean;
 
 
 /**

@@ -9,7 +9,7 @@ import de.galan.commons.test.AbstractTestParent;
 import de.galan.oldverjson.transformation.Versions;
 import de.galan.oldverjson.util.MockValidator;
 import de.galan.oldverjson.util.MockVersion;
-import de.galan.oldverjson.util.TestBean;
+import de.galan.verjson.test.TestBean;
 
 
 /**

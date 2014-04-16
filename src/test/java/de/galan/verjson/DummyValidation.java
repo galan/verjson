@@ -30,7 +30,7 @@ public class DummyValidation extends Validation {
 
 
 	@Override
-	public JsonSchema create(String schemaString, String description) {
+	public JsonSchema create(String schemaString) {
 		return null;
 	}
 

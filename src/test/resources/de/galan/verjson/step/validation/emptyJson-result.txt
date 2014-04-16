@@ -1,0 +1,2 @@
+Could not validate JSON against schema (test):
+- object has missing required properties (["content","number"])

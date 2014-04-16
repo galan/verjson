@@ -7,11 +7,13 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.verjson.test.TestBean;
 
 
 /**
@@ -28,7 +30,28 @@ public class ValidationTest extends AbstractTestParent {
 
 	protected JsonNode readNode(String jsonFilename) throws JsonProcessingException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Include.NON_NULL);
 		return mapper.readTree(readFile(getClass(), jsonFilename));
+	}
+
+
+	protected JsonNode createNode(Object obj) {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setSerializationInclusion(Include.NON_NULL);
+		return mapper.valueToTree(obj);
+	}
+
+
+	@Test
+	public void nullJson() throws Exception {
+		Validation val = create("TestBean-schema-01.txt", "test");
+		try {
+			val.process(null);
+			fail("should be invalid");
+		}
+		catch (InvalidJsonException ex) {
+			assertThat(ex.getMessage()).isEqualTo("Could not validate JSON against schema");
+		}
 	}
 
 
@@ -40,62 +63,30 @@ public class ValidationTest extends AbstractTestParent {
 			fail("should be invalid");
 		}
 		catch (InvalidJsonException ex) {
-			assertThat(ex.getMessage()).isEqualTo(
-				"Could not validate JSON against schema:\n- object has missing required properties ([\"content\",\"number\"])");
+			assertThat(ex.getMessage()).isEqualTo(readFile(getClass(), "emptyJson-result.txt"));
 		}
 	}
-	/*
+
 
 	@Test
-	public void simpleJSsn() throws Exception {
+	public void simpleJson() throws Exception {
 		TestBean bean = new TestBean().content("aaa").number(3L);
-		Validator validator = create("TestBean-schema-01.txt", "test");
-		String json = new Gson().toJson(bean);
-		validator.validate(json);
-	}
-
-
-	@Test
-	public void emptyJson() throws Exception {
-		Validator validator = create("TestBean-schema-01.txt", "test");
-		try {
-			validator.validate(readFile(getClass(), "TestBean-json-empty.txt"));
-			fail("should be invalid");
-		}
-		catch (InvalidJsonException ex) {
-			assertThat(ex.getMessage()).isEqualTo("Could not validate JSON against schema");
-		}
+		Validation val = create("TestBean-schema-01.txt", "test");
+		val.process(createNode(bean));
 	}
 
 
 	@Test
 	public void invalidJson() throws Exception {
-		TestBean bean = new TestBean().number(3L);
-		Validator validator = create("TestBean-schema-01.txt", "test");
-		String json = new Gson().toJson(bean);
+		TestBean bean = new TestBean().number(3L).unrecognized("blarg");
+		Validation val = create("TestBean-schema-01.txt", "test");
 		try {
-			validator.validate(json);
+			val.process(createNode(bean));
 			fail("should be invalid");
 		}
 		catch (InvalidJsonException ex) {
-			assertThat(ex.getMessage()).isEqualTo(readFile(getClass(), "invalidJson.txt"));
+			assertThat(ex.getMessage()).isEqualTo(readFile(getClass(), "invalidJson-result.txt"));
 		}
 	}
-
-
-	@Test
-	public void brokenJson() throws Exception {
-		TestBean bean = new TestBean().number(3L);
-		Validator validator = create("TestBean-schema-01.txt", "test");
-		String json = new Gson().toJson(bean).replace("}", "");
-		try {
-			validator.validate(json);
-			fail("should be invalid");
-		}
-		catch (InvalidJsonException ex) {
-			assertThat(ex.getMessage()).isEqualTo("Could not validate JSON against schema");
-		}
-	}
-	*/
 
 }

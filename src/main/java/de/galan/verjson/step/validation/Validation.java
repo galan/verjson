@@ -1,6 +1,11 @@
 package de.galan.verjson.step.validation;
 
+import static org.apache.commons.lang3.StringUtils.*;
+
 import java.io.IOException;
+import java.util.List;
+
+import org.assertj.core.util.Lists;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
@@ -9,10 +14,7 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.base.StandardSystemProperty;
-import com.google.common.collect.Iterables;
 
 import de.galan.verjson.step.Step;
 
@@ -24,6 +26,9 @@ import de.galan.verjson.step.Step;
  */
 public class Validation implements Step {
 
+	protected final static String LS = StandardSystemProperty.LINE_SEPARATOR.value();
+
+	String description;
 	JsonSchema schema; // thread-safe
 	static JsonSchemaFactory factory; // cached
 
@@ -34,7 +39,18 @@ public class Validation implements Step {
 
 
 	public Validation(String schema, String description) {
-		this.schema = create(schema, description);
+		this.description = description;
+		this.schema = create(schema);
+	}
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+	protected String getDescriptionAppendable() {
+		return isBlank(getDescription()) ? EMPTY : (" (" + getDescription() + ")");
 	}
 
 
@@ -63,45 +79,42 @@ public class Validation implements Step {
 
 
 	public void validate(JsonNode node) {
+		ProcessingReport report = null;
 		try {
-			ProcessingReport report = getSchema().validate(node);
-			if (!report.isSuccess()) {
-				String ls = StandardSystemProperty.LINE_SEPARATOR.value();
-
-				Iterable<String> messages = Iterables.transform(report, new Function<ProcessingMessage, String>() {
-
-					@Override
-					public String apply(ProcessingMessage input) {
-						return (input == null) ? null : input.getMessage();
-					}
-				});
-				String messagesString = Joiner.on(ls + "- ").skipNulls().join(messages);
-
-				StringBuilder builder = new StringBuilder();
-				builder.append("Could not validate JSON against schema:");
-				builder.append(ls);
-				builder.append("- ");
-				builder.append(messagesString);
-				throw new InvalidJsonException(builder.toString());
-			}
+			report = getSchema().validate(node);
 		}
-		catch (ProcessingException ex) {
+		catch (Throwable ex) {
 			throw new InvalidJsonException("Could not validate JSON against schema", ex);
+		}
+		if (!report.isSuccess()) {
+
+			StringBuilder builder = new StringBuilder();
+			builder.append("Could not validate JSON against schema");
+			builder.append(getDescriptionAppendable());
+			builder.append(":");
+			builder.append(LS);
+			List<ProcessingMessage> messages = Lists.newArrayList(report);
+			for (int i = 0; i < messages.size(); i++) {
+				builder.append("- ");
+				builder.append(messages.get(i).getMessage());
+				builder.append(i == (messages.size() - 1) ? EMPTY : LS);
+			}
+			throw new InvalidJsonException(builder.toString());
 		}
 	}
 
 
-	public JsonSchema create(String schemaString, String description) {
+	public JsonSchema create(String schemaString) {
 		JsonSchema jsonSchema = null;
 		try {
 			JsonNode schemaNode = JsonLoader.fromString(schemaString);
 			if (!getJsonSchemaFactory().getSyntaxValidator().schemaIsValid(schemaNode)) {
-				throw new InvalidSchemaException("JSON Schema is invalid (" + description + ")");
+				throw new InvalidSchemaException("JSON Schema is invalid" + getDescriptionAppendable());
 			}
 			jsonSchema = getJsonSchemaFactory().getJsonSchema(schemaNode);
 		}
 		catch (IOException | ProcessingException ex) {
-			throw new InvalidSchemaException("JSON Schema could not be loaded (" + description + ")", ex);
+			throw new InvalidSchemaException("JSON Schema could not be loaded" + getDescriptionAppendable(), ex);
 		}
 		return jsonSchema;
 	}

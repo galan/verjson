@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.oldverjson.core.MetaWrapper;
-import de.galan.oldverjson.util.TestBean;
+import de.galan.verjson.test.TestBean;
 
 
 /**

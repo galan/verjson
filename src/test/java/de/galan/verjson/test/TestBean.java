@@ -1,4 +1,4 @@
-package de.galan.oldverjson.util;
+package de.galan.verjson.test;
 
 import java.util.Objects;
 
@@ -14,6 +14,7 @@ public class TestBean {
 
 	public String content;
 	public Long number;
+	public Object unrecognized;
 
 
 	public TestBean content(String value) {
@@ -24,6 +25,12 @@ public class TestBean {
 
 	public TestBean number(Long value) {
 		number = value;
+		return this;
+	}
+
+
+	public TestBean unrecognized(Object obj) {
+		unrecognized = obj;
 		return this;
 	}
 

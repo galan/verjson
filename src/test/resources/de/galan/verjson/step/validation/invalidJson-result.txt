@@ -1,0 +1,3 @@
+Could not validate JSON against schema (test):
+- object instance has properties which are not allowed by the schema: ["unrecognized"]
+- object has missing required properties (["content"])
