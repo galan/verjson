@@ -20,7 +20,7 @@ import de.galan.verjson.step.Step;
 
 
 /**
- * daniel should have written a comment here.
+ * Creates a JSON Schema Validator to check json against it, using https://github.com/fge/json-schema-validator
  * 
  * @author daniel
  */
@@ -84,7 +84,7 @@ public class Validation implements Step {
 			report = getSchema().validate(node);
 		}
 		catch (Throwable ex) {
-			throw new InvalidJsonException("Could not validate JSON against schema", ex);
+			throw new InvalidJsonException("Could not validate JSON against schema" + getDescriptionAppendable(), ex);
 		}
 		if (!report.isSuccess()) {
 
@@ -113,7 +113,7 @@ public class Validation implements Step {
 			}
 			jsonSchema = getJsonSchemaFactory().getJsonSchema(schemaNode);
 		}
-		catch (IOException | ProcessingException ex) {
+		catch (NullPointerException | IOException | ProcessingException ex) {
 			throw new InvalidSchemaException("JSON Schema could not be loaded" + getDescriptionAppendable(), ex);
 		}
 		return jsonSchema;

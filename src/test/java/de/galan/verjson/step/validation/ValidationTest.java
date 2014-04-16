@@ -1,6 +1,7 @@
 package de.galan.verjson.step.validation;
 
 import static de.galan.commons.test.Tests.*;
+import static org.apache.commons.lang3.StringUtils.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.io.IOException;
@@ -17,14 +18,15 @@ import de.galan.verjson.test.TestBean;
 
 
 /**
- * daniel should have written a comment here.
+ * CUT Validation
  * 
  * @author daniel
  */
 public class ValidationTest extends AbstractTestParent {
 
 	public Validation create(String schemaFile, String description) throws IOException {
-		return new Validation(readFile(getClass(), schemaFile), description);
+		String schema = readFile(getClass(), schemaFile);
+		return isNotEmpty(description) ? new Validation(schema, description) : new Validation(schema);
 	}
 
 
@@ -50,14 +52,14 @@ public class ValidationTest extends AbstractTestParent {
 			fail("should be invalid");
 		}
 		catch (InvalidJsonException ex) {
-			assertThat(ex.getMessage()).isEqualTo("Could not validate JSON against schema");
+			assertThat(ex.getMessage()).isEqualTo("Could not validate JSON against schema (test)");
 		}
 	}
 
 
 	@Test
 	public void emptyJson() throws Exception {
-		Validation val = create("TestBean-schema-01.txt", "test");
+		Validation val = create("TestBean-schema-01.txt", null);
 		try {
 			val.process(readNode("TestBean-json-empty.txt"));
 			fail("should be invalid");
@@ -86,6 +88,42 @@ public class ValidationTest extends AbstractTestParent {
 		}
 		catch (InvalidJsonException ex) {
 			assertThat(ex.getMessage()).isEqualTo(readFile(getClass(), "invalidJson-result.txt"));
+		}
+	}
+
+
+	@Test
+	public void emptySchema() throws Exception {
+		try {
+			new Validation("", "empty");
+			fail("schema should not be loaded");
+		}
+		catch (InvalidSchemaException ex) {
+			assertThat(ex.getMessage()).isEqualTo("JSON Schema could not be loaded (empty)");
+		}
+	}
+
+
+	@Test
+	public void nullSchema() throws Exception {
+		try {
+			new Validation(null, "null");
+			fail("schema should not be loaded");
+		}
+		catch (InvalidSchemaException ex) {
+			assertThat(ex.getMessage()).isEqualTo("JSON Schema could not be loaded (null)");
+		}
+	}
+
+
+	@Test
+	public void invalidSchema() throws Exception {
+		try {
+			create("TestBean-schema-invalid.txt", null);
+			fail("schema should not be loaded");
+		}
+		catch (InvalidSchemaException ex) {
+			assertThat(ex.getMessage()).isEqualTo("JSON Schema is invalid");
 		}
 	}
 

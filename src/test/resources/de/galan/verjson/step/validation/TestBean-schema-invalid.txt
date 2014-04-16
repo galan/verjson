@@ -1,0 +1,16 @@
+{
+	"title":"TestBean schema",
+	"$schema":"http://json-schema.org/draft-03/schema",
+	"id":"http://jsonschema.net",
+	"type":"object",
+	"properties" : {
+		"content" : {
+			"type" : "stringgg",
+			"required":true
+		},
+		"number" : {
+			"type" : "integer",
+			"required":true
+		}
+	}
+}
