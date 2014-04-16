@@ -23,27 +23,29 @@ public class VerjsonUsageNamespaceTest extends AbstractTestParent {
 
 	private final static String NS_DEFINED = "nejmzpahjz";
 
-	private Verjson<Example1> verjson;
+	private Verjson<Example1> verjsonNs;
+	private Verjson<Example1> verjsonNoNs;
 
 
 	@Before
 	public void before() {
 		Example1Versions versions = new Example1Versions();
 		versions.setNamespace(NS_DEFINED);
-		verjson = Verjson.create(Example1.class, versions);
+		verjsonNs = Verjson.create(Example1.class, versions);
+		verjsonNoNs = Verjson.create(Example1.class, new Example1Versions());
 	}
 
 
 	@Test
 	public void writeNamespace() throws Exception {
-		String written = verjson.write(Example1.createSample());
+		String written = verjsonNs.write(Example1.createSample());
 		JsonFluentAssert.assertThatJson(written).isEqualTo(readFile(getClass(), "sample-namespace.json"));
 	}
 
 
 	@Test
 	public void readNamespace() throws Exception {
-		Example1 read = verjson.read(readFile(getClass(), "sample-namespace.json"));
+		Example1 read = verjsonNs.read(readFile(getClass(), "sample-namespace.json"));
 		assertThat(read).isEqualTo(Example1.createSample());
 	}
 
@@ -51,7 +53,7 @@ public class VerjsonUsageNamespaceTest extends AbstractTestParent {
 	@Test
 	public void readMissingNamespace() throws Exception {
 		try {
-			verjson.read(readFile(getClass(), "sample-namespace-missing.json"));
+			verjsonNs.read(readFile(getClass(), "sample-namespace-missing.json"));
 		}
 		catch (NamespaceMismatchException ex) {
 			assertThat(ex.getNamespaceDefined()).isEqualTo(NS_DEFINED);
@@ -64,12 +66,25 @@ public class VerjsonUsageNamespaceTest extends AbstractTestParent {
 	@Test
 	public void readDifferentNamespace() throws Exception {
 		try {
-			verjson.read(readFile(getClass(), "sample-namespace-different.json"));
+			verjsonNs.read(readFile(getClass(), "sample-namespace-different.json"));
 		}
 		catch (NamespaceMismatchException ex) {
 			assertThat(ex.getNamespaceDefined()).isEqualTo(NS_DEFINED);
 			assertThat(ex.getNamespaceGiven()).isEqualTo("diff");
 			assertThat(ex.getMessage()).isEqualTo("Verjson only supports namespace 'nejmzpahjz', element has namespace 'diff'");
+		}
+	}
+
+
+	@Test
+	public void readNoNamespace() throws Exception {
+		try {
+			verjsonNoNs.read(readFile(getClass(), "sample-namespace.json"));
+		}
+		catch (NamespaceMismatchException ex) {
+			assertThat(ex.getNamespaceDefined()).isNull();
+			assertThat(ex.getNamespaceGiven()).isEqualTo(NS_DEFINED);
+			assertThat(ex.getMessage()).isEqualTo("Verjson only supports empty namespace, element has namespace 'nejmzpahjz'");
 		}
 	}
 
