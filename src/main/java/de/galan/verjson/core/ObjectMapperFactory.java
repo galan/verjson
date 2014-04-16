@@ -22,11 +22,13 @@ import javassist.bytecode.annotation.StringMemberValue;
 import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
@@ -52,6 +54,7 @@ public class ObjectMapperFactory {
 
 	public ObjectMapper create(Versions versions) {
 		ObjectMapper result = new ObjectMapper();
+		result.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
 		result.setSerializationInclusion(Include.NON_NULL);
 		SimpleModule module = new SimpleModule("VerjsonModule");
 		registerSerializer(result, module, versions);
