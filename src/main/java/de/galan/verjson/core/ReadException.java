@@ -11,4 +11,9 @@ public abstract class ReadException extends Exception {
 		super(message);
 	}
 
+
+	public ReadException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
 }

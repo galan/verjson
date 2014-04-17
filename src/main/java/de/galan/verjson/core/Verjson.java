@@ -3,6 +3,7 @@ package de.galan.verjson.core;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -63,11 +64,10 @@ public class Verjson<T> {
 
 
 	protected long determineHighestSourceVersion() {
-		Long result = 1L;
-		if (steps != null && !steps.isEmpty()) {
-			result = Collections.max(steps.keySet());
-		}
-		return result;
+		Preconditions.checkNotNull(steps, "Steps can not be null, at least one NoopStep has to exist");
+		Set<Long> keys = steps.keySet();
+		Preconditions.checkElementIndex(0, keys.toArray().length, "Steps can not be empty, at least one NoopStep has to exist");
+		return Collections.max(keys);
 	}
 
 
@@ -88,7 +88,7 @@ public class Verjson<T> {
 	}
 
 
-	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException {
+	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException, IOReadException {
 		T result = null;
 		String jsonNamespace = null;
 		Long jsonVersion = null;
@@ -104,8 +104,7 @@ public class Verjson<T> {
 			throw ex;
 		}
 		catch (IOException ex) {
-			LOG.error("Processing json failed for {}/{}", jsonNamespace, jsonVersion);
-			LOG.error("Exception", ex);
+			throw new IOReadException("Processing json failed for {" + jsonNamespace + "}/{" + jsonVersion + "}", ex);
 		}
 		return result;
 	}
