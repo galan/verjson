@@ -90,12 +90,10 @@ public class Verjson<T> {
 
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException, IOReadException {
 		T result = null;
-		String jsonNamespace = null;
-		Long jsonVersion = null;
 		try {
 			JsonNode node = mapper.readTree(json);
-			jsonNamespace = verifyNamespace(node);
-			jsonVersion = verifyVersion(node);
+			verifyNamespace(node);
+			Long jsonVersion = verifyVersion(node);
 			steps.get(jsonVersion).process(node);
 			JsonNode data = MetaWrapper.getData(node);
 			result = mapper.treeToValue(data, getValueClass());
@@ -104,7 +102,7 @@ public class Verjson<T> {
 			throw ex;
 		}
 		catch (IOException ex) {
-			throw new IOReadException("Processing json failed for {" + jsonNamespace + "}/{" + jsonVersion + "}", ex);
+			throw new IOReadException("Reading json failed: " + ex.getMessage(), ex);
 		}
 		return result;
 	}

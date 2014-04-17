@@ -7,11 +7,6 @@ package de.galan.verjson.core;
  */
 public class IOReadException extends ReadException {
 
-	public IOReadException(String message) {
-		super(message);
-	}
-
-
 	public IOReadException(String message, Throwable cause) {
 		super(message, cause);
 	}
