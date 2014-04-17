@@ -38,8 +38,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import de.galan.commons.logging.Logr;
 import de.galan.commons.util.Pair;
-import de.galan.verjson.adapter.DateDeserializer;
-import de.galan.verjson.adapter.DateSerializer;
+import de.galan.verjson.serializer.DateDeserializer;
+import de.galan.verjson.serializer.DateSerializer;
 
 
 /**

@@ -1,4 +1,4 @@
-package de.galan.verjson.adapter;
+package de.galan.verjson.serializer;
 
 import static de.galan.commons.time.DateDsl.*;
 
