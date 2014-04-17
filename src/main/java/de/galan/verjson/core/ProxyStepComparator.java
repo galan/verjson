@@ -4,7 +4,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.assertj.core.util.Lists;
+
+import com.google.common.collect.Lists;
 
 import de.galan.verjson.step.Step;
 import de.galan.verjson.step.transformation.Transformation;
@@ -13,7 +14,7 @@ import de.galan.verjson.step.validation.Validation;
 
 /**
  * daniel should have written a comment here.
- *
+ * 
  * @author daniel
  */
 public class ProxyStepComparator implements Comparator<ProxyStep> {
