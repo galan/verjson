@@ -13,8 +13,9 @@ import de.galan.verjson.step.validation.Validation;
 
 
 /**
- * daniel should have written a comment here.
- * 
+ * Sorts {@link ProxyStep}s, small sourceVersions before larger. Order inside a sourceVersion: Validation,
+ * Transformation, other.
+ *
  * @author daniel
  */
 public class ProxyStepComparator implements Comparator<ProxyStep> {

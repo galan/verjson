@@ -10,8 +10,8 @@ import de.galan.verjson.step.Step;
 
 
 /**
- * daniel should have written a comment here.
- * 
+ * Wraps a {@link Step}, adds the assigned source-version and successor.
+ *
  * @author daniel
  */
 public class ProxyStep implements Step {

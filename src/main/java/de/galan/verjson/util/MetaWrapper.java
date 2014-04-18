@@ -7,8 +7,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 
 /**
- * Nests the object to be serialized, adding meta information such as the current version number and namespace.
- * 
+ * Nests the object to be serialized, adding meta information such as the current version number and namespace. Also
+ * provides static accessor to these nodes.
+ *
  * @author daniel
  */
 public class MetaWrapper {
@@ -20,10 +21,11 @@ public class MetaWrapper {
 	/** Incremental version */
 	@JsonProperty(ID_VERSION)
 	private long version;
+
 	/** Namespace for the data object */
-	//@JsonInclude(Include.NON_NULL)
 	@JsonProperty(ID_NAMESPACE)
 	private String namespace;
+
 	/** Actual payload */
 	@JsonProperty(ID_DATA)
 	private Object data;
