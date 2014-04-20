@@ -6,8 +6,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 
 /**
- * Json Helper
- * 
+ * Json Helper, difference to Jackson provided builder - put returns builder itself, thus can get() finally an
+ * ObjectNode instead of a JsonNode.
+ *
  * @author daniel
  */
 public class ObjectNodeBuilder {

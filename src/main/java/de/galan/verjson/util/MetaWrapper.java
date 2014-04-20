@@ -38,22 +38,26 @@ public class MetaWrapper {
 	}
 
 
+	/** Returns the data node from a wrapped JsonNode */
 	public static JsonNode getData(JsonNode node) {
 		return getObj(obj(node), MetaWrapper.ID_DATA);
 	}
 
 
+	/** Returns the namespace node from a wrapped JsonNode */
 	public static String getNamespace(JsonNode node) {
 		JsonNode nodeNs = obj(node).get(ID_NAMESPACE);
 		return (nodeNs != null) ? nodeNs.asText() : null;
 	}
 
 
+	/** Returns the source version node from a wrapped JsonNode */
 	public static Long getVersion(JsonNode node) {
 		return obj(node).get(ID_VERSION).asLong();
 	}
 
 
+	/** Sets the version on a wrapped JsonNode */
 	public static void setVersion(JsonNode node, Long version) {
 		obj(node).put(ID_VERSION, version);
 	}
