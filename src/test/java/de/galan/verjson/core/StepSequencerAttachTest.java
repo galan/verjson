@@ -15,7 +15,7 @@ import de.galan.verjson.step.validation.Validation;
 
 
 /**
- * daniel should have written a comment here.
+ * CUT StepSequencer attachVersions()
  * 
  * @author daniel
  */

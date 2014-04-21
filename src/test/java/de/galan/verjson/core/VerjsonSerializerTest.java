@@ -22,7 +22,7 @@ import de.galan.verjson.test.TestBean;
 
 
 /**
- * daniel should have written a comment here.
+ * CUT Verjson - plugging external serializer/deserializer into Verjson
  * 
  * @author daniel
  */

@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 
 
 /**
- * daniel should have written a comment here.
+ * CUT StepSequencer fillIncrements()
  * 
  * @author daniel
  */

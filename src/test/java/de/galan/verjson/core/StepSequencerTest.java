@@ -14,7 +14,7 @@ import de.galan.verjson.step.Step;
 
 
 /**
- * daniel should have written a comment here.
+ * CUT StepSequencer
  * 
  * @author daniel
  */
