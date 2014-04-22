@@ -15,7 +15,7 @@ import de.galan.verjson.step.validation.Validation;
 
 
 /**
- * daniel should have written a comment here.
+ * StepSequencer used to arrange the Steps
  * 
  * @author daniel
  */

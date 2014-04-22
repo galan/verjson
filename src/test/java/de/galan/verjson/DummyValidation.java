@@ -7,7 +7,7 @@ import de.galan.verjson.step.validation.Validation;
 
 
 /**
- * daniel should have written a comment here.
+ * Dummy Validation for use in testcases
  * 
  * @author daniel
  */

@@ -15,7 +15,7 @@ import de.galan.verjson.example.v1.Example1Versions;
 
 
 /**
- * daniel should have written a comment here.
+ * Test namespace variations
  * 
  * @author daniel
  */

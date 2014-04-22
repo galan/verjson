@@ -14,7 +14,7 @@ import de.galan.verjson.example.v3.Example3Versions;
 
 
 /**
- * daniel should have written a comment here.
+ * Write Version 3, Read Version 1-3 Example
  * 
  * @author daniel
  */

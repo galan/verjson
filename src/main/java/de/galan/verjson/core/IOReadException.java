@@ -1,7 +1,7 @@
 package de.galan.verjson.core;
 
 /**
- * daniel should have written a comment here.
+ * Failed reading json-input
  * 
  * @author daniel
  */

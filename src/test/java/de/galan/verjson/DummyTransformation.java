@@ -6,7 +6,7 @@ import de.galan.verjson.step.transformation.Transformation;
 
 
 /**
- * daniel should have written a comment here.
+ * Dummy Transformation for use in testcases
  * 
  * @author daniel
  */

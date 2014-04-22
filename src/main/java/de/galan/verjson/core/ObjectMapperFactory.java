@@ -43,7 +43,8 @@ import de.galan.verjson.serializer.DateSerializer;
 
 
 /**
- * daniel should have written a comment here.
+ * Construction of the Jackson ObjectMapper. Configuring Fieldintrospection, Serializer/Deserializer, Polymorph class
+ * registration.
  * 
  * @author daniel
  */

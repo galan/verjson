@@ -18,7 +18,7 @@ import de.galan.verjson.test.TestBean;
 
 
 /**
- * daniel should have written a comment here.
+ * Test handling of unsupported versions
  * 
  * @author daniel
  */

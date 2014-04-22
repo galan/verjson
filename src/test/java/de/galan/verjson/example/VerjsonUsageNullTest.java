@@ -16,7 +16,7 @@ import de.galan.verjson.example.v3.Example3Versions;
 
 
 /**
- * daniel should have written a comment here.
+ * Test handling of null inputs
  * 
  * @author daniel
  */
