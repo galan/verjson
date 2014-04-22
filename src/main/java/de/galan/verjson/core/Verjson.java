@@ -82,6 +82,7 @@ public class Verjson<T> {
 
 
 	//TODO own exception
+	//TODO check only Validation and Transformation (for now)
 	public String write(T obj) throws JsonProcessingException {
 		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj);
 		return mapper.writeValueAsString(wrapper);
