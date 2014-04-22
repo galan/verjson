@@ -12,7 +12,8 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 
 /**
- *
+ * Deserializes java.util.Date from String ISO (yyyy-MM-dd'T'HH:mm:ss'Z') back to Date.
+ * 
  * @author daniel
  */
 public class DateDeserializer extends JsonDeserializer<Date> {

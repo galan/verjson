@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 
 /**
- * daniel should have written a comment here.
+ * Serializes java.util.Date to String ISO (yyyy-MM-dd'T'HH:mm:ss'Z').
  * 
  * @author daniel
  */

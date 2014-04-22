@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 
 /**
- * daniel should have written a comment here.
+ * Step that does nothing.
  * 
  * @author daniel
  */

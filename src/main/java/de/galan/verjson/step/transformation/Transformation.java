@@ -7,8 +7,9 @@ import de.galan.verjson.util.MetaWrapper;
 
 
 /**
- * daniel should have written a comment here.
- *
+ * Transforms a serialized object from one version to the next, using the underlying json representation. Static helper
+ * methods are available in the Transformations class.
+ * 
  * @author daniel
  */
 public abstract class Transformation implements Step {
@@ -19,6 +20,7 @@ public abstract class Transformation implements Step {
 	}
 
 
+	/** Transformation instructions to migrate to the next version */
 	protected abstract void transform(JsonNode node);
 
 }
