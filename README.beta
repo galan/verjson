@@ -3,13 +3,13 @@ What is it
 
 Example use-cases
 * long-term storage
-* messaging
+* messaging (in-flight)
 * processing
 
 Features
 * omit versions
-* -Gson- Jackson based
-* Own type Serializer/Deserializer
+* Jackson based
+* Support for type Serializer/Deserializer
 * Support for polymorph types
 
 * Fully tested
