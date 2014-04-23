@@ -11,7 +11,7 @@ import de.galan.verjson.step.Step;
 
 /**
  * Wraps a {@link Step}, adds the assigned source-version and successor.
- *
+ * 
  * @author daniel
  */
 public class ProxyStep implements Step {
@@ -33,7 +33,7 @@ public class ProxyStep implements Step {
 
 	@Override
 	public void process(JsonNode node) {
-		LOG.info("Processing {}/{}", getSourceVersion(), getStep().getClass()); // TODO Idea - name annotation for steps for better debugging
+		LOG.info("Processing {}/{}", getSourceVersion(), getStep().getClass().getSimpleName()); // TODO Idea - name annotation for steps for better debugging
 		getStep().process(node);
 		if (successor != null) {
 			successor.process(node);
