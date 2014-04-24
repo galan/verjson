@@ -14,8 +14,8 @@
 	</parent>
 
 	<scm>
-		<developerConnection>scm:git:ssh://git@github.com/d8bitr/verjson.git</developerConnection>
-		<url>https://github.com/d8bitr/verjson</url>
+		<developerConnection>scm:git:ssh://git@github.com/galan/verjson.git</developerConnection>
+		<url>https://github.com/galan/verjson</url>
 	</scm>
 
 	<dependencies>
