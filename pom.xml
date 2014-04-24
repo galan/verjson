@@ -5,12 +5,12 @@
 	<artifactId>verjson</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<name>Verjson</name>
-	<description>Versionized transformable objectgraphs</description>
+	<description>Versionized transformable/evolvable objectgraphs</description>
 
 	<parent>
 		<groupId>de.galan</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.1</version>
+		<version>0.2</version>
 	</parent>
 
 	<scm>
@@ -22,7 +22,12 @@
 		<dependency>
 			<groupId>de.galan</groupId>
 			<artifactId>commons</artifactId>
-			<version>0.3-SNAPSHOT</version>
+			<version>0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 
 		<dependency>
@@ -75,12 +80,6 @@
 					<groupId>org.slf4j</groupId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-
-		<!-- To be removed -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
 		</dependency>
 
 	</dependencies>

@@ -13,3 +13,9 @@ Features
 * Support for polymorph types
 
 * Fully tested
+
+
+= Abstract
+With Verjson you can process object-graphs that change their structure over time.
+
+

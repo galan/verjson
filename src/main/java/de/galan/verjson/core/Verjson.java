@@ -6,27 +6,24 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 
-import de.galan.commons.logging.Logr;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.util.MetaWrapper;
 
 
 /**
+ * Versionized transformable/evolvable objectgraphs<br/>
  * TODO documentation
  * 
  * @author daniel
- * @param <T> ...
+ * @param <T> Type of Objects to be transformed
  */
 public class Verjson<T> {
-
-	private static final Logger LOG = Logr.get();
 
 	/** Optional user-defined namespace to distinguish between different types */
 	String namespace;
