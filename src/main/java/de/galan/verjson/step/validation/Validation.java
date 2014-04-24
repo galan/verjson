@@ -5,8 +5,6 @@ import static org.apache.commons.lang3.StringUtils.*;
 import java.io.IOException;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -15,6 +13,7 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.google.common.base.StandardSystemProperty;
+import com.google.common.collect.Lists;
 
 import de.galan.verjson.step.Step;
 
