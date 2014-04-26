@@ -20,3 +20,10 @@ With Verjson you can process object-graphs that change their structure over time
 
 Verjson is a specialized serialization library for object-graphs that can evolve. This is done by writing transformations from version to version. Each version can contain as much changes as you have to perform. Structure of the versions can be ensured by applying a json-schma.
 
+
+
+ALL
+LAST
+FIRST_AND_LAST
+NONE
+DEFINED (default)
