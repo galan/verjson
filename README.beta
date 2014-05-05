@@ -24,9 +24,7 @@ Of course you can shutdown your system and deploy the next version of your softw
 = Solution:
 With Verjson each serialized object-graph includes its version-number along other meta-data. Verjson utilizes Jackson to generate JSON as intermediate-format. When the structure of the object-graph changes, a simple `Transformation` class has to be implemented that performs the steps to transform from one version to another. The transformation is applied directly on the serialized JSON, which has some benefits such as performance, memory-footprint, avoid code-redundancy, etc.. To ensure correctness the transformed output can be validated against an optional JSON-Schema.
 
-Let's take a look on an example to illustrate the process:
-
-== Simple example
+Let's take a short look on an example to illustrate the process.
 
 We have a simple bean that should be serialized:
 ```java
@@ -37,12 +35,12 @@ public class ExampleBean {
 }
 ```
 
-We create a Verjson instance that contains the configuration and manages the serialization:
+First we create a Verjson instance that contains the configuration and manages the serialization. In this case there is no configuration, since this is the first version which requires no transformations (validation is optional, see other examples):
 ```java
 Verjson<ExampleBean> verjson = Verjson.create(ExampleBean.class, null);
 ```
 
-Now we can serialize/deserialize as many ExampleBean objects as we want:
+Now we can serialize/deserialize ExampleBean objects:
 ```java
 ExampleBean bean1 = new ExampleBean();
 bean1.text = "Hello";
@@ -52,7 +50,16 @@ String serializedBean1 = verjson.write(bean1);
 ExampleBean deserializedBean1 = verjson.read(serializedBean1);
 ```
 
+The requirements change and we to have a list instead of a single String field. We don't want to loose data and have the content of the "text" field as first element. Furthermore the name of the "number" field should be changed to "counter". We change the ExampleBean (there is no requirement to keep the old version copied to somewhere), it looks now like this:
+```java
+public class ExampleBean {
+	List<String> texts;
+	Long counter;
+}
+```
 
+In order to transform old data we have to write a `Transformation`class:
+```java
 
 
 
