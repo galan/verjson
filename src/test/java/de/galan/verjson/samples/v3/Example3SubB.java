@@ -1,4 +1,4 @@
-package de.galan.verjson.example.v3;
+package de.galan.verjson.samples.v3;
 
 /**
  * Sample implementation for subtype

@@ -1,4 +1,4 @@
-package de.galan.verjson.example.v1;
+package de.galan.verjson.samples.v1;
 
 import de.galan.verjson.core.Versions;
 

@@ -1,4 +1,4 @@
-package de.galan.verjson.example;
+package de.galan.verjson.samples;
 
 import static de.galan.commons.test.Tests.*;
 import static org.assertj.core.api.Assertions.*;
@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.core.Verjson;
-import de.galan.verjson.example.v2.Example2;
-import de.galan.verjson.example.v2.Example2Versions;
+import de.galan.verjson.samples.v2.Example2;
+import de.galan.verjson.samples.v2.Example2Versions;
 
 
 /**

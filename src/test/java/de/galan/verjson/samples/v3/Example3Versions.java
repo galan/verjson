@@ -1,7 +1,7 @@
-package de.galan.verjson.example.v3;
+package de.galan.verjson.samples.v3;
 
 import de.galan.verjson.core.Versions;
-import de.galan.verjson.example.v2.Example2Transformation;
+import de.galan.verjson.samples.v2.Example2Transformation;
 
 
 /**

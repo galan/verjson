@@ -1,14 +1,15 @@
-package de.galan.verjson.example.v3;
+package de.galan.verjson.samples.v2;
 
 /**
- * Element inside Example3
+ * Element inside Example2
  * 
  * @author daniel
  */
-public class Example3Element {
+public class Example2Element {
 
-	public Long uno;
-	public String three;
+	public Long uno; // renamed
+	//public String two; // deleted
+	public String three; // new
 
 
 	@Override
@@ -32,7 +33,7 @@ public class Example3Element {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Example3Element other = (Example3Element)obj;
+		Example2Element other = (Example2Element)obj;
 		if (three == null) {
 			if (other.three != null) {
 				return false;

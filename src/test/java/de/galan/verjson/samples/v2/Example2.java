@@ -1,4 +1,4 @@
-package de.galan.verjson.example.v2;
+package de.galan.verjson.samples.v2;
 
 import static de.galan.commons.time.DateDsl.*;
 

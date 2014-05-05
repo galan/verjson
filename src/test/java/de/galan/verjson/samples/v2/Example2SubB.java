@@ -1,20 +1,20 @@
-package de.galan.verjson.example.v2;
+package de.galan.verjson.samples.v2;
 
 /**
- * Base class for subtypes
+ * Sample implementation for subtype
  * 
  * @author daniel
  */
-public abstract class Example2Sub {
+public class Example2SubB extends Example2Sub {
 
-	public String parent;
+	public String ccc; // renamed bbb
 
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+		result = prime * result + ((ccc == null) ? 0 : ccc.hashCode());
 		return result;
 	}
 
@@ -30,13 +30,13 @@ public abstract class Example2Sub {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Example2Sub other = (Example2Sub)obj;
-		if (parent == null) {
-			if (other.parent != null) {
+		Example2SubB other = (Example2SubB)obj;
+		if (ccc == null) {
+			if (other.ccc != null) {
 				return false;
 			}
 		}
-		else if (!parent.equals(other.parent)) {
+		else if (!ccc.equals(other.ccc)) {
 			return false;
 		}
 		return true;

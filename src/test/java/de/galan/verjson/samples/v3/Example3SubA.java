@@ -1,11 +1,11 @@
-package de.galan.verjson.example.v1;
+package de.galan.verjson.samples.v3;
 
 /**
  * Sample implementation for subtype
  * 
  * @author daniel
  */
-public class Example1SubA extends Example1Sub {
+public class Example3SubA extends Example3Sub {
 
 	public String aaa;
 
@@ -13,7 +13,7 @@ public class Example1SubA extends Example1Sub {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((aaa == null) ? 0 : aaa.hashCode());
 		return result;
 	}
@@ -24,13 +24,13 @@ public class Example1SubA extends Example1Sub {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
+		if (!super.equals(obj)) {
 			return false;
 		}
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Example1SubA other = (Example1SubA)obj;
+		Example3SubA other = (Example3SubA)obj;
 		if (aaa == null) {
 			if (other.aaa != null) {
 				return false;
