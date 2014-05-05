@@ -1,24 +1,5 @@
 What is it
-* Evolvable data structure serializer
-
-Example use-cases
-* long-term storage
-* messaging (in-flight)
-* processing
-
-Features
-* omit versions
-* Jackson based
-* Support for custom-type Serializer/Deserializer
-* Support for polymorph types
-
-* Fully tested
-
-
-= Abstract
-With Verjson you can process object-graphs that change their structure over time.
-
-Verjson is a specialized serialization library for object-graphs that can evolve. This is done by writing transformations from version to version. Each version can contain as much changes as you have to perform. Structure of the versions can be ensured by applying a json-schma.
+* Evolvable Java data-structure serializer/deserialier
 
 
 
@@ -32,16 +13,21 @@ DEFINED (default)
 
 
 Verjson
-In one sentence: Verjson is a Java/JSON serialization-library that allows evolvable data-structures on already serialized object-graphs by using transformation and validation steps between versions.
+In one sentence: Verjson is a specialized Java/JSON serialization-library that allows evolvable data-structures on already serialized object-graphs by using transformation and validation steps between versions.
 
 LOGO
 
-Problem Verjson is trying to solve: 
+Problem Verjson is solving: 
 When you have to send an object-graph from one process to another, you have to serialize the data into an exchange-format that can be read by the receiver. There are plenty of possiblities in the Java space to perform such a task, eg. native Java serialization, XML (XStream, ..) , JSON (Gson, Jackson, ..), SOAP, and more (Avro, Proto, ..). These solutions work great if the object-graph does not change. Some libraries offer version-support such as adding fields - but not removing, TODO.
 But what if complex real-world changes happen, and you want to keep your object-model code clean? If you want to remove fields, rename fields, create a Collection from a previously comma-seperated String, change a field to a custom type, or other changes?
-Of course you can shutdown your system and deploy the next version of your software/models. But what about the in-flight messages that still are in queues or stored in the old format - and can therefor not be processed (might throw exceptions when trying).
+Of course you can shutdown your system and deploy the next version of your software/models. But what about the in-flight messages that still are in queues or stored in the old format - and can therefor not be processed (might throw exceptions when trying)?
 
 Solution:
+
+Each serialized object 
+When an object is serialized, the version is added as meta-data (along with an optional namespace)
+
+Verjson wraps serialized objects with meta-data
 
 
 Possible use-cases:
@@ -50,4 +36,13 @@ Possible use-cases:
 - producer/consumer scenarios
 - data-processing in general
 - ... (tell me)
+
+Features
+- Serializes/Deserializes into JSON (Jackson based)
+- Type-safe
+- Support for polymorph types
+- Support for custom-type Serializer/Deserializer
+- Each version can be validated using JSON-Schema
+- Versions can be omitted
+- One line per serialized object (appendable)
 
