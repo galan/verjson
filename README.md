@@ -12,7 +12,7 @@ Of course you can simply deploy the next version of your software/models. But wh
 # Solution
 With Verjson each serialized object-graph includes its version-number along other meta-data. Verjson utilizes Jackson to generate JSON as intermediate-format. When the structure of the object-graph changes, a simple `Transformation` class has to be implemented that performs the steps to transform from one version to another. The transformation is applied directly on the serialized JSON, which has some benefits such as performance, memory-footprint, avoid code-redundancy, etc.. To ensure correctness the transformed output can be optional validated against an JSON-Schema.
 
-Let's take a quick look on a short example to illustrate the process (source-code).
+Let's take a quick look on a short example to illustrate the process ([source-code](https://github.com/galan/verjson/blob/master/src/test/java/de/galan/verjson/examples/simple/ExampleBeanTest.java)).
 
 We have a simple bean that should be serialized:
 ```java
