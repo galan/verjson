@@ -66,7 +66,7 @@ public class ExampleBeanVersions extends Versions {
 }
 ```
 
-The modified example that could read serialized object from version 1 and 2 looks like this:
+The modified example that serializes ExampleBean objects in version 2, and could read serialized objects in version 1 and 2 looks like this:
 ```java
 Verjson<ExampleBean> verjson = Verjson.create(ExampleBean.class, new ExampleBeanVersions());
 
