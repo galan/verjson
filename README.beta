@@ -27,3 +27,27 @@ LAST
 FIRST_AND_LAST
 NONE
 DEFINED (default)
+
+
+
+
+Verjson
+In one sentence: Verjson is a Java/JSON serialization-library that allows evolvable data-structures on already serialized object-graphs by using transformation and validation steps between versions.
+
+LOGO
+
+Problem Verjson is trying to solve: 
+When you have to send an object-graph from one process to another, you have to serialize the data into an exchange-format that can be read by the receiver. There are plenty of possiblities in the Java space to perform such a task, eg. native Java serialization, XML (XStream, ..) , JSON (Gson, Jackson, ..), SOAP, and more (Avro, Proto, ..). These solutions work great if the object-graph does not change. Some libraries offer version-support such as adding fields - but not removing, TODO.
+But what if complex real-world changes happen, and you want to keep your object-model code clean? If you want to remove fields, rename fields, create a Collection from a previously comma-seperated String, change a field to a custom type, or other changes?
+Of course you can shutdown your system and deploy the next version of your software/models. But what about the in-flight messages that still are in queues or stored in the old format - and can therefor not be processed (might throw exceptions when trying).
+
+Solution:
+
+
+Possible use-cases:
+- messaging (eg. in-flight messages)
+- long-term storage
+- producer/consumer scenarios
+- data-processing in general
+- ... (tell me)
+
