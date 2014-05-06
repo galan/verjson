@@ -3,9 +3,9 @@
 
 	<groupId>de.galan</groupId>
 	<artifactId>verjson</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 	<name>Verjson</name>
-	<description>Versionized transformable/evolvable objectgraphs</description>
+	<description>Versionized transformable/evolvable object-graphs</description>
 
 	<parent>
 		<groupId>de.galan</groupId>
