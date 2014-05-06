@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.commons.test.FixedDateSupplier;
+import de.galan.commons.time.DateDsl;
 import de.galan.verjson.core.Verjson;
 import de.galan.verjson.samples.v2.Example2;
 import de.galan.verjson.samples.v2.Example2Versions;
@@ -15,7 +17,7 @@ import de.galan.verjson.samples.v2.Example2Versions;
 
 /**
  * Write Version 2, Read Version 1-2 Example
- * 
+ *
  * @author daniel
  */
 public class VerjsonUsageExample2Test extends AbstractTestParent {
@@ -26,6 +28,7 @@ public class VerjsonUsageExample2Test extends AbstractTestParent {
 	@Before
 	public void before() {
 		v2 = Verjson.create(Example2.class, new Example2Versions());
+		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-06T06:42:28Z", true));
 	}
 
 

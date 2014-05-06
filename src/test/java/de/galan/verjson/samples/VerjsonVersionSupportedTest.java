@@ -10,6 +10,8 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.commons.test.FixedDateSupplier;
+import de.galan.commons.time.DateDsl;
 import de.galan.verjson.core.Verjson;
 import de.galan.verjson.core.VersionNotSupportedException;
 import de.galan.verjson.core.Versions;
@@ -19,7 +21,7 @@ import de.galan.verjson.test.TestBean;
 
 /**
  * Test handling of unsupported versions
- * 
+ *
  * @author daniel
  */
 public class VerjsonVersionSupportedTest extends AbstractTestParent {
@@ -34,6 +36,7 @@ public class VerjsonVersionSupportedTest extends AbstractTestParent {
 		verjson1 = Verjson.create(TestBean.class, null);
 		verjson2 = Verjson.create(TestBean.class, new TestBeanVersion());
 		bean = new TestBean().content("aaa").number(666L);
+		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-06T06:42:28Z", true));
 	}
 
 
@@ -122,7 +125,7 @@ public class VerjsonVersionSupportedTest extends AbstractTestParent {
 			assertThat(ex.getMessage()).isEqualTo("Verjson only supports empty namespace, element has namespace 'nejmzpahjz'");
 		}
 	}
-	*/
+	 */
 
 }
 

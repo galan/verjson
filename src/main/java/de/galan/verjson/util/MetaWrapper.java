@@ -1,6 +1,9 @@
 package de.galan.verjson.util;
 
+import static de.galan.commons.time.DateDsl.*;
 import static de.galan.verjson.util.Transformations.*;
+
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,6 +20,7 @@ public class MetaWrapper {
 	public static final String ID_VERSION = "$v";
 	public static final String ID_NAMESPACE = "$ns";
 	public static final String ID_DATA = "$d";
+	public static final String ID_TIMESTAMP = "$ts";
 
 	/** Incremental version */
 	@JsonProperty(ID_VERSION)
@@ -25,6 +29,10 @@ public class MetaWrapper {
 	/** Namespace for the data object */
 	@JsonProperty(ID_NAMESPACE)
 	private String namespace;
+
+	/** Timestamp when the object was serialized */
+	@JsonProperty(ID_TIMESTAMP)
+	private Date timestamp = now();
 
 	/** Actual payload */
 	@JsonProperty(ID_DATA)
@@ -44,14 +52,14 @@ public class MetaWrapper {
 	}
 
 
-	/** Returns the namespace node from a wrapped JsonNode */
+	/** Returns the namespace from a wrapped JsonNode */
 	public static String getNamespace(JsonNode node) {
 		JsonNode nodeNs = obj(node).get(ID_NAMESPACE);
 		return (nodeNs != null) ? nodeNs.asText() : null;
 	}
 
 
-	/** Returns the source version node from a wrapped JsonNode */
+	/** Returns the source version from a wrapped JsonNode */
 	public static Long getVersion(JsonNode node) {
 		return obj(node).get(ID_VERSION).asLong();
 	}
@@ -60,6 +68,12 @@ public class MetaWrapper {
 	/** Sets the version on a wrapped JsonNode */
 	public static void setVersion(JsonNode node, Long version) {
 		obj(node).put(ID_VERSION, version);
+	}
+
+
+	/** Returns the timestamp from a wrapped JsonNode */
+	public static Date getTimestamp(JsonNode node) {
+		return dateIso(obj(node).get(ID_TIMESTAMP).asText());
 	}
 
 }

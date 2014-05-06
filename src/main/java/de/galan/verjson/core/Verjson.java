@@ -19,7 +19,7 @@ import de.galan.verjson.util.MetaWrapper;
 /**
  * Versionized transformable/evolvable objectgraphs<br/>
  * TODO documentation
- * 
+ *
  * @author daniel
  * @param <T> Type of Objects to be transformed
  */
@@ -78,6 +78,11 @@ public class Verjson<T> {
 	}
 
 
+	protected ObjectMapper getMapper() {
+		return mapper;
+	}
+
+
 	//TODO own exception
 	//TODO check only Validation and Transformation (for now)
 	public String write(T obj) throws JsonProcessingException {
@@ -86,15 +91,31 @@ public class Verjson<T> {
 	}
 
 
+	public JsonNode readTree(String json) throws IOException {
+		return getMapper().readTree(json);
+	}
+
+
 	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException, IOReadException {
 		T result = null;
 		try {
-			JsonNode node = mapper.readTree(json);
+			result = read(readTree(json));
+		}
+		catch (IOException ex) {
+			throw new IOReadException("Reading json failed: " + ex.getMessage(), ex);
+		}
+		return result;
+	}
+
+
+	public T read(JsonNode node) throws VersionNotSupportedException, NamespaceMismatchException, IOReadException {
+		T result = null;
+		try {
 			verifyNamespace(node);
 			Long jsonVersion = verifyVersion(node);
 			steps.get(jsonVersion).process(node);
 			JsonNode data = MetaWrapper.getData(node);
-			result = mapper.treeToValue(data, getValueClass());
+			result = getMapper().treeToValue(data, getValueClass());
 		}
 		catch (VersionNotSupportedException | NamespaceMismatchException ex) {
 			throw ex;

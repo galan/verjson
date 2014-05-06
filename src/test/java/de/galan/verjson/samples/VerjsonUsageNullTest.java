@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.commons.test.FixedDateSupplier;
+import de.galan.commons.time.DateDsl;
 import de.galan.verjson.core.Verjson;
 import de.galan.verjson.samples.v1.Example1;
 import de.galan.verjson.samples.v1.Example1Versions;
@@ -17,7 +19,7 @@ import de.galan.verjson.samples.v3.Example3Versions;
 
 /**
  * Test handling of null inputs
- * 
+ *
  * @author daniel
  */
 public class VerjsonUsageNullTest extends AbstractTestParent {
@@ -32,13 +34,14 @@ public class VerjsonUsageNullTest extends AbstractTestParent {
 		v1 = Verjson.create(Example1.class, new Example1Versions());
 		v2 = Verjson.create(Example2.class, new Example2Versions());
 		v3 = Verjson.create(Example3.class, new Example3Versions());
+		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-06T06:42:28Z", true));
 	}
 
 
 	@Test
 	public void nullValue() throws Exception {
 		String written1 = v1.write(new Example1());
-		assertThat(written1).isEqualTo("{\"$v\":1,\"$d\":{}}");
+		assertThat(written1).isEqualTo("{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28Z\",\"$d\":{}}");
 		assertThat(v1.read(written1)).isEqualTo(new Example1());
 		assertThat(v2.read(written1)).isEqualToComparingFieldByField(new Example2());
 		assertThat(v2.read(written1)).isEqualTo(new Example2());

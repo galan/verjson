@@ -17,13 +17,15 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.commons.test.FixedDateSupplier;
+import de.galan.commons.time.DateDsl;
 import de.galan.verjson.test.MyContainer;
 import de.galan.verjson.test.TestBean;
 
 
 /**
  * CUT Verjson - plugging external serializer/deserializer into Verjson
- * 
+ *
  * @author daniel
  */
 public class VerjsonSerializerTest extends AbstractTestParent {
@@ -37,6 +39,7 @@ public class VerjsonSerializerTest extends AbstractTestParent {
 		versions.registerSerializer(new TestBeanSerializer());
 		versions.registerDeserializer(new TestBeanDeserializer());
 		verjson = new Verjson<MyContainer>(MyContainer.class, versions);
+		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-06T06:42:28Z", true));
 	}
 
 
