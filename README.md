@@ -2,7 +2,7 @@ Verjson is a specialized Java/JSON serialization-library that allows evolvable d
 
 ![Verjson](https://github.com/galan/verjson/raw/master/resources/Verjson.png)
 
-# Problem Verjson aims at
+# Problem description
 When you have to send an object-graph from one process to another, you have to serialize the data into an exchange-format that can be read by the receiver. There are plenty of possiblities in the Java space to perform such a task, eg. native Java serialization, XML (XStream, ..) , JSON (Gson, Jackson, ..), SOAP, and more (Avro, Protobuf, ..). These solutions work great until the object-graph changes too much. Some of the libraries also offer version-support ([1](http://martin.kleppmann.com/2012/12/05/schema-evolution-in-avro-protocol-buffers-thrift.html), ..), most have limitations.
 
 But what if complex real-world changes happen, and you want to keep your object-model code clean? If you want to remove or rename fields, create a Collection from a previously comma-seperated String, change a field to a custom type, or other changes?
