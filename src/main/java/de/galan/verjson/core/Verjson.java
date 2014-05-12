@@ -1,7 +1,10 @@
 package de.galan.verjson.core;
 
+import static de.galan.commons.time.DateDsl.*;
+
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -38,6 +41,9 @@ public class Verjson<T> {
 	/** Highest version available in added transformers, starting with 1. */
 	long highestSourceVersion;
 
+	/** Include the creational timestamp in each serialized object */
+	boolean includeTimestamp;
+
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
 		return new Verjson<T>(valueClass, versions);
@@ -54,6 +60,7 @@ public class Verjson<T> {
 
 	protected void configure(Versions versions) {
 		versions.configure();
+		includeTimestamp = versions.isIncludeTimestamp();
 		mapper = new ObjectMapperFactory().create(versions);
 		steps = createStepSequencer().sequence(versions.getSteps());
 		highestSourceVersion = determineHighestSourceVersion();
@@ -85,8 +92,10 @@ public class Verjson<T> {
 
 	//TODO own exception
 	//TODO check only Validation and Transformation (for now)
+	/** Serializes the given object to a String */
 	public String write(T obj) throws JsonProcessingException {
-		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj);
+		Date ts = includeTimestamp ? now() : null;
+		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj, ts);
 		return mapper.writeValueAsString(wrapper);
 	}
 

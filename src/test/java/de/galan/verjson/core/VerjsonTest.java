@@ -10,7 +10,7 @@ import de.galan.verjson.test.TestBean;
 
 /**
  * CUT Verjson
- * 
+ *
  * @author daniel
  */
 public class VerjsonTest extends AbstractTestParent {

@@ -32,17 +32,18 @@ public class MetaWrapper {
 
 	/** Timestamp when the object was serialized */
 	@JsonProperty(ID_TIMESTAMP)
-	private Date timestamp = now();
+	private Date timestamp;
 
 	/** Actual payload */
 	@JsonProperty(ID_DATA)
 	private Object data;
 
 
-	public MetaWrapper(long version, String namespace, Object data) {
+	public MetaWrapper(long version, String namespace, Object data, Date timestamp) {
 		this.version = version;
 		this.namespace = namespace;
 		this.data = data;
+		this.timestamp = timestamp;
 	}
 
 

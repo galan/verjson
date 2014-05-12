@@ -18,7 +18,7 @@ import de.galan.verjson.step.Step;
 /**
  * Acts as a container for all Steps (transformations and schema validations), does define the optional namespace.
  * Additional type de/serializers can be registered here.
- * 
+ *
  * @author daniel
  */
 public class Versions {
@@ -28,6 +28,7 @@ public class Versions {
 	private Map<Class<?>, JsonSerializer<?>> serializers;
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
 	private SetMultimap<Class<?>, Pair<Class<?>, String>> polys;
+	private boolean includeTimestamp;
 
 
 	public Versions() {
@@ -41,6 +42,7 @@ public class Versions {
 		serializers = Maps.newHashMap();
 		deserializers = Maps.newHashMap();
 		polys = HashMultimap.create();
+		includeTimestamp = true;
 	}
 
 
@@ -105,6 +107,17 @@ public class Versions {
 
 	public Collection<JsonDeserializer<?>> getDeserializer() {
 		return deserializers.values();
+	}
+
+
+	public boolean isIncludeTimestamp() {
+		return includeTimestamp;
+	}
+
+
+	/** A timestamp is added to the meta-data, this can be avoided by setting this property to false */
+	public void setIncludeTimestamp(boolean includeTimestamp) {
+		this.includeTimestamp = includeTimestamp;
 	}
 
 }
