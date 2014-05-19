@@ -12,7 +12,7 @@ import de.galan.verjson.core.Verjson;
 
 
 /**
- * Note: I "cheated" in this example, it is not necessarry to copy and/or rename the models (ExampleBean1/ExampleBean2).
+ * Note: I "cheated" in this example, it is not necessary to copy and/or rename the models (ExampleBean1/ExampleBean2).
  * This is done to keep seperate versions inside the same package and have a clear seperation for demonstration
  * purposes.
  *
