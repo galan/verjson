@@ -88,7 +88,6 @@ ExampleBean deserializedBean = verjson.read(serializedBean);
 # Features
 * Serializes/Deserializes into JSON (Jackson based)
 * Custom transformation between versions
-* Type-safe
 * Support for polymorph types
 * Support for custom-type Serializer/Deserializer
 * Each version can be validated using JSON-Schema
