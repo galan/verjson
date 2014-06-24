@@ -1,6 +1,7 @@
 package de.galan.verjson.core;
 
 import static org.apache.commons.lang3.StringUtils.*;
+import de.galan.verjson.util.ReadException;
 
 
 /**

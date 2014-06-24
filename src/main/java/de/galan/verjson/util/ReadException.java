@@ -1,4 +1,4 @@
-package de.galan.verjson.core;
+package de.galan.verjson.util;
 
 /**
  * Base class for read exceptions.

@@ -15,8 +15,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
 
+import de.galan.verjson.step.ProcessStepException;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.util.MetaWrapper;
+import de.galan.verjson.util.ReadException;
 
 
 /**
@@ -105,7 +107,7 @@ public class Verjson<T> {
 	}
 
 
-	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException, IOReadException {
+	public T read(String json) throws VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException {
 		T result = null;
 		try {
 			result = read(readTree(json));
@@ -117,7 +119,7 @@ public class Verjson<T> {
 	}
 
 
-	public T read(JsonNode node) throws VersionNotSupportedException, NamespaceMismatchException, IOReadException {
+	public T read(JsonNode node) throws VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException {
 		T result = null;
 		try {
 			verifyNamespace(node);
@@ -126,7 +128,7 @@ public class Verjson<T> {
 			JsonNode data = MetaWrapper.getData(node);
 			result = getMapper().treeToValue(data, getValueClass());
 		}
-		catch (VersionNotSupportedException | NamespaceMismatchException ex) {
+		catch (ReadException ex) {
 			throw ex;
 		}
 		catch (IOException ex) {

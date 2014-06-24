@@ -1,5 +1,7 @@
 package de.galan.verjson.core;
 
+import de.galan.verjson.util.ReadException;
+
 /**
  * Failed reading json-input
  * 

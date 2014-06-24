@@ -1,5 +1,7 @@
 package de.galan.verjson.core;
 
+import de.galan.verjson.util.ReadException;
+
 /**
  * Version is newer then registered Transformers are able to process.
  * 

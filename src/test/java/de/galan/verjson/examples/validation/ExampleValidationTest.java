@@ -5,14 +5,10 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.verjson.core.IOReadException;
-import de.galan.verjson.core.NamespaceMismatchException;
 import de.galan.verjson.core.Verjson;
-import de.galan.verjson.core.VersionNotSupportedException;
 import de.galan.verjson.test.TestBean;
+import de.galan.verjson.util.ReadException;
 
 
 /**
@@ -44,17 +40,14 @@ public class ExampleValidationTest extends AbstractTestParent {
 
 
 	@Test
-	public void version2Invalid() {
+	public void version2Invalid() throws Exception {
 		TestBean bean = new TestBean().number(123L); // No content-field, but required in schema
 		try {
 			String written = verjson.write(bean);
 			// {"$v":2,"$d":{"number":123}}
 			verjson.read(written);
 		}
-		catch (JsonProcessingException | VersionNotSupportedException | NamespaceMismatchException | IOReadException ex) {
-			fail("Not expected");
-		}
-		catch (RuntimeException ex) {
+		catch (ReadException ex) {
 			assertThat(ex.getMessage()).isEqualTo("Could not validate JSON against schema:\n- object has missing required properties ([\"content\"])");
 		}
 	}

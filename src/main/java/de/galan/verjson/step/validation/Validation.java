@@ -15,6 +15,7 @@ import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.google.common.base.StandardSystemProperty;
 import com.google.common.collect.Lists;
 
+import de.galan.verjson.step.ProcessStepException;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.util.MetaWrapper;
 
@@ -68,7 +69,7 @@ public class Validation implements Step {
 
 
 	@Override
-	public void process(JsonNode node) {
+	public void process(JsonNode node) throws ProcessStepException {
 		validate(MetaWrapper.getData(node));
 	}
 
@@ -78,7 +79,7 @@ public class Validation implements Step {
 	}
 
 
-	public void validate(JsonNode node) {
+	public void validate(JsonNode node) throws InvalidJsonException {
 		ProcessingReport report = null;
 		try {
 			report = getSchema().validate(node);
