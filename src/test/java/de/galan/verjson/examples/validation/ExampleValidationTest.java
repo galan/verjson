@@ -30,6 +30,22 @@ public class ExampleValidationTest extends AbstractTestParent {
 
 
 	@Test
+	public void version1WithContent() throws Exception {
+		// {"$v":1,"$d":{"content":"abc","number":123}}
+		TestBean read = verjson.read("{\"$v\":1,\"$d\":{\"content\":\"abc\",\"number\":123}}");
+		assertThat(read.content).isEqualTo("abc");
+	}
+
+
+	@Test
+	public void version1Without() throws Exception {
+		// {"$v":1,"$d":{"number":123}}
+		TestBean read = verjson.read("{\"$v\":1,\"$d\":{\"number\":123}}");
+		assertThat(read.content).isEqualTo("default");
+	}
+
+
+	@Test
 	public void version2Valid() throws Exception {
 		TestBean bean = new TestBean().content("abc").number(123L);
 		String written = verjson.write(bean);

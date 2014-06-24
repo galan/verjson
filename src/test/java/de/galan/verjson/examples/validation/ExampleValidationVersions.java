@@ -5,7 +5,6 @@ import static de.galan.commons.test.Tests.*;
 import java.io.IOException;
 
 import de.galan.verjson.core.Versions;
-import de.galan.verjson.examples.simple.Transformation1;
 import de.galan.verjson.step.validation.Validation;
 
 
@@ -21,7 +20,7 @@ public class ExampleValidationVersions extends Versions {
 		setIncludeTimestamp(false); // Keep examples short
 		try {
 			add(1L, new Validation(readFile(getClass(), "schema-version-01.json")));
-			add(1L, new Transformation1());
+			add(1L, new BeanTransformation1());
 			add(2L, new Validation(readFile(getClass(), "schema-version-02.json")));
 		}
 		catch (IOException ex) {

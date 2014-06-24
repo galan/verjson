@@ -17,7 +17,7 @@ public class BeanTransformation1 extends Transformation {
 
 	@Override
 	protected void transform(JsonNode node) {
-		if (obj(node).get("content").isMissingNode()) {
+		if (!obj(node).has("content")) {
 			obj(node).put("content", "default");
 		}
 	}
