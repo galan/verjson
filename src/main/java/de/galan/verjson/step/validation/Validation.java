@@ -16,11 +16,12 @@ import com.google.common.base.StandardSystemProperty;
 import com.google.common.collect.Lists;
 
 import de.galan.verjson.step.Step;
+import de.galan.verjson.util.MetaWrapper;
 
 
 /**
  * Creates a JSON Schema Validator to check json against it, using https://github.com/fge/json-schema-validator
- * 
+ *
  * @author daniel
  */
 public class Validation implements Step {
@@ -68,7 +69,7 @@ public class Validation implements Step {
 
 	@Override
 	public void process(JsonNode node) {
-		validate(node);
+		validate(MetaWrapper.getData(node));
 	}
 
 

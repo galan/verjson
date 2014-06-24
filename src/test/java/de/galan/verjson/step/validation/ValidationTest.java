@@ -15,11 +15,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.test.TestBean;
+import de.galan.verjson.util.MetaWrapper;
 
 
 /**
  * CUT Validation
- * 
+ *
  * @author daniel
  */
 public class ValidationTest extends AbstractTestParent {
@@ -40,7 +41,8 @@ public class ValidationTest extends AbstractTestParent {
 	protected JsonNode createNode(Object obj) {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);
-		return mapper.valueToTree(obj);
+		MetaWrapper wrapper = new MetaWrapper(1L, null, obj, null);
+		return mapper.valueToTree(wrapper);
 	}
 
 
