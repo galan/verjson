@@ -3,14 +3,14 @@
 
 	<groupId>de.galan</groupId>
 	<artifactId>verjson</artifactId>
-	<version>0.3</version>
+	<version>0.4-SNAPSHOT</version>
 	<name>Verjson</name>
 	<description>Versionized transformable/evolvable object-graphs</description>
 
 	<parent>
 		<groupId>de.galan</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.4</version>
+		<version>0.5-SNAPSHOT</version>
 	</parent>
 
 	<scm>
@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>de.galan</groupId>
 			<artifactId>commons</artifactId>
-			<version>0.5</version>
+			<version>0.6-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
