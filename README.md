@@ -22,7 +22,7 @@ public class ExampleBean {
 }
 ```
 
-First we create a Verjson instance that contains the configuration and manages the serialization. In this case there is no configuration, since this is the first version which requires no transformations (validation is optional, see other examples):
+First we create a Verjson instance that contains the configuration and manages the serialization. In this case there is no configuration, since this is the first version which requires no transformations (validation is optional, see [other examples](https://github.com/galan/verjson/tree/master/src/test/java/de/galan/verjson/examples)):
 ```java
 Verjson<ExampleBean> verjson = Verjson.create(ExampleBean.class, null);
 ```
