@@ -78,6 +78,16 @@ String serializedBean = verjson.write(bean);
 ExampleBean deserializedBean = verjson.read(serializedBean);
 ```
 
+## Recap
+1. Use Verjson to serialize/deserialize your models
+2. Use an extended `Versions` object to configure Verjson
+3. Extend a `Transformation` for each version of your model, do not change that later (create a new version instead)
+4. Create a `Validator` for each version  of your model that you whish to validate against a json-schema
+
+## Tips
+* Move your model, Versions, Transformations and json-schemas into an own maven-artifact. So you can manage the versions much easier
+* Unit-test your transformations and json-schemas
+
 # Possible use-cases:
 * messaging (eg. in-flight messages)
 * long-term storage
