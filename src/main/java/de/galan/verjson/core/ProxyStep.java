@@ -34,7 +34,7 @@ public class ProxyStep implements Step {
 
 	@Override
 	public void process(JsonNode node) throws ProcessStepException {
-		LOG.info("Processing {}/{}", getSourceVersion(), getStep().getClass().getSimpleName()); // TODO Idea - name annotation for steps for better debugging
+		LOG.debug("Processing {}/{}", getSourceVersion(), getStep().getClass().getSimpleName()); // TODO Idea - name annotation for steps for better debugging
 		getStep().process(node);
 		if (successor != null) {
 			successor.process(node);
