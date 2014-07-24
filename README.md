@@ -87,7 +87,7 @@ ExampleBean deserializedBean = verjson.read(serializedBean);
 ## Tips
 * Move your model, Versions, Transformations and json-schemas into an own maven-artifact. So you can manage the versions much easier
 * Unit-test your transformations and json-schemas
-* Take a look into the [examples](https://github.com/galan/verjson/tree/master/src/test/java/de/galan/verjson/examples))
+* Take a look into the [examples](https://github.com/galan/verjson/tree/master/src/test/java/de/galan/verjson/examples)
 
 # Possible use-cases:
 * messaging (eg. in-flight messages)
