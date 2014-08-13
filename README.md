@@ -37,7 +37,7 @@ String serializedBean = verjson.write(bean);
 ExampleBean deserializedBean = verjson.read(serializedBean);
 ```
 
-The requirements change and we want to have a list instead of a single String field. We don't want to loose data and have the content of the "text" field as first element. Furthermore the name of the "number" field should be changed to "counter". We change the ExampleBean (there is no requirement to keep the old version copied to somewhere), it looks now like this:
+The requirements change and we want to have a list instead of a single String field. We don't want to loose data and have the content of the "text" field as first element. Furthermore the name of the "number" field should be changed to "counter". We change the ExampleBean (there is no requirement to keep the old version copied to somewhere), now it looks like this:
 ```java
 public class ExampleBean {
 	List<String> texts;
