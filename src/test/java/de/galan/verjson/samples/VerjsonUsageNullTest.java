@@ -6,8 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.commons.test.FixedDateSupplier;
-import de.galan.commons.time.DateDsl;
+import de.galan.commons.time.ApplicationClock;
 import de.galan.verjson.core.Verjson;
 import de.galan.verjson.samples.v1.Example1;
 import de.galan.verjson.samples.v1.Example1Versions;
@@ -34,7 +33,7 @@ public class VerjsonUsageNullTest extends AbstractTestParent {
 		v1 = Verjson.create(Example1.class, new Example1Versions());
 		v2 = Verjson.create(Example2.class, new Example2Versions());
 		v3 = Verjson.create(Example3.class, new Example3Versions());
-		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-06T06:42:28Z", true));
+		ApplicationClock.setIso("2014-05-06T06:42:28Z");
 	}
 
 

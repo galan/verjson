@@ -1,6 +1,6 @@
 package de.galan.verjson.serializer;
 
-import static de.galan.commons.time.DateDsl.*;
+import static de.galan.commons.time.Instants.*;
 
 import java.io.IOException;
 import java.util.Date;
@@ -13,14 +13,14 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 /**
  * Serializes java.util.Date to String ISO (yyyy-MM-dd'T'HH:mm:ss'Z').
- * 
+ *
  * @author daniel
  */
 public class DateSerializer extends JsonSerializer<Date> {
 
 	@Override
 	public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-		jgen.writeString(from(value).toIso8601Utc());
+		jgen.writeString(from(value).toStringIsoUtc());
 	}
 
 

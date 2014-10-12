@@ -1,6 +1,6 @@
 package de.galan.verjson.core;
 
-import static de.galan.commons.time.DateDsl.*;
+import static de.galan.commons.time.Instants.*;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -96,7 +96,7 @@ public class Verjson<T> {
 	//TODO check only Validation and Transformation (for now)
 	/** Serializes the given object to a String */
 	public String write(T obj) throws JsonProcessingException {
-		Date ts = includeTimestamp ? now() : null;
+		Date ts = includeTimestamp ? Date.from(now()) : null;
 		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj, ts);
 		return mapper.writeValueAsString(wrapper);
 	}

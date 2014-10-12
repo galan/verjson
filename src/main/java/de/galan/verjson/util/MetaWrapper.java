@@ -1,7 +1,8 @@
 package de.galan.verjson.util;
 
-import static de.galan.commons.time.DateDsl.*;
+import static de.galan.commons.time.Instants.*;
 import static de.galan.verjson.util.Transformations.*;
+import static org.apache.commons.lang3.StringUtils.*;
 
 import java.util.Date;
 
@@ -74,7 +75,8 @@ public class MetaWrapper {
 
 	/** Returns the timestamp from a wrapped JsonNode */
 	public static Date getTimestamp(JsonNode node) {
-		return dateIso(obj(node).get(ID_TIMESTAMP).asText());
+		String text = obj(node).get(ID_TIMESTAMP).asText();
+		return isNotBlank(text) ? from(instantUtc(text)).toDate() : null;
 	}
 
 }

@@ -6,8 +6,7 @@ import net.javacrumbs.jsonunit.fluent.JsonFluentAssert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.galan.commons.test.FixedDateSupplier;
-import de.galan.commons.time.DateDsl;
+import de.galan.commons.time.ApplicationClock;
 import de.galan.verjson.test.TestBean;
 
 
@@ -26,7 +25,7 @@ public class VerjsonTimestamp {
 	public void before() {
 		versions = new Versions();
 		bean = new TestBean().content("abc");
-		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-12T07:09:48Z", true));
+		ApplicationClock.setIso("2014-05-12T07:09:48Z");
 	}
 
 

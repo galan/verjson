@@ -10,8 +10,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.commons.test.FixedDateSupplier;
-import de.galan.commons.time.DateDsl;
+import de.galan.commons.time.ApplicationClock;
 import de.galan.verjson.core.Verjson;
 import de.galan.verjson.core.VersionNotSupportedException;
 import de.galan.verjson.core.Versions;
@@ -36,7 +35,7 @@ public class VerjsonVersionSupportedTest extends AbstractTestParent {
 		verjson1 = Verjson.create(TestBean.class, null);
 		verjson2 = Verjson.create(TestBean.class, new TestBeanVersion());
 		bean = new TestBean().content("aaa").number(666L);
-		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-06T06:42:28Z", true));
+		ApplicationClock.setIso("2014-05-06T06:42:28Z");
 	}
 
 

@@ -1,6 +1,6 @@
 package de.galan.verjson.serializer;
 
-import static de.galan.commons.time.DateDsl.*;
+import static de.galan.commons.time.Instants.*;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Date;
@@ -9,8 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.galan.commons.test.AbstractTestParent;
-import de.galan.commons.test.FixedDateSupplier;
-import de.galan.commons.time.DateDsl;
+import de.galan.commons.time.ApplicationClock;
 import de.galan.verjson.core.Verjson;
 
 
@@ -24,7 +23,7 @@ public class DateSerializerTest extends AbstractTestParent {
 	private Verjson<ClassWithDate> verjson;
 	private ClassWithDate input;
 	private final static String SERIALIZED = "{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28Z\",\"$d\":{\"value\":\"2014-02-17T10:30:07Z\"}}";
-	private final static Date DATE = dateIso("2014-02-17T10:30:07Z");
+	private final static Date DATE = dateUtc("2014-02-17T10:30:07Z");
 
 
 	@Before
@@ -32,7 +31,7 @@ public class DateSerializerTest extends AbstractTestParent {
 		verjson = Verjson.create(ClassWithDate.class, null);
 		input = new ClassWithDate();
 		input.value = DATE;
-		DateDsl.setDateSupplier(new FixedDateSupplier("2014-05-06T06:42:28Z", true));
+		ApplicationClock.setIso("2014-05-06T06:42:28Z");
 	}
 
 

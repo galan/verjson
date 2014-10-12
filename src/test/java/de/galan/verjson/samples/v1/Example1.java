@@ -1,6 +1,6 @@
 package de.galan.verjson.samples.v1;
 
-import static de.galan.commons.time.DateDsl.*;
+import static de.galan.commons.time.Instants.*;
 
 import java.util.Date;
 import java.util.List;
@@ -10,7 +10,7 @@ import com.google.common.collect.Lists;
 
 /**
  * First version of class hierarchy
- * 
+ *
  * @author daniel
  */
 public class Example1 {
@@ -31,7 +31,7 @@ public class Example1 {
 		result.first = "First";
 		result.second = 222L;
 		result.third = true;
-		result.forth = date("2014-02-19 17:29:12");
+		result.forth = dateLocal("2014-02-19 17:29:12");
 		result.fifth = Lists.newArrayList("a", "b", "c");
 		result.sixth = new Example1Element();
 		result.sixth.one = 11L;
