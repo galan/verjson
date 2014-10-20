@@ -1,6 +1,7 @@
 package de.galan.verjson.core;
 
 import java.lang.reflect.Method;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -40,12 +41,14 @@ import de.galan.commons.logging.Logr;
 import de.galan.commons.util.Pair;
 import de.galan.verjson.serializer.DateDeserializer;
 import de.galan.verjson.serializer.DateSerializer;
+import de.galan.verjson.serializer.ZonedDateTimeDeserializer;
+import de.galan.verjson.serializer.ZonedDateTimeSerializer;
 
 
 /**
  * Construction of the Jackson ObjectMapper. Configuring Fieldintrospection, Serializer/Deserializer, Polymorph class
  * registration.
- * 
+ *
  * @author daniel
  */
 public class ObjectMapperFactory {
@@ -75,6 +78,8 @@ public class ObjectMapperFactory {
 		// Default serializer
 		module.addSerializer(new DateSerializer());
 		module.addDeserializer(Date.class, new DateDeserializer());
+		module.addSerializer(new ZonedDateTimeSerializer());
+		module.addDeserializer(ZonedDateTime.class, new ZonedDateTimeDeserializer());
 
 		// Serializer
 		for (JsonSerializer<?> serializer: versions.getSerializer()) {
