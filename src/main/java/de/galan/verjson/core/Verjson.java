@@ -13,6 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
 
 import de.galan.verjson.step.ProcessStepException;
@@ -102,8 +104,31 @@ public class Verjson<T> {
 	}
 
 
+	/**
+	 * Serializes the given object without any metadata to a String. This is basically the raw serialized object from
+	 * the data element. Since the metadata is missing, this Json can not be read using the read(..) methods, except the
+	 * readPlain-method - if the version is manually passed.
+	 */
+	public String writePlain(T obj) throws JsonProcessingException {
+		return mapper.writeValueAsString(obj);
+	}
+
+
 	public JsonNode readTree(String json) throws IOException {
 		return getMapper().readTree(json);
+	}
+
+
+	protected JsonNode wrapPlainNode(JsonNode node, long version) {
+		ObjectNode wrapper = new ObjectNode(JsonNodeFactory.instance);
+		wrapper.put(MetaWrapper.ID_VERSION, version);
+		wrapper.put(MetaWrapper.ID_DATA, node);
+		return wrapper;
+	}
+
+
+	public T readPlain(JsonNode node, long version) throws VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException {
+		return read(wrapPlainNode(node, version));
 	}
 
 
