@@ -30,9 +30,18 @@ public class VerjsonTest extends AbstractTestParent {
 			fail("should fail");
 		}
 		catch (IOReadException ex) {
-			assertThat(ex.getMessage()).startsWith(
-				"Reading json failed: Unexpected character ('a' (code 97)): expected a valid value (number, String, array, object, 'true', 'false' or 'null')");
+			String msg = "Reading json failed: Unexpected character ('a' (code 97)): expected a valid value (number, String, array, object, 'true', 'false' or 'null')";
+			assertThat(ex.getMessage()).startsWith(msg);
 		}
+	}
+
+
+	@Test
+	public void writePlain() throws Exception {
+		Verjson<TestBean> verjson = Verjson.create(TestBean.class, null);
+		TestBean bean = new TestBean().content("abc").number(123L);
+		String plain = verjson.writePlain(bean);
+		assertThat(plain).isEqualTo("{\"content\":\"abc\",\"number\":123}");
 	}
 
 }
