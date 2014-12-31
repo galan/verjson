@@ -25,7 +25,7 @@ public class MetaWrapperTest extends AbstractTestParent {
 	@Test
 	public void ts() throws Exception {
 		Date fixedDate = dateUtc("2014-05-06T06:42:28Z");
-		ApplicationClock.setIso(fixedDate);
+		ApplicationClock.setUtc(fixedDate);
 		TestBean bean = new TestBean().content("abc");
 		Verjson<TestBean> verjson = Verjson.create(TestBean.class, null);
 		String written = verjson.write(bean);

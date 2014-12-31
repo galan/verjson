@@ -25,7 +25,7 @@ public class VerjsonTimestamp {
 	public void before() {
 		versions = new Versions();
 		bean = new TestBean().content("abc");
-		ApplicationClock.setIso("2014-05-12T07:09:48Z");
+		ApplicationClock.setUtc("2014-05-12T07:09:48Z");
 	}
 
 

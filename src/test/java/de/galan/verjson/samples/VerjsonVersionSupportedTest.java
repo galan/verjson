@@ -35,7 +35,7 @@ public class VerjsonVersionSupportedTest extends AbstractTestParent {
 		verjson1 = Verjson.create(TestBean.class, null);
 		verjson2 = Verjson.create(TestBean.class, new TestBeanVersion());
 		bean = new TestBean().content("aaa").number(666L);
-		ApplicationClock.setIso("2014-05-06T06:42:28Z");
+		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 	}
 
 

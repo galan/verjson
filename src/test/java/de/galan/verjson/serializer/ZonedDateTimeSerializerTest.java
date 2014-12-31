@@ -31,7 +31,7 @@ public class ZonedDateTimeSerializerTest extends AbstractTestParent {
 		verjson = Verjson.create(ClassWithZdt.class, null);
 		input = new ClassWithZdt();
 		input.value = ZDT;
-		ApplicationClock.setIso("2014-05-06T06:42:28Z");
+		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 	}
 
 

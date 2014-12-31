@@ -31,7 +31,7 @@ public class DateSerializerTest extends AbstractTestParent {
 		verjson = Verjson.create(ClassWithDate.class, null);
 		input = new ClassWithDate();
 		input.value = DATE;
-		ApplicationClock.setIso("2014-05-06T06:42:28Z");
+		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 	}
 
 

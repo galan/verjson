@@ -33,7 +33,7 @@ public class VerjsonUsageNullTest extends AbstractTestParent {
 		v1 = Verjson.create(Example1.class, new Example1Versions());
 		v2 = Verjson.create(Example2.class, new Example2Versions());
 		v3 = Verjson.create(Example3.class, new Example3Versions());
-		ApplicationClock.setIso("2014-05-06T06:42:28Z");
+		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 	}
 
 

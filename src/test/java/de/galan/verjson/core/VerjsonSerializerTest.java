@@ -38,7 +38,7 @@ public class VerjsonSerializerTest extends AbstractTestParent {
 		versions.registerSerializer(new TestBeanSerializer());
 		versions.registerDeserializer(new TestBeanDeserializer());
 		verjson = new Verjson<MyContainer>(MyContainer.class, versions);
-		ApplicationClock.setIso("2014-05-06T06:42:28Z");
+		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 	}
 
 

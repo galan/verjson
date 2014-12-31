@@ -31,7 +31,7 @@ public class VerjsonPlainExampleTest extends AbstractTestParent {
 	@Before
 	public void before() {
 		v3 = Verjson.create(Example3.class, new Example3Versions());
-		ApplicationClock.setIso("2014-05-06T06:42:28Z");
+		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 	}
 
 
