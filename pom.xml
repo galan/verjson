@@ -3,7 +3,7 @@
 
 	<groupId>de.galan</groupId>
 	<artifactId>verjson</artifactId>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.4</version>
 	<name>Verjson</name>
 	<description>Versionized transformable/evolvable object-graphs</description>
 
@@ -22,19 +22,19 @@
 		<dependency>
 			<groupId>de.galan</groupId>
 			<artifactId>commons</artifactId>
-			<version>0.6-SNAPSHOT</version>
+			<version>0.6</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.fge</groupId>
 			<artifactId>json-schema-validator</artifactId>
-			<version>2.2.0</version>
+			<version>2.2.6</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>3.18.1-GA</version>
+			<version>3.19.0-GA</version>
 		</dependency>
 
 		<!-- logging -->
@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>net.javacrumbs.json-unit</groupId>
 			<artifactId>json-unit-fluent</artifactId>
-			<version>1.1.6</version>
+			<version>1.5.2</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
