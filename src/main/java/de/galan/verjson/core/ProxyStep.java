@@ -1,6 +1,6 @@
 package de.galan.verjson.core;
 
-import org.slf4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
