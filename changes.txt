@@ -1,0 +1,4 @@
+0.5
+- Changed from Slf4j to Log4j2
+- Streamlined with commons/parent-version
+
