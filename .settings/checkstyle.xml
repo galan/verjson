@@ -36,9 +36,9 @@
 		<module name="SimplifyBooleanExpression" />
 		<module name="SimplifyBooleanReturn" />
 		<module name="StringLiteralEquality" />
-		<module name="IllegalThrows" />
 		<module name="PackageDeclaration" />
 		<module name="MultipleVariableDeclarations" />
+		<module name="NeedBraces" />
 
 		<!-- Documentation -->
 		<module name="JavadocType" />
