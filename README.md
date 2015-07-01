@@ -107,4 +107,10 @@ ExampleBean deserializedBean = verjson.read(serializedBean);
 * Thread-safe
 
 # Integration with Maven
-Use the [maven repository and artifact](https://github.com/galan/maven-repository) on github.
+Just add the following dependency:
+
+    <dependency>
+    	<groupId>de.galan</groupId>
+    	<artifactId>verjson</artifactId>
+    	<version>0.7.0</version>
+    </dependency>
