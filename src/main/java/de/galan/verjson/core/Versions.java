@@ -29,6 +29,7 @@ public class Versions {
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
 	private SetMultimap<Class<?>, Pair<Class<?>, String>> polys;
 	private boolean includeTimestamp;
+	// TODO add lamda for version determination
 
 
 	public Versions() {
