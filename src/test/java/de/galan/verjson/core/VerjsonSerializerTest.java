@@ -1,7 +1,7 @@
 package de.galan.verjson.core;
 
 import static de.galan.commons.test.Tests.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.StrictAssertions.*;
 
 import java.io.IOException;
 
@@ -38,14 +38,22 @@ public class VerjsonSerializerTest extends AbstractTestParent {
 		versions.registerSerializer(new TestBeanSerializer());
 		versions.registerDeserializer(new TestBeanDeserializer());
 		verjson = new Verjson<MyContainer>(MyContainer.class, versions);
-		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 	}
 
 
 	@Test
-	public void testName() throws Exception {
+	public void testWithoutMs() throws Exception {
+		ApplicationClock.setUtc("2014-05-06T06:42:28Z");
 		String written = verjson.write(new MyContainer(new TestBean().number(123L).content("abc")));
-		assertThat(written).isEqualTo(readFile(getClass(), "serializer-written.json"));
+		assertThat(written).isEqualTo(readFile(getClass(), "serializer-written-01.json"));
+	}
+
+
+	@Test
+	public void testWithMs() throws Exception {
+		ApplicationClock.setUtc("2014-01-02T08:23:10.987Z");
+		String written = verjson.write(new MyContainer(new TestBean().number(123L).content("abc")));
+		assertThat(written).isEqualTo(readFile(getClass(), "serializer-written-02.json"));
 	}
 
 }

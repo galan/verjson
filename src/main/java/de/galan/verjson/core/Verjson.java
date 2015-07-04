@@ -66,6 +66,8 @@ public class Verjson<T> {
 		versions.configure();
 		includeTimestamp = versions.isIncludeTimestamp();
 		mapper = new ObjectMapperFactory().create(versions);
+		//mapper.registerModule(new JSR310Module());
+		//mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 		steps = createStepSequencer().sequence(versions.getSteps());
 		highestSourceVersion = determineHighestSourceVersion();
 	}
@@ -100,7 +102,7 @@ public class Verjson<T> {
 	public String write(T obj) throws JsonProcessingException {
 		Date ts = includeTimestamp ? Date.from(now()) : null;
 		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj, ts);
-		return mapper.writeValueAsString(wrapper);
+		return getMapper().writeValueAsString(wrapper);
 	}
 
 
@@ -110,7 +112,7 @@ public class Verjson<T> {
 	 * readPlain-method - if the version is manually passed.
 	 */
 	public String writePlain(T obj) throws JsonProcessingException {
-		return mapper.writeValueAsString(obj);
+		return getMapper().writeValueAsString(obj);
 	}
 
 

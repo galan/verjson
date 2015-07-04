@@ -1,6 +1,6 @@
 package de.galan.verjson.samples;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.StrictAssertions.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class VerjsonUsageNullTest extends AbstractTestParent {
 	@Test
 	public void nullValue() throws Exception {
 		String written1 = v1.write(new Example1());
-		assertThat(written1).isEqualTo("{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28Z\",\"$d\":{}}");
+		assertThat(written1).isEqualTo("{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28.000Z\",\"$d\":{}}");
 		assertThat(v1.read(written1)).isEqualTo(new Example1());
 		assertThat(v2.read(written1)).isEqualToComparingFieldByField(new Example2());
 		assertThat(v2.read(written1)).isEqualTo(new Example2());

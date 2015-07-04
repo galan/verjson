@@ -1,7 +1,7 @@
 package de.galan.verjson.serializer;
 
 import static de.galan.commons.time.Instants.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.StrictAssertions.*;
 
 import java.util.Date;
 
@@ -22,7 +22,7 @@ public class DateSerializerTest extends AbstractTestParent {
 
 	private Verjson<ClassWithDate> verjson;
 	private ClassWithDate input;
-	private final static String SERIALIZED = "{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28Z\",\"$d\":{\"value\":\"2014-02-17T10:30:07Z\"}}";
+	private final static String SERIALIZED = "{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28.000Z\",\"$d\":{\"value\":\"2014-02-17T10:30:07.000Z\"}}";
 	private final static Date DATE = dateUtc("2014-02-17T10:30:07Z");
 
 

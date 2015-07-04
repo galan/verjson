@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>de.galan</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.9.0</version>
+		<version>0.9.1</version>
 	</parent>
 
 	<scm>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>de.galan</groupId>
 			<artifactId>commons</artifactId>
-			<version>0.9.0</version>
+			<version>0.9.1</version>
 		</dependency>
 
 		<dependency>
@@ -35,6 +35,16 @@
 			<artifactId>json-schema-validator</artifactId>
 			<version>2.2.6</version>
 		</dependency>
+		<!--
+		<properties>
+			<library.jackson.version>2.5.4</library.jackson.version>
+		</properties>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>${library.jackson.version}</version>
+		</dependency>
+		-->
 
 		<dependency>
 			<groupId>org.javassist</groupId>
@@ -70,7 +80,7 @@
 		<dependency>
 			<groupId>net.javacrumbs.json-unit</groupId>
 			<artifactId>json-unit-fluent</artifactId>
-			<version>1.5.2</version>
+			<version>1.5.5</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
