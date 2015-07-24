@@ -1,6 +1,7 @@
 package de.galan.verjson.core;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.StrictAssertions.*;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import com.google.common.collect.Lists;
 
 /**
  * CUT StepSequencer fillIncrements()
- * 
+ *
  * @author daniel
  */
 public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
@@ -19,7 +20,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incEmpty() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList();
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, n(1));
 	}
 
@@ -27,7 +28,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incV1() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(v(1));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, v(1));
 	}
 
@@ -35,7 +36,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incT1() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(t(1));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, t(1), i(1), n(2));
 	}
 
@@ -43,7 +44,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incV2() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(v(2));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, i(1), v(2));
 	}
 
@@ -51,7 +52,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incT2() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(t(2));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, i(1), t(2), i(2), n(3));
 	}
 
@@ -59,7 +60,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incV3() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(v(3));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, i(1), i(2), v(3));
 	}
 
@@ -67,7 +68,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incT3() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(t(3));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, i(1), i(2), t(3), i(3), n(4));
 	}
 
@@ -75,7 +76,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incV1T3() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(v(1), t(3));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, v(1), i(1), i(2), t(3), i(3), n(4));
 	}
 
@@ -83,7 +84,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incT2V5() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(t(2), v(5));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, i(1), t(2), i(2), i(3), i(4), v(5));
 	}
 
@@ -91,7 +92,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incT2T5() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(t(2), t(5));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, i(1), t(2), i(2), i(3), i(4), t(5), i(5), n(6));
 	}
 
@@ -99,7 +100,7 @@ public class StepSequencerArrangeTest extends AbstractStepSequencerParent {
 	@Test
 	public void incComplex() throws Exception {
 		List<ProxyStep> proxies = Lists.newArrayList(v(1), t(1), v(2), t(2), t(3), v(4), t(6));
-		List<ProxyStep> results = ss.fillIncrements(proxies);
+		List<ProxyStep> results = ss.fillIncrements(proxies, metaMapper);
 		assertIncrements(results, v(1), t(1), i(1), v(2), t(2), i(2), t(3), i(3), v(4), i(4), i(5), t(6), i(6), n(7));
 	}
 

@@ -5,6 +5,8 @@ import org.junit.Before;
 import de.galan.commons.test.AbstractTestParent;
 import de.galan.verjson.DummyTransformation;
 import de.galan.verjson.DummyValidation;
+import de.galan.verjson.access.DefaultMetaMapper;
+import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.step.IncrementVersionStep;
 import de.galan.verjson.step.NoopStep;
 import de.galan.verjson.step.Step;
@@ -14,7 +16,7 @@ import de.galan.verjson.step.validation.Validation;
 
 /**
  * Abstract parent for StepSequencer tests
- * 
+ *
  * @author daniel
  */
 public class AbstractStepSequencerParent extends AbstractTestParent {
@@ -24,11 +26,13 @@ public class AbstractStepSequencerParent extends AbstractTestParent {
 	Transformation transform;
 	IncrementVersionStep increment;
 	NoopStep noop;
+	MetaMapper metaMapper;
 
 
 	@Before
 	public void before() {
 		ss = new DefaultStepSequencer();
+		metaMapper = new DefaultMetaMapper();
 		validate = new DummyValidation(null);
 		transform = new DummyTransformation();
 		increment = new IncrementVersionStep();

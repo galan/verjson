@@ -17,9 +17,10 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
 
+import de.galan.verjson.access.DefaultMetaMapper;
+import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.step.ProcessStepException;
 import de.galan.verjson.step.Step;
-import de.galan.verjson.util.MetaWrapper;
 import de.galan.verjson.util.ReadException;
 
 
@@ -48,6 +49,10 @@ public class Verjson<T> {
 	/** Include the creational timestamp in each serialized object */
 	boolean includeTimestamp;
 
+	MetaMapper meta;
+
+
+	//private Function<JsonNode, Long> versionReader;
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
 		return new Verjson<T>(valueClass, versions);
@@ -64,11 +69,10 @@ public class Verjson<T> {
 
 	protected void configure(Versions versions) {
 		versions.configure();
+		meta = versions.getMapper();
 		includeTimestamp = versions.isIncludeTimestamp();
 		mapper = new ObjectMapperFactory().create(versions);
-		//mapper.registerModule(new JSR310Module());
-		//mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		steps = createStepSequencer().sequence(versions.getSteps());
+		steps = createStepSequencer().sequence(versions.getSteps(), getMetaMapper());
 		highestSourceVersion = determineHighestSourceVersion();
 	}
 
@@ -96,13 +100,19 @@ public class Verjson<T> {
 	}
 
 
+	protected MetaMapper getMetaMapper() {
+		return meta;
+	}
+
+
 	//TODO own exception
 	//TODO check only Validation and Transformation (for now)
 	/** Serializes the given object to a String */
-	public String write(T obj) throws JsonProcessingException {
+	public String write(T obj) {
 		Date ts = includeTimestamp ? Date.from(now()) : null;
-		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj, ts);
-		return getMapper().writeValueAsString(wrapper);
+		JsonNode mappedNode = getMapper().valueToTree(obj);
+		JsonNode result = getMetaMapper().postMapNode(mappedNode, getHighestSourceVersion(), getNamespace(), ts);
+		return result.toString();
 	}
 
 
@@ -122,9 +132,9 @@ public class Verjson<T> {
 
 
 	protected JsonNode wrapPlainNode(JsonNode node, long version) {
-		ObjectNode wrapper = new ObjectNode(JsonNodeFactory.instance);
-		wrapper.put(MetaWrapper.ID_VERSION, version);
-		wrapper.put(MetaWrapper.ID_DATA, node);
+		ObjectNode wrapper = JsonNodeFactory.instance.objectNode();
+		wrapper.put(DefaultMetaMapper.ID_VERSION, version);
+		wrapper.put(DefaultMetaMapper.ID_DATA, node);
 		return wrapper;
 	}
 
@@ -151,8 +161,8 @@ public class Verjson<T> {
 		try {
 			verifyNamespace(node);
 			Long jsonVersion = verifyVersion(node);
-			steps.get(jsonVersion).process(node);
-			JsonNode data = MetaWrapper.getData(node);
+			steps.get(jsonVersion).process(node, getMetaMapper());
+			JsonNode data = getMetaMapper().getDataReader().apply(node);
 			result = getMapper().treeToValue(data, getValueClass());
 		}
 		catch (ReadException ex) {
@@ -166,7 +176,8 @@ public class Verjson<T> {
 
 
 	protected Long verifyVersion(JsonNode node) throws VersionNotSupportedException {
-		Long sourceVersion = MetaWrapper.getVersion(node);
+		//Long sourceVersion = versionReader.apply(node);
+		Long sourceVersion = getMetaMapper().getVersionReader().apply(node);
 		if (sourceVersion > getHighestSourceVersion()) {
 			throw new VersionNotSupportedException(getHighestSourceVersion(), sourceVersion, getValueClass());
 		}
@@ -176,7 +187,7 @@ public class Verjson<T> {
 
 	protected String verifyNamespace(JsonNode node) throws NamespaceMismatchException {
 		// verify namespace
-		String ns = MetaWrapper.getNamespace(node);
+		String ns = getMetaMapper().getNamespaceReader().apply(node);
 		if (!StringUtils.equals(ns, getNamespace())) {
 			throw new NamespaceMismatchException(getNamespace(), ns);
 		}

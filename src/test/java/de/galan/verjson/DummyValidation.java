@@ -3,12 +3,13 @@ package de.galan.verjson;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.main.JsonSchema;
 
+import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.step.validation.Validation;
 
 
 /**
  * Dummy Validation for use in testcases
- * 
+ *
  * @author daniel
  */
 public class DummyValidation extends Validation {
@@ -24,7 +25,7 @@ public class DummyValidation extends Validation {
 
 
 	@Override
-	public void process(JsonNode node) {
+	public void process(JsonNode node, MetaMapper metaMapper) {
 		// nothing
 	}
 

@@ -2,7 +2,7 @@ package de.galan.verjson.step.validation;
 
 import static de.galan.commons.test.Tests.*;
 import static org.apache.commons.lang3.StringUtils.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.StrictAssertions.*;
 
 import java.io.IOException;
 
@@ -14,8 +14,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.galan.commons.test.AbstractTestParent;
+import de.galan.verjson.access.DefaultMetaMapper;
+import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.test.TestBean;
-import de.galan.verjson.util.MetaWrapper;
 
 
 /**
@@ -24,6 +25,9 @@ import de.galan.verjson.util.MetaWrapper;
  * @author daniel
  */
 public class ValidationTest extends AbstractTestParent {
+
+	MetaMapper meta = new DefaultMetaMapper();
+
 
 	public Validation create(String schemaFile, String description) throws IOException {
 		String schema = readFile(getClass(), schemaFile);
@@ -41,8 +45,8 @@ public class ValidationTest extends AbstractTestParent {
 	protected JsonNode createNode(Object obj) {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.setSerializationInclusion(Include.NON_NULL);
-		MetaWrapper wrapper = new MetaWrapper(1L, null, obj, null);
-		return mapper.valueToTree(wrapper);
+		JsonNode tree = mapper.valueToTree(obj);
+		return meta.postMapNode(tree, 1L, null, null);
 	}
 
 
@@ -50,7 +54,7 @@ public class ValidationTest extends AbstractTestParent {
 	public void nullJson() throws Exception {
 		Validation val = create("TestBean-schema-01.txt", "test");
 		try {
-			val.process(null);
+			val.process(null, meta);
 			fail("should be invalid");
 		}
 		catch (InvalidJsonException ex) {
@@ -63,7 +67,7 @@ public class ValidationTest extends AbstractTestParent {
 	public void emptyJson() throws Exception {
 		Validation val = create("TestBean-schema-01.txt", null);
 		try {
-			val.process(readNode("TestBean-json-empty.txt"));
+			val.process(readNode("TestBean-json-empty.txt"), meta);
 			fail("should be invalid");
 		}
 		catch (InvalidJsonException ex) {
@@ -76,7 +80,7 @@ public class ValidationTest extends AbstractTestParent {
 	public void simpleJson() throws Exception {
 		TestBean bean = new TestBean().content("aaa").number(3L);
 		Validation val = create("TestBean-schema-01.txt", "test");
-		val.process(createNode(bean));
+		val.process(createNode(bean), meta);
 	}
 
 
@@ -85,7 +89,7 @@ public class ValidationTest extends AbstractTestParent {
 		TestBean bean = new TestBean().number(3L).unrecognized("blarg");
 		Validation val = create("TestBean-schema-01.txt", "test");
 		try {
-			val.process(createNode(bean));
+			val.process(createNode(bean), meta);
 			fail("should be invalid");
 		}
 		catch (InvalidJsonException ex) {

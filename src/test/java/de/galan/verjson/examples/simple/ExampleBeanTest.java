@@ -1,6 +1,7 @@
 package de.galan.verjson.examples.simple;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;

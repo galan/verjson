@@ -8,6 +8,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.step.IncrementVersionStep;
 import de.galan.verjson.step.NoopStep;
 import de.galan.verjson.step.Step;
@@ -16,13 +17,13 @@ import de.galan.verjson.step.validation.Validation;
 
 /**
  * StepSequencer used to arrange the Steps
- * 
+ *
  * @author daniel
  */
 public class DefaultStepSequencer implements StepSequencer {
 
 	@Override
-	public Map<Long, ProxyStep> sequence(ListMultimap<Long, Step> steps) {
+	public Map<Long, ProxyStep> sequence(ListMultimap<Long, Step> steps, MetaMapper metaMapper) {
 		// Create Proxies
 		List<ProxyStep> proxies = createProxies(steps);
 
@@ -30,7 +31,7 @@ public class DefaultStepSequencer implements StepSequencer {
 		Collections.sort(proxies, new ProxyStepComparator());
 
 		// create & fillup increments
-		List<ProxyStep> proxiesIncrements = fillIncrements(proxies);
+		List<ProxyStep> proxiesIncrements = fillIncrements(proxies, metaMapper);
 
 		// assign successors
 		assignSuccessors(proxiesIncrements);
@@ -76,7 +77,7 @@ public class DefaultStepSequencer implements StepSequencer {
 	}
 
 
-	protected List<ProxyStep> fillIncrements(List<ProxyStep> proxies) {
+	protected List<ProxyStep> fillIncrements(List<ProxyStep> proxies, MetaMapper metaMapper) {
 		List<ProxyStep> result = Lists.newArrayList();
 		Long lastSourceVersion = 1L;
 		if (!proxies.isEmpty()) {

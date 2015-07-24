@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 
 import de.galan.commons.logging.Logr;
+import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.step.ProcessStepException;
 import de.galan.verjson.step.Step;
 
@@ -33,11 +34,11 @@ public class ProxyStep implements Step {
 
 
 	@Override
-	public void process(JsonNode node) throws ProcessStepException {
+	public void process(JsonNode node, MetaMapper metaMapper) throws ProcessStepException {
 		LOG.debug("Processing {}/{}", getSourceVersion(), getStep().getClass().getSimpleName()); // TODO Idea - name annotation for steps for better debugging
-		getStep().process(node);
+		getStep().process(node, metaMapper);
 		if (successor != null) {
-			successor.process(node);
+			successor.process(node, metaMapper);
 		}
 	}
 

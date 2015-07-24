@@ -12,6 +12,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 
 import de.galan.commons.util.Pair;
+import de.galan.verjson.access.DefaultMetaMapper;
+import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.step.Step;
 
 
@@ -23,14 +25,18 @@ import de.galan.verjson.step.Step;
  */
 public class Versions {
 
+	protected static final MetaMapper DEFAULT_META_MAPPER = new DefaultMetaMapper();
+
 	private ListMultimap<Long, Step> steps;
 	private String namespace;
 	private Map<Class<?>, JsonSerializer<?>> serializers;
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
 	private SetMultimap<Class<?>, Pair<Class<?>, String>> polys;
 	private boolean includeTimestamp;
-	// TODO add lamda for version determination
+	private MetaMapper mapper;
 
+
+	// TODO add lamda for version determination
 
 	public Versions() {
 		this(null);
@@ -44,6 +50,7 @@ public class Versions {
 		deserializers = Maps.newHashMap();
 		polys = HashMultimap.create();
 		includeTimestamp = true;
+		setMapper(DEFAULT_META_MAPPER);
 	}
 
 
@@ -119,6 +126,16 @@ public class Versions {
 	/** A timestamp is added to the meta-data, this can be avoided by setting this property to false */
 	public void setIncludeTimestamp(boolean includeTimestamp) {
 		this.includeTimestamp = includeTimestamp;
+	}
+
+
+	public MetaMapper getMapper() {
+		return mapper;
+	}
+
+
+	public void setMapper(MetaMapper mapper) {
+		this.mapper = mapper;
 	}
 
 }

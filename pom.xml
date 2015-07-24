@@ -22,12 +22,11 @@
 		<tag>HEAD</tag>
 	</scm>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>de.galan</groupId>
 			<artifactId>commons</artifactId>
-			<version>0.9.1</version>
+			<version>0.10.0</version>
 		</dependency>
 
 		<dependency>
@@ -35,16 +34,6 @@
 			<artifactId>json-schema-validator</artifactId>
 			<version>2.2.6</version>
 		</dependency>
-		<!--
-		<properties>
-			<library.jackson.version>2.5.4</library.jackson.version>
-		</properties>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>${library.jackson.version}</version>
-		</dependency>
-		-->
 
 		<dependency>
 			<groupId>org.javassist</groupId>
