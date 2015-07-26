@@ -3,7 +3,7 @@
 
 	<groupId>de.galan</groupId>
 	<artifactId>verjson</artifactId>
-	<version>0.7.1-SNAPSHOT</version>
+	<version>0.8.0-SNAPSHOT</version>
 
 	<name>Verjson</name>
 	<description>Versionized transformable/evolvable object-graphs</description>

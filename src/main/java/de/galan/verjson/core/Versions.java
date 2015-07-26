@@ -33,7 +33,7 @@ public class Versions {
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
 	private SetMultimap<Class<?>, Pair<Class<?>, String>> polys;
 	private boolean includeTimestamp;
-	private MetaMapper mapper;
+	private MetaMapper metaMapper;
 
 
 	// TODO add lamda for version determination
@@ -50,7 +50,7 @@ public class Versions {
 		deserializers = Maps.newHashMap();
 		polys = HashMultimap.create();
 		includeTimestamp = true;
-		setMapper(DEFAULT_META_MAPPER);
+		setMetaMapper(DEFAULT_META_MAPPER);
 	}
 
 
@@ -129,13 +129,13 @@ public class Versions {
 	}
 
 
-	public MetaMapper getMapper() {
-		return mapper;
+	public MetaMapper getMetaMapper() {
+		return metaMapper;
 	}
 
 
-	public void setMapper(MetaMapper mapper) {
-		this.mapper = mapper;
+	public void setMetaMapper(MetaMapper metaMapper) {
+		this.metaMapper = metaMapper;
 	}
 
 }

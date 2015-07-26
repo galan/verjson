@@ -13,11 +13,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
 
-import de.galan.verjson.access.DefaultMetaMapper;
 import de.galan.verjson.access.MetaMapper;
 import de.galan.verjson.step.ProcessStepException;
 import de.galan.verjson.step.Step;
@@ -69,7 +66,7 @@ public class Verjson<T> {
 
 	protected void configure(Versions versions) {
 		versions.configure();
-		meta = versions.getMapper();
+		meta = versions.getMetaMapper();
 		includeTimestamp = versions.isIncludeTimestamp();
 		mapper = new ObjectMapperFactory().create(versions);
 		steps = createStepSequencer().sequence(versions.getSteps(), getMetaMapper());
@@ -111,7 +108,7 @@ public class Verjson<T> {
 	public String write(T obj) {
 		Date ts = includeTimestamp ? Date.from(now()) : null;
 		JsonNode mappedNode = getMapper().valueToTree(obj);
-		JsonNode result = getMetaMapper().postMapNode(mappedNode, getHighestSourceVersion(), getNamespace(), ts);
+		JsonNode result = getMetaMapper().getPostMappingFunction().postMapNode(mappedNode, getHighestSourceVersion(), getNamespace(), ts);
 		return result.toString();
 	}
 
@@ -126,11 +123,7 @@ public class Verjson<T> {
 	}
 
 
-	public JsonNode readTree(String json) throws IOException {
-		return getMapper().readTree(json);
-	}
-
-
+	/*
 	protected JsonNode wrapPlainNode(JsonNode node, long version) {
 		ObjectNode wrapper = JsonNodeFactory.instance.objectNode();
 		wrapper.put(DefaultMetaMapper.ID_VERSION, version);
@@ -141,6 +134,11 @@ public class Verjson<T> {
 
 	public T readPlain(JsonNode node, long version) throws VersionNotSupportedException, NamespaceMismatchException, ProcessStepException, IOReadException {
 		return read(wrapPlainNode(node, version));
+	}
+	 */
+
+	public JsonNode readTree(String json) throws IOException {
+		return getMapper().readTree(json);
 	}
 
 
