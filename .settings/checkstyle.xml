@@ -28,6 +28,7 @@
 
 		<!-- Coding -->
 		<module name="EmptyStatement" />
+		<module name="ParameterAssignment"/>
 		<module name="HiddenField">
 			<property name="tokens" value="VARIABLE_DEF" />
 		</module>
