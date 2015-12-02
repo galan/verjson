@@ -1,7 +1,7 @@
 package de.galan.verjson.serializer;
 
 import static de.galan.commons.time.Instants.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.StrictAssertions.*;
 
 import java.time.ZonedDateTime;
 
@@ -22,7 +22,7 @@ public class ZonedDateTimeSerializerTest extends AbstractTestParent {
 
 	private Verjson<ClassWithZdt> verjson;
 	private ClassWithZdt input;
-	private final static String SERIALIZED = "{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28Z\",\"$d\":{\"value\":\"2014-10-20T13:09:58Z\"}}";
+	private final static String SERIALIZED = "{\"$v\":1,\"$ts\":\"2014-05-06T06:42:28.000Z\",\"$d\":{\"value\":\"2014-10-20T13:09:58.000Z\"}}";
 	private final static ZonedDateTime ZDT = ZonedDateTime.parse("2014-10-20T13:09:58Z");
 
 

@@ -1,6 +1,6 @@
 package de.galan.verjson.core;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.StrictAssertions.*;
 
 import org.junit.Test;
 
@@ -30,7 +30,7 @@ public class VerjsonTest extends AbstractTestParent {
 			fail("should fail");
 		}
 		catch (IOReadException ex) {
-			String msg = "Reading json failed: Unexpected character ('a' (code 97)): expected a valid value (number, String, array, object, 'true', 'false' or 'null')";
+			String msg = "Reading json failed: Unrecognized token 'askl': was expecting ('true', 'false' or 'null')";
 			assertThat(ex.getMessage()).startsWith(msg);
 		}
 	}

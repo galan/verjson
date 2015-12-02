@@ -11,7 +11,7 @@ import de.galan.verjson.step.transformation.Transformation;
 
 /**
  * Sample transformer to migrate version 1 to version 2
- * 
+ *
  * @author daniel
  */
 public class Example2Transformation extends Transformation {
@@ -39,7 +39,7 @@ public class Example2Transformation extends Transformation {
 		remove(sixth, "two");
 		// rename SubB
 		rename(obj(obj.get("subB")), "bbb", "ccc");
-		obj.put("sixth", createArray(sixth));
+		obj.set("sixth", createArray(sixth));
 	}
 
 }

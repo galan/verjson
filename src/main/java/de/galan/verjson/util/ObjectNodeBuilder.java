@@ -33,7 +33,7 @@ public class ObjectNodeBuilder {
 
 
 	public ObjectNodeBuilder put(String key, JsonNode value) {
-		result.put(key, value);
+		result.set(key, value);
 		return this;
 	}
 

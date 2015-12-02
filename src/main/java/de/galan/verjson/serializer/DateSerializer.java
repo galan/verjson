@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 
 /**
- * Serializes java.util.Date to String ISO (yyyy-MM-dd'T'HH:mm:ss'Z').
+ * Serializes java.util.Date to String ISO (yyyy-MM-dd'T'HH:mm:ss.SSS'Z').
  *
  * @author daniel
  */
@@ -20,7 +20,7 @@ public class DateSerializer extends JsonSerializer<Date> {
 
 	@Override
 	public void serialize(Date value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-		jgen.writeString(from(value).toStringIsoUtc());
+		jgen.writeString(from(value).toStringUtc());
 	}
 
 

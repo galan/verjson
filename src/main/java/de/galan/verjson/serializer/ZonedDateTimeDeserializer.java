@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 
 
 /**
- * Deserializes java.time.ZonedDateTime from String "yyyy-MM-dd'T'HH:mm:ss'Z'" back to ZonedDateTime.
+ * Deserializes java.time.ZonedDateTime from String "yyyy-MM-dd'T'HH:mm:ss[.SSS]'Z'" back to ZonedDateTime.
  *
  * @author daniel
  */

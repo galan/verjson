@@ -1,7 +1,8 @@
 package de.galan.verjson.util;
 
 import static de.galan.verjson.util.Transformations.*;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.assertThat;
 
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ import de.galan.commons.test.AbstractTestParent;
 
 
 /**
- * 
+ *
  * @author daniel
  */
 public class TransformationsTest extends AbstractTestParent {
@@ -85,7 +86,7 @@ public class TransformationsTest extends AbstractTestParent {
 		ObjectNode obj = newObject();
 		ObjectNode inner = newObject();
 		inner.put("field1", "abc");
-		obj.put("inner", inner);
+		obj.set("inner", inner);
 		assertThat(getObj(obj, "inner")).isEqualTo(inner);
 	}
 

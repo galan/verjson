@@ -16,7 +16,7 @@ public class Transformation1 extends Transformation {
 
 	@Override
 	protected void transform(JsonNode node) {
-		obj(node).put("texts", createArray(remove(obj(node), "text")));
+		obj(node).set("texts", createArray(remove(obj(node), "text")));
 		rename(obj(node), "number", "counter");
 	}
 

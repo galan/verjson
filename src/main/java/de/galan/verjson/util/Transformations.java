@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Provides common helpful methods for transforming JsonNodes.
- * 
+ *
  * @author daniel
  */
 public final class Transformations {
@@ -101,7 +101,7 @@ public final class Transformations {
 		if (obj != null && isNotBlank(oldFieldName) && isNotBlank(newFieldName)) {
 			JsonNode node = remove(obj, oldFieldName);
 			if (node != null) {
-				obj.put(newFieldName, node);
+				obj.set(newFieldName, node);
 			}
 		}
 	}

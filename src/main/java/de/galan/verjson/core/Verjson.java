@@ -122,7 +122,7 @@ public class Verjson<T> {
 	protected JsonNode wrapPlainNode(JsonNode node, long version) {
 		ObjectNode wrapper = new ObjectNode(JsonNodeFactory.instance);
 		wrapper.put(MetaWrapper.ID_VERSION, version);
-		wrapper.put(MetaWrapper.ID_DATA, node);
+		wrapper.set(MetaWrapper.ID_DATA, node);
 		return wrapper;
 	}
 

@@ -13,13 +13,13 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 
 
 /**
- * Deserializes String "yyyy-MM-dd'T'HH:mm:ss'Z'" back to java.time.ZonedDateTime.
+ * Deserializes String "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" back to java.time.ZonedDateTime.
  *
  * @author daniel
  */
 public class ZonedDateTimeSerializer extends JsonSerializer<ZonedDateTime> {
 
-	private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'").withZone(ZONE_UTC);
+	private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSS]'Z'").withZone(ZONE_UTC);
 
 
 	@Override

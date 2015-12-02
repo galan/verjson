@@ -6,20 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.bytecode.AnnotationsAttribute;
-import javassist.bytecode.ClassFile;
-import javassist.bytecode.ConstPool;
-import javassist.bytecode.annotation.Annotation;
-import javassist.bytecode.annotation.AnnotationMemberValue;
-import javassist.bytecode.annotation.ArrayMemberValue;
-import javassist.bytecode.annotation.ClassMemberValue;
-import javassist.bytecode.annotation.EnumMemberValue;
-import javassist.bytecode.annotation.MemberValue;
-import javassist.bytecode.annotation.StringMemberValue;
-
 import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -43,6 +29,19 @@ import de.galan.verjson.serializer.DateDeserializer;
 import de.galan.verjson.serializer.DateSerializer;
 import de.galan.verjson.serializer.ZonedDateTimeDeserializer;
 import de.galan.verjson.serializer.ZonedDateTimeSerializer;
+import javassist.CannotCompileException;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.bytecode.AnnotationsAttribute;
+import javassist.bytecode.ClassFile;
+import javassist.bytecode.ConstPool;
+import javassist.bytecode.annotation.Annotation;
+import javassist.bytecode.annotation.AnnotationMemberValue;
+import javassist.bytecode.annotation.ArrayMemberValue;
+import javassist.bytecode.annotation.ClassMemberValue;
+import javassist.bytecode.annotation.EnumMemberValue;
+import javassist.bytecode.annotation.MemberValue;
+import javassist.bytecode.annotation.StringMemberValue;
 
 
 /**
@@ -66,7 +65,7 @@ public class ObjectMapperFactory {
 
 		for (Class<?> parentClass: versions.getRegisteredSubclasses().keySet()) {
 			Class<?> mixin = generateMixIn(parentClass, versions.getRegisteredSubclasses().get(parentClass));
-			result.addMixInAnnotations(parentClass, mixin);
+			result.addMixIn(parentClass, mixin);
 		}
 
 		return result;
@@ -130,7 +129,7 @@ public class ObjectMapperFactory {
 			AnnotationsAttribute attr = new AnnotationsAttribute(cp, AnnotationsAttribute.visibleTag);
 			attr.addAnnotation(annotationInfo);
 
-			ClassMemberValue cmvNone = new ClassMemberValue(JsonTypeInfo.None.class.getName(), cp);
+			ClassMemberValue cmvNone = new ClassMemberValue(Void.class.getName(), cp);
 			annotationInfo.addMemberValue("defaultImpl", cmvNone);
 
 			// @JsonSubTypes
