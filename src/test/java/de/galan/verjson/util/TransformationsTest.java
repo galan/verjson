@@ -1,8 +1,7 @@
 package de.galan.verjson.util;
 
 import static de.galan.verjson.util.Transformations.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 
