@@ -3,7 +3,7 @@
 
 	<groupId>de.galan</groupId>
 	<artifactId>verjson</artifactId>
-	<version>0.7.1-SNAPSHOT</version>
+	<version>0.8.0</version>
 
 	<name>Verjson</name>
 	<description>Versionized transformable/evolvable object-graphs</description>
@@ -19,7 +19,7 @@
 		<connection>scm:git:ssh://github.com/galan/verjson.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/galan/verjson.git</developerConnection>
 		<url>https://github.com/galan/verjson</url>
-		<tag>HEAD</tag>
+		<tag>v0.8.0</tag>
 	</scm>
 
 
