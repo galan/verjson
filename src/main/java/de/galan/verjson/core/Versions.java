@@ -12,6 +12,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 
 import de.galan.commons.util.Pair;
+import de.galan.verjson.provider.FieldProvider;
+import de.galan.verjson.provider.WrappingFieldProvider;
 import de.galan.verjson.step.Step;
 
 
@@ -29,6 +31,7 @@ public class Versions {
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
 	private SetMultimap<Class<?>, Pair<Class<?>, String>> polys;
 	private boolean includeTimestamp;
+	private FieldProvider fieldProvider;
 
 
 	public Versions() {
@@ -43,6 +46,7 @@ public class Versions {
 		deserializers = Maps.newHashMap();
 		polys = HashMultimap.create();
 		includeTimestamp = true;
+		fieldProvider = new WrappingFieldProvider();
 	}
 
 
@@ -118,6 +122,16 @@ public class Versions {
 	/** A timestamp is added to the meta-data, this can be avoided by setting this property to false */
 	public void setIncludeTimestamp(boolean includeTimestamp) {
 		this.includeTimestamp = includeTimestamp;
+	}
+
+
+	public FieldProvider getFieldProvider() {
+		return fieldProvider;
+	}
+
+
+	public void setFieldProvider(FieldProvider fieldProvider) {
+		this.fieldProvider = fieldProvider;
 	}
 
 }

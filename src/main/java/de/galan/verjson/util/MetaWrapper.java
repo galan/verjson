@@ -13,8 +13,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * Nests the object to be serialized, adding meta information such as the current version number and namespace. Also
  * provides static accessor to these nodes.
- *
- * @author daniel
  */
 public class MetaWrapper {
 

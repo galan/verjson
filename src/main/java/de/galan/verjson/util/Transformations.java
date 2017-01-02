@@ -10,8 +10,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Provides common helpful methods for transforming JsonNodes.
- *
- * @author daniel
  */
 public final class Transformations {
 

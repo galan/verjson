@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
 
+import de.galan.verjson.provider.FieldProvider;
 import de.galan.verjson.step.ProcessStepException;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.util.MetaWrapper;
@@ -27,12 +28,11 @@ import de.galan.verjson.util.ReadException;
  * Versionized transformable/evolvable objectgraphs<br/>
  * TODO documentation
  *
- * @author daniel
  * @param <T> Type of Objects to be transformed
  */
 public class Verjson<T> {
 
-	/** Optional user-defined namespace to distinguish between different types */
+	/** Optional user-defined namespace to verify correct payload */
 	String namespace;
 
 	/** Type of the serialized objects */
@@ -47,6 +47,8 @@ public class Verjson<T> {
 
 	/** Include the creational timestamp in each serialized object */
 	boolean includeTimestamp;
+
+	private FieldProvider fieldProvider;
 
 
 	public static <T> Verjson<T> create(Class<T> valueClass, Versions versions) {
@@ -68,6 +70,7 @@ public class Verjson<T> {
 		mapper = new ObjectMapperFactory().create(versions);
 		steps = createStepSequencer().sequence(versions.getSteps());
 		highestSourceVersion = determineHighestSourceVersion();
+		fieldProvider = versions.getFieldProvider();
 	}
 
 
@@ -174,7 +177,8 @@ public class Verjson<T> {
 
 	protected String verifyNamespace(JsonNode node) throws NamespaceMismatchException {
 		// verify namespace
-		String ns = MetaWrapper.getNamespace(node);
+		String ns = fieldProvider.getNamespace(node);
+		//String ns = MetaWrapper.getNamespace(node);
 		if (!StringUtils.equals(ns, getNamespace())) {
 			throw new NamespaceMismatchException(getNamespace(), ns);
 		}

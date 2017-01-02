@@ -64,7 +64,7 @@
 		</module>
 		<module name="Regexp">
 			<property name="illegalPattern" value="true"/>
-			<property name="format" value="Logger.getLogger\((?!stackTraceElements\[THREAD_TYPE_DEEP\])" />
+			<property name="format" value="Logger\.getLogger\((?!stackTraceElements\[THREAD_TYPE_DEEP\])" />
 		</module>
 
 	</module>

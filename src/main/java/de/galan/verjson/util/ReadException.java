@@ -2,8 +2,6 @@ package de.galan.verjson.util;
 
 /**
  * Base class for read exceptions.
- * 
- * @author daniel
  */
 public abstract class ReadException extends Exception {
 
