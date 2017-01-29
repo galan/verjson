@@ -12,8 +12,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 
 import de.galan.commons.util.Pair;
-import de.galan.verjson.provider.FieldProvider;
-import de.galan.verjson.provider.WrappingFieldProvider;
+import de.galan.verjson.fieldprovider.FieldProvider;
+import de.galan.verjson.fieldprovider.WrappingFieldProvider;
 import de.galan.verjson.step.Step;
 
 
@@ -25,12 +25,13 @@ import de.galan.verjson.step.Step;
  */
 public class Versions {
 
-	private ListMultimap<Long, Step> steps;
+	private boolean includeTimestamp;
+
 	private String namespace;
+	private ListMultimap<Long, Step> steps;
 	private Map<Class<?>, JsonSerializer<?>> serializers;
 	private Map<Class<?>, JsonDeserializer<?>> deserializers;
 	private SetMultimap<Class<?>, Pair<Class<?>, String>> polys;
-	private boolean includeTimestamp;
 	private FieldProvider fieldProvider;
 
 

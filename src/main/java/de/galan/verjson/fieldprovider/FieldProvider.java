@@ -1,4 +1,4 @@
-package de.galan.verjson.provider;
+package de.galan.verjson.fieldprovider;
 
 import java.util.Date;
 

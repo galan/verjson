@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
 
-import de.galan.verjson.provider.FieldProvider;
+import de.galan.verjson.fieldprovider.FieldProvider;
 import de.galan.verjson.step.ProcessStepException;
 import de.galan.verjson.step.Step;
 import de.galan.verjson.util.MetaWrapper;
@@ -101,7 +101,7 @@ public class Verjson<T> {
 	//TODO check only Validation and Transformation (for now)
 	/** Serializes the given object to a String */
 	public String write(T obj) throws JsonProcessingException {
-		Date ts = includeTimestamp ? Date.from(now()) : null;
+		Date ts = includeTimestamp ? dateNow() : null;
 		MetaWrapper wrapper = new MetaWrapper(getHighestSourceVersion(), getNamespace(), obj, ts);
 		return mapper.writeValueAsString(wrapper);
 	}
@@ -153,7 +153,7 @@ public class Verjson<T> {
 			verifyNamespace(node);
 			Long jsonVersion = verifyVersion(node);
 			steps.get(jsonVersion).process(node);
-			JsonNode data = MetaWrapper.getData(node);
+			JsonNode data = fieldProvider.getData(node);
 			result = getMapper().treeToValue(data, getValueClass());
 		}
 		catch (ReadException ex) {

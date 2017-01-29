@@ -1,4 +1,4 @@
-package de.galan.verjson.provider;
+package de.galan.verjson.fieldprovider;
 
 import static de.galan.commons.time.Instants.*;
 import static de.galan.verjson.util.Transformations.*;

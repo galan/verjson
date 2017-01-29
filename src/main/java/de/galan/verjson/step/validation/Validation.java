@@ -88,7 +88,6 @@ public class Validation implements Step {
 			throw new InvalidJsonException("Could not validate JSON against schema" + getDescriptionAppendable(), ex);
 		}
 		if (!report.isSuccess()) {
-
 			StringBuilder builder = new StringBuilder();
 			builder.append("Could not validate JSON against schema");
 			builder.append(getDescriptionAppendable());
