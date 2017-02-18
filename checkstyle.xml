@@ -51,7 +51,9 @@
 		<module name="NeedBraces" />
 
 		<!-- Documentation -->
-		<module name="JavadocType" />
+		<module name="JavadocType">
+			<property name="allowMissingParamTags" value="true" />
+		</module>
 
 		<!-- Class Design -->
 		<module name="FinalClass" />
